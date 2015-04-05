@@ -1,3 +1,3 @@
 <?php
 
-echo 'Trident Public Html';
+require_once '../vendor/trident/trident.php';
