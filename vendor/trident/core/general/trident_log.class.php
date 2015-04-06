@@ -76,12 +76,13 @@ class Trident_Log
         if (!is_null($this->_configuration->get('log', 'max_size')))
         {
             $i = 1;
-            while (filesize($log_file) > $this->_configuration->get('log', 'max_size'))
+            while (file_exists($log_file) && filesize($log_file) > $this->_configuration->get('log', 'max_size'))
             {
                 $log_file = $file . "_part_$i";
                 $i++;
             }
         }
+        $log_file .= '.txt';
         file_put_contents($log_file, $data, LOCK_EX);
     }
 }

@@ -70,12 +70,14 @@ class Trident_Application
         }
         catch (Trident_Exception $e)
         {
+            $this->_log->entry('routing', $e->getMessage());
             if ($e->getCode() === TRIDENT_ERROR_NO_MATCHED_ROUTE)
             {
                 echo '404';
             }
             else
             {
+                $this->_log->entry('routing', $e->getMessage());
             }
         }
     }

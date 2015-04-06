@@ -1,12 +1,18 @@
-[
-    {
-        "pattern": "/",
+{
+    "default": {
         "controller": "main",
         "function": "index"
     },
-    {
-        "pattern": "/{name}/(id)",
-        "controller": "main",
-        "function": "index"
-    }
-]
+    "routes": [
+        {
+            "pattern": "/",
+            "controller": "main",
+            "function": "index"
+        },
+        {
+            "pattern": "/{name}/(id)",
+            "controller": "main",
+            "function": "index"
+        }
+    ]
+}

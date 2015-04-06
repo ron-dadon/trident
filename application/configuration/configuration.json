@@ -8,7 +8,7 @@
         "public":       "http://trident.local.com",
         "application":  "../application",
         "data":         "../data",
-        "logs":         "../logs",
+        "logs":         "../application",
         "routes":       "../application/configuration/routes.json"
     },
     "security": {
@@ -27,5 +27,15 @@
     "log": {
         "max_size": 1048576,
         "prefix": ""
+    },
+    "email": {
+        "is_secure":            true,
+        "security_protocol":    "tls",
+        "host":                 "smtp.gmail.com",
+        "port":                 587,
+        "user":                 "design@obu.co.il",
+        "password":             "12345678",
+        "from":                 "is@wxgs.co.il",
+        "display_name":         "WXGS Information Systems"
     }
 }

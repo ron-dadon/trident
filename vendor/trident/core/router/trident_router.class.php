@@ -39,9 +39,14 @@ class Trident_Router
     /**
      * Routes data
      *
-     * @var array
+     * @var Trident_Route[]
      */
     private $_routes = [];
+
+    /**
+     * @var Trident_Route
+     */
+    private $_default = null;
 
     /**
      * Constructor
@@ -75,9 +80,24 @@ class Trident_Router
         }
         $data = file_get_contents($file);
         $data = json_decode($data, true);
-        foreach ($data as $route)
+        if (isset($data['routes']))
         {
-            $this->_routes[] = new Trident_Route($route['controller'], $route['function'], $route['pattern']);
+            foreach ($data['routes'] as $route)
+            {
+                if (!isset($route['controller']) || !isset($route['function']) || !isset($route['pattern']))
+                {
+                    throw new Trident_Exception("Invalid route in routes file", TRIDENT_ERROR_INVALID_ROUTE);
+                }
+                $this->_routes[] = new Trident_Route($route['controller'], $route['function'], $route['pattern']);
+            }
+        }
+        if (isset($data['default']))
+        {
+            if (!isset($data['default']['controller']) || !isset($data['default']['function']))
+            {
+                throw new Trident_Exception("Invalid default route", TRIDENT_ERROR_INVALID_ROUTE);
+            }
+            $this->_default = new Trident_Route($data['default']['controller'], $data['default']['function'], '');
         }
     }
 
@@ -105,7 +125,7 @@ class Trident_Router
                 return $route;
             }
         }
-        return null;
+        return $this->_default;
     }
 
     /**

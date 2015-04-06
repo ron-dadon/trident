@@ -274,7 +274,7 @@ class Xlsx_Library extends Trident_Abstract_Library
         $sheet->finalized = true;
     }
 
-    public function write_sheet(array $data, $sheet_name = '', array $header_types = [], $rtl = true)
+    public function write_sheet($data, $sheet_name = '', $header_types = [], $rtl = true)
     {
         $sheet_name = empty($sheet_name) ? 'Sheet1' : $sheet_name;
         $data = empty($data) ? [['']] : $data;
