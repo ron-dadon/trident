@@ -152,7 +152,8 @@ class Trident_Request
             }
             else
             {
-                throw new Trident_Exception("Can't parse user agent. No user agent string is given");
+                throw new Trident_Exception("Can't parse user agent. No user agent string is given", TRIDENT_ERROR_URI_PARSE_NA);
+
             }
         }
 

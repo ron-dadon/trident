@@ -8,22 +8,20 @@ class Trident_Application
     private $_configuration = null;
     private $_request = null;
     private $_session = null;
-    /**
-     * @var Trident_Database_MySql
-     */
-    private $_database = null;
     private $_router = null;
+    private $_log = null;
 
     function __construct($configuration_file)
     {
         if (!is_readable($configuration_file))
         {
-            throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable");
+            throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
+        $this->_log = new Trident_Log($this->_configuration);
         if (is_null($app_path = $this->_configuration->get('paths', 'application')))
         {
-            throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file");
+            throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
         }
         spl_autoload_register([$this, 'application_auto_load']);
         $this->_request = new Trident_Request();

@@ -41,7 +41,7 @@ class Trident_Configuration
     {
         if (!is_readable($file))
         {
-            throw new Trident_Exception("Configuration can't load file $file. The file doesn't exists or is not readable");
+            throw new Trident_Exception("Configuration can't load file $file. The file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $data = file_get_contents($file);
         $data = json_decode($data, true);

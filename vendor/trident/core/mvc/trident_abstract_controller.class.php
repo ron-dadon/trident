@@ -19,6 +19,10 @@ abstract class Trident_Abstract_Controller
      * @var Trident_Abstract_Database
      */
     protected $_database;
+    /**
+     * @var Trident_IO
+     */
+    protected $_io;
 
     /**
      * Constructor
@@ -34,6 +38,7 @@ abstract class Trident_Abstract_Controller
         $this->_configuration = $_configuration;
         $this->_request = $_request;
         $this->_session = $_session;
+        $this->_io = new Trident_IO();
     }
 
     /**
@@ -58,24 +63,24 @@ abstract class Trident_Abstract_Controller
                 // MySql error code 1045 means that access was denied for the user
                 if ($e->getCode() === 1045)
                 {
-                    die('Database access denied. Please check your configuration.');
+                    throw new Trident_Exception("Database access denied", TRIDENT_ERROR_DATABASE_ACCESS_DENIED);
                 }
                 // MySql error code 1049 means that the database doesn't exists
                 if ($e->getCode() === 1049)
                 {
-                    die('The database your tried to connect to doesn\'t exists or unavailable. Please check your configuration.');
+                    throw new Trident_Exception("Database doesn't exists", TRIDENT_ERROR_DATABASE_NOT_EXISTS);
                 }
                 // MySql error code 2002 means that database host can't be reached
                 if ($e->getCode() === 2002)
                 {
-                    die('Database host access denied or database host is unavailable. Please check your configuration.');
+                    throw new Trident_Exception("Database is not reachable", TRIDENT_ERROR_DATABASE_NA);
                 }
-                die('Database initialization error. Please check your configuration.');
+                throw new Trident_Exception("Database error", TRIDENT_ERROR_DATABASE_GENERAL, $e);
             }
         }
         else
         {
-            throw new Trident_Exception("Can't load database, missing required configuration section");
+            throw new Trident_Exception("Can't load database, missing required configuration section", TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION);
         }
     }
 
@@ -119,7 +124,7 @@ abstract class Trident_Abstract_Controller
         {
             $model .= '_model';
         }
-        return new $model($this->_configuration, $this->_database, $this->_request);
+        return new $model($this->_configuration, $this->_database, $this->_io, $this->_request);
     }
 
     /**
@@ -147,7 +152,7 @@ abstract class Trident_Abstract_Controller
     {
         if (!file_exists($file) || !is_readable($file))
         {
-            throw new Trident_Exception("Can't read file $file for download");
+            throw new Trident_Exception("Can't read file $file for download", TRIDENT_ERROR_DOWNLOAD_FILE_NOT_READABLE);
         }
         header('Content-Type: application/octet-stream');
         header("Content-Transfer-Encoding: Binary");
