@@ -12,7 +12,7 @@
         "routes":       "../application/configuration/routes.json"
     },
     "security": {
-        "encrypt_key":      "secret key",
+        "encryption_key":   "secret key",
         "hash_function":    "sha256",
         "salt_length":      32
     },
