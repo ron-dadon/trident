@@ -89,13 +89,14 @@ class Trident_Router
      *
      * @param Trident_Request $request
      * @param Trident_Configuration $configuration
+     * @param Trident_Log $log
      * @param Trident_Session $session
      *
      * @throws Trident_Exception
      * @internal param string $uri request uri
      *
      */
-    public function dispatch($request, $configuration, $session)
+    public function dispatch($request, $configuration, $log, $session)
     {
         if (($route = $this->_match_route($request->uri)) !== null)
         {
@@ -107,7 +108,7 @@ class Trident_Router
             {
                 $controller = $route->controller;
             }
-            $controller = new $controller($configuration, $request, $session);
+            $controller = new $controller($configuration, $log, $request, $session);
             if (call_user_func_array([$controller, $route->function], $route->parameters) === false)
             {
                 $route = $route->pattern;

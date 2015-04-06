@@ -29,7 +29,7 @@ class Trident_Application
         $this->_router = new Trident_Router($this->_configuration->get('paths','routes'));
         try
         {
-            $this->_router->dispatch($this->_request, $this->_configuration, $this->_session);
+            $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
         }
         catch (Trident_Exception $e)
         {

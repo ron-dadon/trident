@@ -23,6 +23,10 @@ abstract class Trident_Abstract_Controller
      * @var Trident_IO
      */
     protected $_io;
+    /**
+     * @var Trident_Log
+     */
+    protected $_log;
 
     /**
      * Constructor
@@ -31,11 +35,13 @@ abstract class Trident_Abstract_Controller
      *
      * @param Trident_Configuration $_configuration
      * @param Trident_Request $_request
+     * @param Trident_Log $log
      * @param Trident_Session $_session
      */
-    function __construct($_configuration, $_request, $_session)
+    function __construct($_configuration, $log, $_request, $_session)
     {
         $this->_configuration = $_configuration;
+        $this->_log = $log;
         $this->_request = $_request;
         $this->_session = $_session;
         $this->_io = new Trident_IO();
