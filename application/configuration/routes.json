@@ -1,0 +1,7 @@
+[
+    {
+        "pattern": "/main/{name}/(id)",
+        "controller": "main",
+        "function": "index"
+    }
+]

@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * Class Trident_Request_File
+ *
+ * Uploaded file wrapper class for easier handling of uploaded files.
+ */
 class Trident_Request_File
 {
 
@@ -10,4 +14,52 @@ class Trident_Request_File
     public $error;
     public $mime;
 
+    /**
+     * Constructor
+     *
+     * Read mime type from the file instead of using the uploaded mime type that can be manipulated.
+     *
+     * @param int $error error code
+     * @param string $name file name
+     * @param string $temporary_name temporary file name
+     * @param int $size file size
+     */
+    function __construct($error, $name, $temporary_name, $size)
+    {
+        $this->error = $error;
+        $this->name = $name;
+        $this->temporary_name = $temporary_name;
+        $this->size = $size;
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $this->mime = finfo_file($file_info, $this->temporary_name);
+    }
+
+    /**
+     * Saves the uploaded temporary file to a file
+     *
+     * @param string $file file path
+     *
+     * @return bool
+     * @throws Trident_Exception
+     */
+    public function save($file)
+    {
+        if ($this->error !== UPLOAD_ERR_OK)
+        {
+            $error = $this->error;
+            $name = $this->name;
+            throw new Trident_Exception("Can't save request file $name to $file. Upload error: $error");
+        }
+        return move_uploaded_file($this->temporary_name, $file);
+    }
+
+    /**
+     * Validate that the uploaded file is an image
+     *
+     * @return bool
+     */
+    public function is_image()
+    {
+        return getimagesize($this->temporary_name) ? true : false;
+    }
 }
