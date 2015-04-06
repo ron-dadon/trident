@@ -78,8 +78,11 @@ class Trident_Request_Files extends Trident_Abstract_Array
 
     /**
      * Override set function. The set function is irrelevant in the files context.
+     *
+     * @param $key
+     * @param $value
      */
-    public function set()
+    public function set($key, $value)
     {
         return;
     }
