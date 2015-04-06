@@ -141,6 +141,22 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
+     * Load library instance
+     *
+     * @param string $library library name
+     *
+     * @return Trident_Abstract_Library
+     */
+    public function load_library($library)
+    {
+        if (strtolower(substr($library,-8,8)) !== '_library')
+        {
+            $library .= '_library';
+        }
+        return new $library($this->_configuration, $this->_database, $this->_io, $this->_log, $this->_request, $this->_session);
+    }
+
+    /**
      * Redirect
      *
      * @param string $uri redirect uri
