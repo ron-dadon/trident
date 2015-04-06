@@ -5,7 +5,7 @@
         "function": "index"
     },
     {
-        "pattern": "/main/{name}/(id)",
+        "pattern": "/{name}/(id)",
         "controller": "main",
         "function": "index"
     }
