@@ -23,5 +23,9 @@
         "user":     "root",
         "password": "",
         "charset":  "utf8"
+    },
+    "log": {
+        "max_size": 1048576,
+        "prefix": ""
     }
 }

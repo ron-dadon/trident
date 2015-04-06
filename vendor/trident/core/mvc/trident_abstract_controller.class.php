@@ -20,6 +20,15 @@ abstract class Trident_Abstract_Controller
      */
     protected $_database;
 
+    /**
+     * Constructor
+     *
+     * Inject dependencies
+     *
+     * @param Trident_Configuration $_configuration
+     * @param Trident_Request $_request
+     * @param Trident_Session $_session
+     */
     function __construct($_configuration, $_request, $_session)
     {
         $this->_configuration = $_configuration;
@@ -40,7 +49,29 @@ abstract class Trident_Abstract_Controller
         {
             $database_type = $this->_configuration->get('database','type');
             $database_class = "trident_database_$database_type";
-            $this->_database = new $database_class($this->_configuration);
+            try
+            {
+                $this->_database = new $database_class($this->_configuration);
+            }
+            catch (PDOException $e)
+            {
+                // MySql error code 1045 means that access was denied for the user
+                if ($e->getCode() === 1045)
+                {
+                    die('Database access denied. Please check your configuration.');
+                }
+                // MySql error code 1049 means that the database doesn't exists
+                if ($e->getCode() === 1049)
+                {
+                    die('The database your tried to connect to doesn\'t exists or unavailable. Please check your configuration.');
+                }
+                // MySql error code 2002 means that database host can't be reached
+                if ($e->getCode() === 2002)
+                {
+                    die('Database host access denied or database host is unavailable. Please check your configuration.');
+                }
+                die('Database initialization error. Please check your configuration.');
+            }
         }
         else
         {
