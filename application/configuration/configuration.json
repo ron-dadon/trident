@@ -6,11 +6,22 @@
     },
     "paths": {
         "public":       "http://trident.local.com",
-        "application":  "../application"
+        "application":  "../application",
+        "data":         "../data",
+        "logs":         "../logs",
+        "routes":       "../application/configuration/routes.json"
     },
     "security": {
         "encrypt_key":      "secret key",
         "hash_function":    "sha256",
         "salt_length":      32
+    },
+    "database": {
+        "type":     "mysql",
+        "host":     "localhost",
+        "name":     "test",
+        "user":     "root",
+        "password": "",
+        "charset":  "utf8"
     }
 }

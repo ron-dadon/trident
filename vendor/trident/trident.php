@@ -15,9 +15,11 @@ function trident_auto_load($class)
     $search = [
         'core',
         'libs',
+        'core' . DS . 'application',
         'core' . DS . 'configuration',
         'core' . DS . 'database',
         'core' . DS . 'general',
+        'core' . DS . 'mvc',
         'core' . DS . 'request',
         'core' . DS . 'router',
         'core' . DS . 'session'
@@ -33,3 +35,6 @@ function trident_auto_load($class)
 }
 
 spl_autoload_register('trident_auto_load', false);
+
+define('TRIDENT_ERROR_NO_MATCHED_ROUTE', 1);
+define('TRIDENT_ERROR_DISPATCH_ROUTE', 2);

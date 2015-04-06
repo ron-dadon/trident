@@ -4,9 +4,25 @@
 class Trident_Database_MySql extends Trident_Abstract_Database
 {
 
-    public function __construct($dsn, $username, $password, $options)
+    /**
+     * @param Trident_Configuration $configuration
+     */
+    public function __construct($configuration)
     {
-        parent::__construct($dsn, $username, $password, $options);
+        $host = $configuration->get('database','host');
+        $database = $configuration->get('database','name');
+        $password = $configuration->get('database','password');
+        $user_name = $configuration->get('database','user');
+        $charset = $configuration->get('database','charset');
+        if (is_null($database))
+        {
+            $dsn = "mysql:host=$host;charset=$charset";
+        }
+        else
+        {
+            $dsn = "mysql:host=$host;dbname=$database;charset=$charset";
+        }
+        parent::__construct($configuration, $dsn, $user_name, $password, [PDO::ATTR_EMULATE_PREPARES => false]);
     }
 
     /**
@@ -17,6 +33,7 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     public function run_query($query)
     {
         $statement = $this->prepare($query->query_string);
+        var_dump($this->errorInfo());
         foreach ($query->parameters as $name => $parameter)
         {
             $statement->bindParam($name, $parameter['value'], $parameter['type']);

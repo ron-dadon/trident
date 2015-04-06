@@ -32,6 +32,11 @@ class Trident_Configuration
         return null;
     }
 
+    public function section_exists($section)
+    {
+        return isset($this->_data[$section]);
+    }
+
     private function _load($file)
     {
         if (!is_readable($file))

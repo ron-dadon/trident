@@ -87,17 +87,29 @@ class Trident_Router
     /**
      * Dispatch the route
      *
-     * @param string $uri request uri
+     * @param Trident_Request $request
+     * @param Trident_Configuration $configuration
+     * @param Trident_Session $session
+     *
+     * @throws Trident_Exception
+     * @internal param string $uri request uri
+     *
      */
-    public function dispatch($uri)
+    public function dispatch($request, $configuration, $session)
     {
-        if (($route = $this->_match_route($uri)) !== null)
+        if (($route = $this->_match_route($request->uri)) !== null)
         {
-            // TODO: implement dispatch match
+            $controller = $route->controller . '_controller';
+            $controller = new $controller($configuration, $request, $session);
+            if (call_user_func_array([$controller, $route->function], $route->parameters) === false)
+            {
+                $route = $route->pattern;
+                throw new Trident_Exception("Error dispatching route $route", TRIDENT_ERROR_DISPATCH_ROUTE);
+            }
         }
         else
         {
-            // TODO: implement dispatch no match
+            throw new Trident_Exception("Can't find matching route", TRIDENT_ERROR_NO_MATCHED_ROUTE);
         }
     }
 }
