@@ -15,10 +15,12 @@ function trident_auto_load($class)
     $search = [
         'core',
         'libs',
+        'core' . DS . 'configuration',
         'core' . DS . 'database',
         'core' . DS . 'general',
         'core' . DS . 'request',
-        'core' . DS . 'router'
+        'core' . DS . 'router',
+        'core' . DS . 'session'
     ];
     foreach ($search as $path)
     {

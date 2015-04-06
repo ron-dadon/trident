@@ -2,6 +2,6 @@
 
 require_once '../vendor/trident/trident.php';
 
-$r = new Trident_Request();
+$c = new Trident_Configuration('../application/configuration/configuration.json');
 
-var_dump($r);
+var_dump($c);

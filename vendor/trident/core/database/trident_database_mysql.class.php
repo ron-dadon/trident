@@ -1,7 +1,7 @@
 <?php
 
 
-class Trident_MySql extends Trident_Abstract_Database
+class Trident_Database_MySql extends Trident_Abstract_Database
 {
 
     public function __construct($dsn, $username, $password, $options)
@@ -9,10 +9,19 @@ class Trident_MySql extends Trident_Abstract_Database
         parent::__construct($dsn, $username, $password, $options);
     }
 
+    /**
+     * @param Trident_Abstract_Query $query
+     *
+     * @return Trident_Abstract_Query
+     */
     public function run_query($query)
     {
         $statement = $this->prepare($query->query_string);
-        $query->success = $statement->execute($query->parameters);
+        foreach ($query->parameters as $name => $parameter)
+        {
+            $statement->bindParam($name, $parameter['value'], $parameter['type']);
+        }
+        $query->success = $statement->execute();
         if ($query->success)
         {
             $query->row_count = $statement->rowCount();

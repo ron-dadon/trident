@@ -1,0 +1,16 @@
+{
+    "environment": {
+        "development":  true,
+        "debug":        false,
+        "time_zone":    "utc"
+    },
+    "paths": {
+        "public":       "http://trident.local.com",
+        "application":  "../application"
+    },
+    "security": {
+        "encrypt_key":      "secret key",
+        "hash_function":    "sha256",
+        "salt_length":      32
+    }
+}

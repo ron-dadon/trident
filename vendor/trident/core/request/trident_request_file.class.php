@@ -71,4 +71,21 @@ class Trident_Request_File
     {
         return getimagesize($this->temporary_name) ? true : false;
     }
+
+    public function delete()
+    {
+        if (file_exists($this->temporary_name))
+        {
+            unlink($this->temporary_name);
+        }
+    }
+
+    public function get_file_pointer($mode = 'rb')
+    {
+        if (is_readable($this->temporary_name))
+        {
+            return fopen($this->temporary_name, $mode);
+        }
+        return null;
+    }
 }
