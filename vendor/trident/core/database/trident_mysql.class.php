@@ -1,8 +1,13 @@
 <?php
 
 
-class Trident_MySql extends Trident_PDO
+class Trident_MySql extends Trident_Abstract_Database
 {
+
+    public function __construct($dsn, $username, $password, $options)
+    {
+        parent::__construct($dsn, $username, $password, $options);
+    }
 
     public function run_query($query)
     {
