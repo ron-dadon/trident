@@ -18,3 +18,5 @@ $_FILES = [
 ];
 
 $files = new Trident_Request_Files();
+
+var_dump($files);

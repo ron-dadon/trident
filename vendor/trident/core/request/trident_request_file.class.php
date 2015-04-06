@@ -19,19 +19,28 @@ class Trident_Request_File
      *
      * Read mime type from the file instead of using the uploaded mime type that can be manipulated.
      *
-     * @param int $error error code
-     * @param string $name file name
+     * @param int    $error          error code
+     * @param string $name           file name
      * @param string $temporary_name temporary file name
-     * @param int $size file size
+     * @param int    $size           file size
+     *
+     * @throws Trident_Exception
      */
     function __construct($error, $name, $temporary_name, $size)
     {
+        if ($error === UPLOAD_ERR_OK && !is_readable($temporary_name))
+        {
+            throw new Trident_Exception("Can't create file object because temporary file $temporary_name doesn't exists or is not readable");
+        }
         $this->error = $error;
         $this->name = $name;
         $this->temporary_name = $temporary_name;
         $this->size = $size;
-        $file_info = finfo_open(FILEINFO_MIME_TYPE);
-        $this->mime = finfo_file($file_info, $this->temporary_name);
+        if ($error === UPLOAD_ERR_OK)
+        {
+            $file_info = finfo_open(FILEINFO_MIME_TYPE);
+            $this->mime =  finfo_file($file_info, $this->temporary_name);
+        }
     }
 
     /**

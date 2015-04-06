@@ -9,6 +9,53 @@ class Trident_Request_Files extends Trident_Abstract_Array
         $this->_data = $this->_inverse_array($_FILES);
     }
 
+    public function get($key, $index = null)
+    {
+        $file = parent::get($key);
+        if ($index === null)
+        {
+            return $file;
+        }
+        else
+        {
+            if (isset($file[$index]))
+            {
+                return $file[$index];
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public function pull($key, $index = null)
+    {
+        if ($index === null)
+        {
+            return parent::pull($key);
+        }
+        else
+        {
+            $file = parent::get($key);
+            if (isset($file[$index]))
+            {
+                $file = $file[$index];
+                unset($this->_data[$key][$index]);
+                return $file;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public function set($key, $value)
+    {
+        return;
+    }
+
     private function _inverse_array($array)
     {
         if (!is_array($array))
