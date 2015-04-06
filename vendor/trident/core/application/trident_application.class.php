@@ -18,6 +18,14 @@ class Trident_Application
             throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
+        if ($this->_configuration->get('environment', 'production'))
+        {
+            error_reporting(0);
+        }
+        if (!is_null($time_zone = $this->_configuration->get('environment', 'time_zone')))
+        {
+            date_default_timezone_set($time_zone);
+        }
         $this->_log = new Trident_Log($this->_configuration);
         if (is_null($app_path = $this->_configuration->get('paths', 'application')))
         {

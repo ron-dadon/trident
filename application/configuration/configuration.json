@@ -1,6 +1,6 @@
 {
     "environment": {
-        "development":  true,
+        "production":   false,
         "debug":        false,
         "time_zone":    "utc"
     },

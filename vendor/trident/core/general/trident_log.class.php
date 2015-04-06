@@ -41,7 +41,8 @@ class Trident_Log
             $log_entry = implode('", "', $log_entry);
         }
         $data = "\"$date\",\"$time\",\"$log_entry\"" . PHP_EOL;
-        $file = $this->_configuration->get('paths', 'logs') . DS . $log_file . date('d_m_Y');
+        $prefix = is_null($value = $this->_configuration->get('paths', 'prefix')) ? '' : $value;
+        $file = $this->_configuration->get('paths', 'logs') . DS . $prefix . $log_file . date('d_m_Y');
         $log_file = $file;
         if (!is_null($this->_configuration->get('log', 'max_size')))
         {
