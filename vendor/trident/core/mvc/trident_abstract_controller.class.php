@@ -58,7 +58,14 @@ abstract class Trident_Abstract_Controller
     {
         if ($this->_configuration->section_exists('database'))
         {
-            $database_type = $this->_configuration->get('database','type');
+            if (!is_null($type = $this->_configuration->get('database','type')))
+            {
+                $database_type = $type;
+            }
+            else
+            {
+                $database_type = 'mysql';
+            }
             $database_class = "trident_database_$database_type";
             try
             {
@@ -130,7 +137,7 @@ abstract class Trident_Abstract_Controller
         {
             $model .= '_model';
         }
-        return new $model($this->_configuration, $this->_database, $this->_io, $this->_request);
+        return new $model($this->_configuration, $this->_database, $this->_io, $this->_log, $this->_request);
     }
 
     /**
@@ -164,6 +171,21 @@ abstract class Trident_Abstract_Controller
         header("Content-Transfer-Encoding: Binary");
         header("Content-disposition: attachment; filename=\"" . ($file_name === '' ? basename($file) : $file_name) . "\"");
         readfile($file);
+        exit();
+    }
+
+    /**
+     * Download data as a file
+     *
+     * @param string $data file data
+     * @param string $file_name file name
+     */
+    protected function download_data($data, $file_name)
+    {
+        header('Content-Type: application/octet-stream');
+        header("Content-Transfer-Encoding: Binary");
+        header("Content-disposition: attachment; filename=\"$file_name\"");
+        echo $data;
         exit();
     }
 
