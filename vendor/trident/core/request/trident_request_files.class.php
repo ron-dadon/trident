@@ -1,14 +1,31 @@
 <?php
 
-
+/**
+ * Class Trident_Request_Files
+ *
+ * Wrapper for uploaded files handling.
+ */
 class Trident_Request_Files extends Trident_Abstract_Array
 {
 
+    /**
+     * Constructor
+     *
+     * Initialize files data
+     */
     function __construct()
     {
-        $this->_data = $this->_inverse_array($_FILES);
+        $this->_data = $this->_build_files($_FILES);
     }
 
+    /**
+     * Get a file
+     *
+     * @param string $key file key
+     * @param null|int $index file inner index within an array
+     *
+     * @return null|Trident_Request_File
+     */
     public function get($key, $index = null)
     {
         $file = parent::get($key);
@@ -29,6 +46,14 @@ class Trident_Request_Files extends Trident_Abstract_Array
         }
     }
 
+    /**
+     * Pull a file (get the file and remove it)
+     *
+     * @param string $key file key
+     * @param null|int $index file inner index within an array
+     *
+     * @return null|Trident_Request_File
+     */
     public function pull($key, $index = null)
     {
         if ($index === null)
@@ -51,12 +76,22 @@ class Trident_Request_Files extends Trident_Abstract_Array
         }
     }
 
-    public function set($key, $value)
+    /**
+     * Override set function. The set function is irrelevant in the files context.
+     */
+    public function set()
     {
         return;
     }
 
-    private function _inverse_array($array)
+    /**
+     * Inverse the files array and build the files objects
+     *
+     * @param array $array files array
+     *
+     * @return Trident_Request_File[]
+     */
+    private function _build_files($array)
     {
         if (!is_array($array))
         {

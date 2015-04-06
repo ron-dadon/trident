@@ -3,7 +3,7 @@
 /**
  * Class Trident_Request_Cookie
  *
- * Simple wrapper for handling cookies
+ * Wrapper for cookies handling.
  */
 class Trident_Request_Cookie extends Trident_Abstract_Array
 {

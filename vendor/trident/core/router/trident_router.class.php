@@ -3,7 +3,7 @@
 /**
  * Class Trident_Router
  *
- * Router class for Trident Framework.
+ * Routing handling.
  * This class is responsible for matching the requested uri with an application route, and dispatching the route
  * if one is found, or throwing an error if none is found.
  * The class searches the routes in the order they are set in the routes file, and searches for the first match,
@@ -99,7 +99,14 @@ class Trident_Router
     {
         if (($route = $this->_match_route($request->uri)) !== null)
         {
-            $controller = $route->controller . '_controller';
+            if (strtolower(substr($route->controller, -11, 11)) !== '_controller')
+            {
+                $controller = $route->controller . '_controller';
+            }
+            else
+            {
+                $controller = $route->controller;
+            }
             $controller = new $controller($configuration, $request, $session);
             if (call_user_func_array([$controller, $route->function], $route->parameters) === false)
             {

@@ -1,14 +1,51 @@
 <?php
 
-
+/**
+ * Class Trident_Route
+ *
+ * Route information.
+ */
 class Trident_Route
 {
-
+    /**
+     * Route pattern
+     *
+     * For parameters representation, use {parameter name} for alphanumeric parameters, and (parameter name) for numeric.
+     *
+     * @var string
+     */
     public $pattern;
+
+    /**
+     * Route controller name
+     *
+     * @var string
+     */
     public $controller;
+
+    /**
+     * Route function name
+     *
+     * @var string
+     */
     public $function;
+
+    /**
+     * Route parameters
+     *
+     * @var array
+     */
     public $parameters;
 
+    /**
+     * Constructor
+     *
+     * Initialize route information
+     *
+     * @param string $controller route controller name
+     * @param string $function route function name
+     * @param string $pattern route pattern
+     */
     function __construct($controller, $function, $pattern)
     {
         $this->controller = $controller;
@@ -16,6 +53,11 @@ class Trident_Route
         $this->_parse_pattern($pattern);
     }
 
+    /**
+     * Parses the basic pattern to a regular expression pattern and extract the parameters from it
+     *
+     * @param string $pattern basic pattern
+     */
     private function _parse_pattern($pattern)
     {
         $parameters = [];

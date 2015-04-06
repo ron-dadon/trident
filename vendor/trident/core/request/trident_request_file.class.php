@@ -72,6 +72,9 @@ class Trident_Request_File
         return getimagesize($this->temporary_name) ? true : false;
     }
 
+    /**
+     * Deletes the temporary file
+     */
     public function delete()
     {
         if (file_exists($this->temporary_name))
@@ -80,6 +83,13 @@ class Trident_Request_File
         }
     }
 
+    /**
+     * Get a pointer to the file for BLOB writing
+     *
+     * @param string $mode opening mode
+     *
+     * @return null|resource
+     */
     public function get_file_pointer($mode = 'rb')
     {
         if (is_readable($this->temporary_name))
