@@ -1,7 +1,7 @@
 # Trident
 PHP MVC (Model View Controller) Framework
 
-Bundled in the framework are the following free/open sources:
+**The following free/open source projects are used inside the framework or included as an extension library:**
 - Bootstrap 3.3.4 (https://github.com/twbs/bootstrap)
 - jQuery 1.11.2 (https://jquery.com/)
 - Font Awesome 4.3 (https://github.com/FortAwesome/Font-Awesome)
