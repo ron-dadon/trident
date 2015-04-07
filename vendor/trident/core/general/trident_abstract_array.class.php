@@ -32,26 +32,31 @@
 abstract class Trident_Abstract_Array
 {
 
-    protected $_data;
+    protected $data;
 
     public function get($key)
     {
-        return isset($this->_data[$key]) ? $this->_data[$key] : null;
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     public function pull($key)
     {
         $value = $this->get($key);
-        if (isset($this->_data[$key]))
+        if (isset($this->data[$key]))
         {
-            unset($this->_data[$key]);
+            unset($this->data[$key]);
         }
         return $value;
     }
 
     public function set($key, $value)
     {
-        $this->_data[$key] = $value;
+        $this->data[$key] = $value;
+    }
+
+    public function to_array()
+    {
+        return $this->data;
     }
 
 }

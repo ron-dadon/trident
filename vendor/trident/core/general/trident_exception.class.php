@@ -41,7 +41,7 @@ class Trident_Exception extends Exception
      * @param int       $code exception code
      * @param Exception $previous previous exception
      */
-    public function __construct($message = "", $code = 0, Exception $previous = null)
+    function __construct($message = "", $code = 0, Exception $previous = null)
     {
         $message = "Trident Framework: " . $message;
         parent::__construct($message, $code, $previous);

@@ -39,7 +39,7 @@ class Trident_Request_Files extends Trident_Abstract_Array
      */
     function __construct()
     {
-        $this->_data = $this->_build_files($_FILES);
+        $this->data = $this->_build_files($_FILES);
     }
 
     /**
@@ -90,7 +90,7 @@ class Trident_Request_Files extends Trident_Abstract_Array
             if (isset($file[$index]))
             {
                 $file = $file[$index];
-                unset($this->_data[$key][$index]);
+                unset($this->data[$key][$index]);
                 return $file;
             }
             else

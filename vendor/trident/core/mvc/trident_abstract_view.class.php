@@ -60,7 +60,7 @@ abstract class Trident_Abstract_View
      */
     public abstract function render();
 
-    public function load_html_library()
+    protected function load_html_library()
     {
         if (is_null($this->html))
         {
@@ -91,7 +91,7 @@ abstract class Trident_Abstract_View
     {
         if (isset($this->data[$key]))
         {
-            return $escape ? $this->_escape($this->data[$key]) : $this->data[$key];
+            return $escape ? $this->escape($this->data[$key]) : $this->data[$key];
         }
         return null;
     }
@@ -129,7 +129,7 @@ abstract class Trident_Abstract_View
     /**
      * Echos the public path
      */
-    public function public_path()
+    protected function public_path()
     {
         if (is_null($this->configuration->get('paths', 'public')))
         {
@@ -143,7 +143,7 @@ abstract class Trident_Abstract_View
      *
      * @param string $view shared view name
      */
-    public function include_shared_view($view)
+    protected function include_shared_view($view)
     {
         if (strtolower(substr($view,-5,5)) !== '_view')
         {
@@ -163,13 +163,13 @@ abstract class Trident_Abstract_View
      *
      * @return object|array|string
      */
-    private function _escape($var)
+    protected function escape($var)
     {
         if (is_array($var))
         {
             foreach ($var as $key => $value)
             {
-                $var[$key] = $this->_escape($value);
+                $var[$key] = $this->escape($value);
             }
             return $var;
         }
@@ -178,7 +178,7 @@ abstract class Trident_Abstract_View
             $vars = get_object_vars($var);
             foreach ($vars as $key => $value)
             {
-                $var->$key = $this->_escape($value);
+                $var->$key = $this->escape($value);
             }
             return $var;
         }

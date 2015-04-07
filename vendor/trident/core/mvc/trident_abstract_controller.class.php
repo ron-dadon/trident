@@ -35,45 +35,45 @@ abstract class Trident_Abstract_Controller
     /**
      * @var Trident_Configuration
      */
-    protected $_configuration;
+    protected $configuration;
     /**
      * @var Trident_Request
      */
-    protected $_request;
+    protected $request;
     /**
      * @var Trident_Session
      */
-    protected $_session;
+    protected $session;
     /**
      * @var Trident_Abstract_Database
      */
-    protected $_database;
+    protected $database;
     /**
      * @var Trident_IO
      */
-    protected $_io;
+    protected $io;
     /**
      * @var Trident_Log
      */
-    protected $_log;
+    protected $log;
 
     /**
      * Constructor
      *
      * Inject dependencies
      *
-     * @param Trident_Configuration $_configuration
-     * @param Trident_Request $_request
+     * @param Trident_Configuration $configuration
+     * @param Trident_Request $request
      * @param Trident_Log $log
-     * @param Trident_Session $_session
+     * @param Trident_Session $session
      */
-    function __construct($_configuration, $log, $_request, $_session)
+    function __construct($configuration, $log, $request, $session)
     {
-        $this->_configuration = $_configuration;
-        $this->_log = $log;
-        $this->_request = $_request;
-        $this->_session = $_session;
-        $this->_io = new Trident_IO();
+        $this->configuration = $configuration;
+        $this->log = $log;
+        $this->request = $request;
+        $this->session = $session;
+        $this->io = new Trident_IO();
     }
 
     /**
@@ -83,11 +83,11 @@ abstract class Trident_Abstract_Controller
      *
      * @throws Trident_Exception
      */
-    public function load_database()
+    protected function load_database()
     {
-        if ($this->_configuration->section_exists('database'))
+        if ($this->configuration->section_exists('database'))
         {
-            if (!is_null($type = $this->_configuration->get('database','type')))
+            if (!is_null($type = $this->configuration->get('database','type')))
             {
                 $database_type = $type;
             }
@@ -98,7 +98,7 @@ abstract class Trident_Abstract_Controller
             $database_class = "trident_database_$database_type";
             try
             {
-                $this->_database = new $database_class($this->_configuration);
+                $this->database = new $database_class($this->configuration);
             }
             catch (PDOException $e)
             {
@@ -136,7 +136,7 @@ abstract class Trident_Abstract_Controller
      *
      * @return Trident_Abstract_View
      */
-    public function load_view($view_data = [], $view = null)
+    protected function load_view($view_data = [], $view = null)
     {
         if (is_null($view))
         {
@@ -150,7 +150,7 @@ abstract class Trident_Abstract_Controller
                 $view .= '_view';
             }
         }
-        return new $view($this->_configuration, $view_data);
+        return new $view($this->configuration, $view_data);
     }
 
     /**
@@ -160,13 +160,13 @@ abstract class Trident_Abstract_Controller
      *
      * @return Trident_Abstract_Model
      */
-    public function load_model($model)
+    protected function load_model($model)
     {
         if (strtolower(substr($model,-6,6)) !== '_model')
         {
             $model .= '_model';
         }
-        return new $model($this->_configuration, $this->_database, $this->_io, $this->_log, $this->_request);
+        return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request);
     }
 
     /**
@@ -176,13 +176,13 @@ abstract class Trident_Abstract_Controller
      *
      * @return Trident_Abstract_Library
      */
-    public function load_library($library)
+    protected function load_library($library)
     {
         if (strtolower(substr($library,-8,8)) !== '_library')
         {
             $library .= '_library';
         }
-        return new $library($this->_configuration, $this->_database, $this->_io, $this->_log, $this->_request, $this->_session);
+        return new $library($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
 
     /**
@@ -191,9 +191,9 @@ abstract class Trident_Abstract_Controller
      * @param string $uri redirect uri
      * @param bool $base use public path as prefix
      */
-    public function redirect($uri, $base = true)
+    protected function redirect($uri, $base = true)
     {
-        $uri = $base ? $this->_configuration->get('paths', 'public') . $uri : $uri;
+        $uri = $base ? $this->configuration->get('paths', 'public') . $uri : $uri;
         header("location: $uri");
         exit();
     }
@@ -206,7 +206,7 @@ abstract class Trident_Abstract_Controller
      *
      * @throws Trident_Exception
      */
-    public function download_file($file, $file_name = '')
+    protected function download_file($file, $file_name = '')
     {
         if (!file_exists($file) || !is_readable($file))
         {

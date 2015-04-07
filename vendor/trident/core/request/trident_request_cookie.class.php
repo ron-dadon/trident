@@ -39,7 +39,7 @@ class Trident_Request_Cookie extends Trident_Abstract_Array
      */
     function __construct()
     {
-        $this->_data = $_COOKIE;
+        $this->data = $_COOKIE;
     }
 
     /**

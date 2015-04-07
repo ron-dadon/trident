@@ -34,11 +34,11 @@ abstract class Trident_Abstract_Database extends PDO
     /**
      * @var Trident_Configuration
      */
-    protected $_configuration;
+    protected $configuration;
 
-    public function __construct($configuration, $dsn = null, $user_name = null, $password = null, $options = null)
+    function __construct($configuration, $dsn = null, $user_name = null, $password = null, $options = null)
     {
-        $this->_configuration = $configuration;
+        $this->configuration = $configuration;
         parent::__construct($dsn, $user_name, $password, $options);
     }
 

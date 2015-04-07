@@ -35,23 +35,23 @@ abstract class Trident_Abstract_Model
     /**
      * @var Trident_Configuration
      */
-    protected $_configuration;
+    protected $configuration;
     /**
      * @var Trident_Abstract_Database
      */
-    protected $_database;
+    protected $database;
     /**
      * @var Trident_Request
      */
-    protected $_request;
+    protected $request;
     /**
      * @var Trident_IO
      */
-    protected $_io;
+    protected $io;
     /**
      * @var Trident_Log
      */
-    protected $_log;
+    protected $log;
 
     /**
      * Constructor
@@ -66,11 +66,11 @@ abstract class Trident_Abstract_Model
      */
     function __construct($configuration, $database, $io, $log, $request)
     {
-        $this->_configuration = $configuration;
-        $this->_database = $database;
-        $this->_io = $io;
-        $this->_log = $log;
-        $this->_request = $request;
+        $this->configuration = $configuration;
+        $this->database = $database;
+        $this->io = $io;
+        $this->log = $log;
+        $this->request = $request;
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class Trident_Abstract_Model
      *
      * @return string
      */
-    public function base64_decode($data, $type = 'data:image/png;base64,', $convert_spaces = true)
+    protected function base64_decode($data, $type = 'data:image/png;base64,', $convert_spaces = true)
     {
         $data = str_replace($type, '', $data);
         if ($convert_spaces)

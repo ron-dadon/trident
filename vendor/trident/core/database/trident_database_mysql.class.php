@@ -35,7 +35,7 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     /**
      * @param Trident_Configuration $configuration
      */
-    public function __construct($configuration)
+    function __construct($configuration)
     {
         $host = $configuration->get('database','host');
         $database = $configuration->get('database','name');
@@ -61,7 +61,6 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     public function run_query($query)
     {
         $statement = $this->prepare($query->query_string);
-        var_dump($this->errorInfo());
         foreach ($query->parameters as $name => $parameter)
         {
             $statement->bindParam($name, $parameter['value'], $parameter['type']);

@@ -60,9 +60,13 @@ class Trident_Application
         {
             throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
         }
-        spl_autoload_register([$this, 'application_auto_load']);
+        spl_autoload_register([$this, '_application_auto_load']);
         $this->_request = new Trident_Request();
         $this->_session = new Trident_Session();
+        if ($this->_configuration->get('environment', 'debug'))
+        {
+            $debug = new Trident_Debug($this->_configuration, $this->_request, $this->_session);
+        }
         $this->_router = new Trident_Router($this->_configuration->get('paths','routes'));
         try
         {
@@ -81,6 +85,10 @@ class Trident_Application
                 $this->_log->entry('routing', $e->getMessage());
             }
         }
+        if (isset($debug))
+        {
+            $debug->show_information();
+        }
     }
 
     /**
@@ -90,7 +98,7 @@ class Trident_Application
      *
      * @param string $class class name
      */
-    private function application_auto_load($class)
+    private function _application_auto_load($class)
     {
         $app_path = $this->_configuration->get('paths', 'application');
         $views = array_diff(scandir($app_path . DS . 'views' . DS), ['.', '..']);
