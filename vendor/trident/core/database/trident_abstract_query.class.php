@@ -49,6 +49,6 @@ abstract class Trident_Abstract_Query
 
     public function set_parameter($name, $value, $type = PDO::PARAM_STR)
     {
-        $this->parameters[$name] = ['value' => $value, 'type' => $type];
+        $this->parameters[':' . $name] = ['value' => $value, 'type' => $type];
     }
 } 

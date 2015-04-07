@@ -37,11 +37,11 @@ class Trident_Database_MySql extends Trident_Abstract_Database
      */
     function __construct($configuration)
     {
-        $host = $configuration->get('database','host');
-        $database = $configuration->get('database','name');
-        $password = $configuration->get('database','password');
-        $user_name = $configuration->get('database','user');
-        $charset = $configuration->get('database','charset');
+        $host = $configuration->get('database', 'host');
+        $database = $configuration->get('database', 'name');
+        $password = $configuration->get('database', 'password');
+        $user_name = $configuration->get('database', 'user');
+        $charset = $configuration->get('database', 'charset');
         if (is_null($database))
         {
             $dsn = "mysql:host=$host;charset=$charset";
@@ -79,9 +79,138 @@ class Trident_Database_MySql extends Trident_Abstract_Database
             $query->row_count = 0;
             $query->last_inserted_id = 0;
             $query->result_set = [];
-            $query->error_code = $statement->errorInfo()[0];
+            $query->error_code = $statement->errorInfo()[1];
             $query->error_description = $statement->errorInfo()[2];
         }
         return $query;
+    }
+
+    /**
+     * @param string $entity
+     * @param string $query
+     * @param array $parameters
+     * @param string $prefix
+     *
+     * @return Trident_Query_MySql|bool
+     */
+    public function select_entity($entity, $query, $parameters, $prefix)
+    {
+        if (strtolower(substr($entity, -7, 7)) !== '_entity')
+        {
+            $entity .= '_entity';
+        }
+        if (!class_exists($entity))
+        {
+            return false;
+        }
+        $query_instance = new Trident_Query_MySql();
+        $query_instance->query_string = $query;
+        foreach ($parameters as $key => $value)
+        {
+            $query_instance->set_parameter(rtrim($key, ':'), $value);
+        }
+        $query_instance->type = 'select';
+        $query_instance = $this->run_query($query_instance);
+        if ($query_instance->success)
+        {
+            $result = [];
+            foreach ($query_instance->result_set as $row)
+            {
+                /** @var Trident_Abstract_Entity $entity_instance */
+                $entity_instance = new $entity();
+                $entity_instance->data_from_array($row, $prefix);
+                $result[] = $entity_instance;
+            }
+            $query_instance->result_set = $result;
+        }
+        return $query_instance;
+    }
+
+    /**
+     * @param Trident_Abstract_Entity $entity
+     * @param string $table
+     * @param string $prefix
+     *
+     * @return Trident_Abstract_Query|bool
+     */
+    public function insert_entity($entity, $table, $prefix)
+    {
+        if (!($entity instanceof Trident_Abstract_Entity))
+        {
+            return false;
+        }
+        $query = new Trident_Query_MySql();
+        $fields = $entity->get_field_names();
+        $field_parameters = [];
+        $parameters = [];
+        foreach ($fields as $key => $value)
+        {
+            $field_parameters[] = ':' . $value;
+            $fields[$key] = $prefix . $value;
+            $query->set_parameter($value, $entity->$value);
+        }
+        $fields = implode(',', $fields);
+        $field_parameters = implode(',', $field_parameters);
+        $query->query_string = "INSERT INTO $table ($fields) VALUES ($field_parameters)";
+        $query->type = 'insert';
+        return $this->run_query($query);
+    }
+
+    /**
+     * @param Trident_Abstract_Entity $entity
+     * @param string $table
+     * @param string $id_field
+     * @param string $prefix
+     *
+     * @return Trident_Query_MySql|bool
+     */
+    public function update_entity($entity, $table, $id_field, $prefix)
+    {
+        if (!($entity instanceof Trident_Abstract_Entity))
+        {
+            return false;
+        }
+        if (array_search($id_field, $entity->get_field_names()) === false)
+        {
+            return false;
+        }
+        $query = new Trident_Query_MySql();
+        $fields = array_diff($entity->get_field_names(), [$id_field]);
+        $parameters = [];
+        foreach ($fields as $key => $value)
+        {
+            $fields[$key] = $prefix . $value . ' = :' . $value;
+            $query->set_parameter($value, $entity->$value);
+        }
+        $query->set_parameter($id_field, $entity->$id_field);
+        $fields = implode(',', $fields);
+        $query->query_string = "UPDATE $table SET $fields WHERE $prefix$id_field = :$id_field";
+        $query->type = 'update';
+        return $this->run_query($query);
+    }
+
+    /**
+     * @param Trident_Abstract_Entity $entity
+     * @param string $table
+     * @param string $id_field
+     * @param string $prefix
+     *
+     * @return Trident_Query_MySql|bool
+     */
+    public function delete_entity($entity, $table, $id_field, $prefix)
+    {
+        if (!($entity instanceof Trident_Abstract_Entity))
+        {
+            return false;
+        }
+        if (array_search($id_field, $entity->get_field_names()) === false)
+        {
+            return false;
+        }
+        $query = new Trident_Query_MySql();
+        $query->query_string = "DELETE FROM $table WHERE $prefix$id_field = :$id_field";
+        $query->set_parameter($id_field, $entity->$id_field);
+        $query->type = 'delete';
+        return $this->run_query($query);
     }
 }

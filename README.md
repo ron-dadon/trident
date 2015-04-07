@@ -203,7 +203,83 @@ class Users_Model extends Trident_Abstract_Model
     }
 }
 ```
+### Database and Entities
+One of the most powerful features of **Trident** is the ability to perform an "ORM" like functions. **Trident** is not an ORM framework, and it doesn't try to be one, but to make life a little easier, there are 4 functions to bridge between entity objects and the database tables that represent them.
 
+#### select_entity
+This function takes 4 parameters:
+- **entity**: the name of the entity class (with or without the **_Entity** suffix).
+- **parameters**: query parameters if needed.
+- **query**: the select query.
+- **prefix**: a field prefix if one is present.
+
+The function return a Query object, where the **result_set** attribute contains an array of objects of the require entity instead of an associative array.
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+    public function get_all()
+    {
+        $q = $this->database->select_entity('user', 'SELECT * FROM users', [], 'user_');
+        return $q->result_set;
+    }
+}
+```
+
+ ### insert_entity
+ This function takes 3 parameters:
+ - **entity**: an entity object.
+ - **table**: the table name within the database.
+ - **prefix**: field prefix in the database.
+
+The function return a Query object with the result of the query.
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+    public function add($entity)
+    {
+        $q = $this->database->insert_entity($entity, 'users', 'user_');
+        return $q->success;
+    }
+}
+```
+
+### update_entity
+ This function takes 4 parameters:
+ - **entity**: an entity object.
+ - **table**: the table name within the database.
+ - **id_field**: the name of the primary key field.
+ - **prefix**: field prefix in the database.
+
+The function return a Query object with the result of the query.
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+    public function update($entity)
+    {
+        $q = $this->database->update_entity($entity, 'users', 'id', 'user_');
+        return $q->success;
+    }
+}
+```
+
+### delete_entity
+ This function takes 4 parameters:
+ - **entity**: an entity object.
+ - **table**: the table name within the database.
+ - **id_field**: the name of the primary key field.
+ - **prefix**: field prefix in the database.
+
+The function return a Query object with the result of the query.
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+    public function remove($entity)
+    {
+        $q = $this->database->delete_entity($entity, 'users', 'id', 'user_');
+        return $q->success;
+    }
+}
+```
 
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**

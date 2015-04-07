@@ -49,4 +49,8 @@ abstract class Trident_Abstract_Database extends PDO
      */
     public abstract function run_query($query);
 
+    public abstract function select_entity($entity, $query, $parameters, $prefix);
+    public abstract function insert_entity($entity, $table, $prefix);
+    public abstract function update_entity($entity, $table, $id_field, $prefix);
+    public abstract function delete_entity($entity, $table, $id_field, $prefix);
 }

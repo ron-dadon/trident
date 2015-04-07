@@ -50,7 +50,7 @@ abstract class Trident_Abstract_Entity
      */
     public function get_fields()
     {
-        return array_diff_key(get_object_vars($this), ['_properties' => '']);
+        return get_object_vars($this);
     }
 
     /**
@@ -149,11 +149,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        if (filter_var($this->$field, FILTER_VALIDATE_EMAIL) === false)
-        {
-            return false;
-        }
-        return true;
+        return filter_var($this->$field, FILTER_VALIDATE_EMAIL) !== false;
     }
 
     /**
@@ -169,7 +165,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return preg_match($regex, $this->$field) === false;
+        return preg_match($regex, $this->$field) !== false;
     }
 
     /**
@@ -186,7 +182,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return $this->$field < $min;
+        return $this->$field >= $min;
     }
 
     /**
@@ -203,7 +199,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return $this->$field > $max;
+        return $this->$field <= $max;
     }
 
     /**
@@ -220,7 +216,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) < $min;
+        return strlen($this->$field) >= $min;
     }
 
     /**
@@ -237,7 +233,7 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) > $max;
+        return strlen($this->$field) <= $max;
     }
 
     /**

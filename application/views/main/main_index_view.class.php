@@ -22,7 +22,7 @@ class Main_Index_View extends Trident_Abstract_View
                         </span>
                     </h2>
                     <h3><strong>Simple & Fast!</strong></h3>
-                    <p style="font-size: 125%">Web application development made easy using wrapper classes to simplify many long code segments. With a few simple steps you can create a full functioning web application for scratch!</p>
+                    <p style="font-size: 125%">Web application development made easy using wrapper classes to simplify many long code segments. With a few simple steps you can create a full functioning web application from scratch!</p>
                 </div>
                 <div class="col-xs-12 col-lg-4 text-center text-success">
                     <h2>
@@ -41,7 +41,7 @@ class Main_Index_View extends Trident_Abstract_View
                           <i class="fa fa-github fa-stack-1x fa-inverse"></i>
                         </span>
                     </h2>
-                    <h3><strong>Open source project</strong></h3>
+                    <h3><strong>Open Source</strong></h3>
                     <p style="font-size: 125%">Trident framework is an open source project, so you can implement it as you like, including in commercial projects. The code is yours under the <a href="https://github.com/ron-dadon/trident/blob/master/LICENSE">MIT license</a>, to use, make changes and redistribute.</p>
                 </div>
             </div>
