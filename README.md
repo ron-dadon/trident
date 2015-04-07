@@ -72,12 +72,13 @@ Routes by default are set in the **routes.json** file within the **configuration
 Each route contain 3 attributes:
 ```json
 {
-    "pattern": pattern to match,
-    "controller": associated controller name,
-    "
+    "pattern": "pattern to match",
+    "controller": "associated controller name",
+    "function": "associated controller function name"
 }
 ```
-
+**Pattern**:
+The pattern will match the content after your request URI. For example, if your application is at **http://www.example.com**, and you type in the browser **http://www.example.com_/login_**, the **_/login_** part is the request URI.
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**
 - Bootstrap 3.3.4 (https://github.com/twbs/bootstrap)
