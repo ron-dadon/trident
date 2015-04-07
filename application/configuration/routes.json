@@ -1,7 +1,7 @@
 {
     "default": {
         "controller": "main",
-        "function": "index"
+        "function": "error"
     },
     "routes": [
         {

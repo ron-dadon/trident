@@ -73,7 +73,8 @@ class Trident_Application
             $this->_log->entry('routing', $e->getMessage());
             if ($e->getCode() === TRIDENT_ERROR_NO_MATCHED_ROUTE)
             {
-                echo '404';
+                header("HTTP/1.0 404 Not Found");
+                die('The request resource was not found or is unavailable (404 Error)');
             }
             else
             {
