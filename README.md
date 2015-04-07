@@ -225,11 +225,11 @@ class Users_Model extends Trident_Abstract_Model
 }
 ```
 
- ### insert_entity
- This function takes 3 parameters:
- - **entity**: an entity object.
- - **table**: the table name within the database.
- - **prefix**: field prefix in the database.
+### insert_entity
+This function takes 3 parameters:
+- **entity**: an entity object.
+- **table**: the table name within the database.
+- **prefix**: field prefix in the database.
 
 The function return a Query object with the result of the query.
 ```php
@@ -244,11 +244,11 @@ class Users_Model extends Trident_Abstract_Model
 ```
 
 ### update_entity
- This function takes 4 parameters:
- - **entity**: an entity object.
- - **table**: the table name within the database.
- - **id_field**: the name of the primary key field.
- - **prefix**: field prefix in the database.
+This function takes 4 parameters:
+- **entity**: an entity object.
+- **table**: the table name within the database.
+- **id_field**: the name of the primary key field.
+- **prefix**: field prefix in the database.
 
 The function return a Query object with the result of the query.
 ```php
@@ -263,11 +263,11 @@ class Users_Model extends Trident_Abstract_Model
 ```
 
 ### delete_entity
- This function takes 4 parameters:
- - **entity**: an entity object.
- - **table**: the table name within the database.
- - **id_field**: the name of the primary key field.
- - **prefix**: field prefix in the database.
+This function takes 4 parameters:
+- **entity**: an entity object.
+- **table**: the table name within the database.
+- **id_field**: the name of the primary key field.
+- **prefix**: field prefix in the database.
 
 The function return a Query object with the result of the query.
 ```php
