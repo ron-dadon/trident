@@ -66,6 +66,18 @@ class Users_Show_View extends Trident_Abstract_View
 }
 ```
 
+## Routing
+Routing is where the magic of matching a URI to actions within your web application happens. The framework routing engine is simple.
+Routes by default are set in the **routes.json** file within the **configuration** directory (the file name and location can be changed in the configuration).
+Each route contain 3 attributes:
+```json
+{
+    "pattern": pattern to match,
+    "controller": associated controller name,
+    "
+}
+```
+
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**
 - Bootstrap 3.3.4 (https://github.com/twbs/bootstrap)
