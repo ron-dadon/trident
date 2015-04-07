@@ -1,6 +1,21 @@
 # Trident
 PHP MVC (Model View Controller) Framework
 
+## Installation
+Download the repository as a zip, and extract it to your development server.
+It's recommended to keep the _application_ and _vendor_ directories outside of your public root directory.
+Place the *public_html* directory content in your public root directory (don't forget the .htaccess and index.php files).
+That is it. The framework is now installed and ready for use.
+
+## Configuration
+After you installed the framework, you need to configure the application so it will run in your development environment.
+Open the _configuration.json_ file in the _application/configuration_ directory.
+Edit the following to match your environment:
+- Under **environment**, change the **time zone** to your time zone. Set **production** & **debug** as needed.
+- Under **paths**, change **public** to your public uri.
+- If you placed the directories in different places, under **paths**, change the required paths to fit your paths.
+- If you intend to use database, then change **database** section properties as needed.
+
 **The following free/open source projects are used inside the framework or included as an extension library:**
 - Bootstrap 3.3.4 (https://github.com/twbs/bootstrap)
 - jQuery 1.11.2 (https://jquery.com/)
