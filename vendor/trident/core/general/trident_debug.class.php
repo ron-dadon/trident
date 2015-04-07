@@ -68,14 +68,18 @@ class Trident_Debug
         $process_time = number_format(microtime(true) - $this->_start_time, 4) . ' [ms]';
         $mem_alloc = number_format(memory_get_peak_usage() / 1024, 2) . ' [kb]';
         $mem_use = number_format(memory_get_peak_usage(true) / 1024, 2) . ' [kb]';
+        $system = $this->_request->platform . ', ' . $this->_request->browser . ' [' . $this->_request->browser_version . ']';
         $data = file_get_contents(dirname(__FILE__) . DS . 'trident_debug_template.php');
         $data = str_replace('{php-version}', phpversion(), $data);
-        $data = str_replace('{aloc-memory}', $mem_alloc, $data);
+        $data = str_replace('{alloc-memory}', $mem_alloc, $data);
         $data = str_replace('{used-memory}', $mem_use, $data);
         $data = str_replace('{process-time}', $process_time, $data);
         $data = str_replace('{session}', $this->_print_array($_SESSION), $data);
         $data = str_replace('{post}', $this->_print_array($this->_request->post->to_array()), $data);
         $data = str_replace('{cookies}', $this->_print_array($this->_request->cookie->to_array()), $data);
+        $data = str_replace('{client-ip}', $this->_request->from_ip, $data);
+        $data = str_replace('{request-uri}', $this->_request->uri, $data);
+        $data = str_replace('{client-system}', $system, $data);
         echo $data;
     }
 }
