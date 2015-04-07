@@ -20,12 +20,12 @@ Edit the following to match your environment:
 For the framework to work, you must keep a certain directory structure and naming rules.
 The _application_ directory structure is as followed:
 - application
--- configuration (place your configuration files here)
--- controllers (place your controller classes here)
--- entities (place your entities classes here)
--- models (place your model classes here)
--- views (place your views here, in separate directory for each controller carrying it's name)
---- shared (place your shared views such as header & footer here)
+  - configuration (place your configuration files here)
+  - controllers (place your controller classes here)
+  - entities (place your entities classes here)
+  - models (place your model classes here)
+  - views (place your views here, in separate directory for each controller carrying it's name)
+    - shared (place your shared views such as header & footer here)
 
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**
