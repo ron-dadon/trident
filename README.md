@@ -293,6 +293,7 @@ class Users_Model extends Trident_Abstract_Model
 - Bootstrap Tree (https://github.com/jonmiles/bootstrap-treeview)
 - Bootstrap Validator (https://github.com/1000hz/bootstrap-validator)
 - Bootstrap RTL (https://github.com/morteza/bootstrap-rtl)
+- Animate.css (https://github.com/daneden/animate.css)
 - PHPMailer (https://github.com/PHPMailer/PHPMailer)
 - PHP XLSXWriter (https://github.com/mk-j/PHP_XLSXWriter)
 - PHP User Agent (https://github.com/donatj/PhpUserAgent)
