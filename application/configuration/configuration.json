@@ -8,8 +8,8 @@
     "paths": {
         "public":       "http://trident.local.com",
         "application":  "../application",
-        "data":         "../data",
-        "logs":         "../application",
+        "data":         "../application/data",
+        "logs":         "../application/logs",
         "routes":       "../application/configuration/routes.json"
     },
     "security": {
@@ -34,9 +34,9 @@
         "security_protocol":    "tls",
         "host":                 "smtp.gmail.com",
         "port":                 587,
-        "user":                 "design@obu.co.il",
-        "password":             "12345678",
-        "from":                 "is@wxgs.co.il",
-        "display_name":         "WXGS Information Systems"
+        "user":                 "john@gmail.com",
+        "password":             "johndoe",
+        "from":                 "john@doe.com",
+        "display_name":         "John Doe"
     }
 }
