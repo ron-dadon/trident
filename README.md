@@ -26,6 +26,7 @@ The _application_ directory structure is as followed:
   - models (place your model classes here)
   - views (place your views here, in separate directory for each controller carrying it's name)
     - shared (place your shared views such as header & footer here)
+
 Each class (controller, model etc.) will be placed in a single file, with the same name of the class in lower case and the **.class** suffix. For example: controller class named **Users_Controller** will be in a file named **users_controller.class.php** inside of the **controllers** directory.
 
 ### Creating controllers
