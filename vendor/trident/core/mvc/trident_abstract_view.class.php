@@ -35,11 +35,15 @@ abstract class Trident_Abstract_View
     /**
      * @var Trident_Configuration
      */
-    protected $_configuration;
+    protected $configuration;
     /**
      * @var array
      */
-    protected $_data = [];
+    protected $data = [];
+    /**
+     * @var Html_Library
+     */
+    protected $html;
 
     /**
      * @param Trident_Configuration $configuration
@@ -47,14 +51,22 @@ abstract class Trident_Abstract_View
      */
     function __construct($configuration, $data)
     {
-        $this->_configuration = $configuration;
-        $this->_data = is_array($data) ? $data : [];
+        $this->configuration = $configuration;
+        $this->data = is_array($data) ? $data : [];
     }
 
     /**
      * Implement in views
      */
     public abstract function render();
+
+    public function load_html_library()
+    {
+        if (is_null($this->html))
+        {
+            $this->html = new Html_Library($this->configuration);
+        }
+    }
 
     /**
      * Set view variable
@@ -64,7 +76,7 @@ abstract class Trident_Abstract_View
      */
     public function set($key, $value)
     {
-        $this->_data[$key] = $value;
+        $this->data[$key] = $value;
     }
 
     /**
@@ -77,9 +89,9 @@ abstract class Trident_Abstract_View
      */
     protected function get($key, $escape = true)
     {
-        if (isset($this->_data[$key]))
+        if (isset($this->data[$key]))
         {
-            return $escape ? $this->_escape($this->_data[$key]) : $this->_data[$key];
+            return $escape ? $this->_escape($this->data[$key]) : $this->data[$key];
         }
         return null;
     }
@@ -91,25 +103,27 @@ abstract class Trident_Abstract_View
      */
     protected function load_asset($asset)
     {
-        if (is_null($this->_configuration->get('paths', 'public')))
+        if (is_null($this->configuration->get('paths', 'public')))
         {
             echo '';
         }
-        $path = $this->_configuration->get('paths', 'public') . DS . $asset;
         $output = '';
         if (preg_match('/^(.+)\.js/', $asset))
         {
+            $path = $this->configuration->get('paths', 'public') . '/js/' . $asset;
             $output = "<script src=\"$path\"></script>";
         }
         if (preg_match('/^(.+)\.css/', $asset))
         {
+            $path = $this->configuration->get('paths', 'public') . '/css/' . $asset;
             $output = "<link rel='stylesheet' type='text/css' href=\"$path\">";
         }
         if (preg_match('/^(.+)\.(ico|png)/', $asset))
         {
+            $path = $this->configuration->get('paths', 'public') . '/images/' . $asset;
             $output = "<link rel='shortcut icon' href=\"$path\">";
         }
-        echo $output;
+        echo $output . PHP_EOL;
     }
 
     /**
@@ -117,11 +131,11 @@ abstract class Trident_Abstract_View
      */
     public function public_path()
     {
-        if (is_null($this->_configuration->get('paths', 'public')))
+        if (is_null($this->configuration->get('paths', 'public')))
         {
             echo '';
         }
-        echo $this->_configuration->get('paths', 'public');
+        echo $this->configuration->get('paths', 'public');
     }
 
     /**
@@ -131,8 +145,12 @@ abstract class Trident_Abstract_View
      */
     public function include_shared_view($view)
     {
+        if (strtolower(substr($view,-5,5)) !== '_view')
+        {
+            $view .= '_view';
+        }
         /** @var Trident_Abstract_View $view_instance */
-        $view_instance = new $view($this->_configuration, $this->_data);
+        $view_instance = new $view($this->configuration, $this->data);
         $view_instance->render();
     }
 

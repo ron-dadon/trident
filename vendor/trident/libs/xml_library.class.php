@@ -78,7 +78,7 @@ class Xml_Library extends Trident_Abstract_Library
      */
     public function write_xml_to_file($file, $objects_name, $object_name, $data = [])
     {
-        return $this->_io->write_file($file, $this->write_xml_to_string($objects_name, $object_name, $data));
+        return $this->io->write_file($file, $this->write_xml_to_string($objects_name, $object_name, $data));
     }
 
 } 

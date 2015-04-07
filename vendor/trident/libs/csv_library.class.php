@@ -72,6 +72,6 @@ class Csv_Library extends Trident_Abstract_Library
      */
     public function write_csv_to_file($file, $data = [])
     {
-        return $this->_io->write_file($file, $this->write_csv_to_string($data));
+        return $this->io->write_file($file, $this->write_csv_to_string($data));
     }
 } 

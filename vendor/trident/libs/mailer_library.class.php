@@ -83,29 +83,29 @@ class Mailer_Library extends Trident_Abstract_Library
         $mail->IsSMTP();
         $mail->SMTPAuth = isset($credentials['is_secure']) ?
             $credentials['is_secure'] :
-            $this->_configuration->get('email', 'is_secure');
+            $this->configuration->get('email', 'is_secure');
         $mail->SMTPSecure = isset($credentials['security_protocol']) ?
             $credentials['security_protocol'] :
-            $this->_configuration->get('email', 'security_protocol');
+            $this->configuration->get('email', 'security_protocol');
         $mail->Host = isset($credentials['host']) ?
             $credentials['host'] :
-            $this->_configuration->get('email', 'host');
+            $this->configuration->get('email', 'host');
         $mail->Port = isset($credentials['port']) ?
             $credentials['port'] :
-            $this->_configuration->get('email', 'port');
+            $this->configuration->get('email', 'port');
         $mail->Username = isset($credentials['user']) ?
             $credentials['user'] :
-            $this->_configuration->get('email', 'user');
+            $this->configuration->get('email', 'user');
         $mail->Password = isset($credentials['password']) ?
             $credentials['password'] :
-            $this->_configuration->get('email', 'password');
+            $this->configuration->get('email', 'password');
         $mail->SetFrom(
-            isset($credentials['from']) ? $credentials['from'] : $this->_configuration->get('email', 'from'),
-            isset($credentials['display_name']) ? $credentials['display_name'] : $this->_configuration->get('email', 'display_name')
+            isset($credentials['from']) ? $credentials['from'] : $this->configuration->get('email', 'from'),
+            isset($credentials['display_name']) ? $credentials['display_name'] : $this->configuration->get('email', 'display_name')
         );
         $mail->AddReplyTo(
-            isset($credentials['from']) ? $credentials['from'] : $this->_configuration->get('email', 'from'),
-            isset($credentials['display_name']) ? $credentials['display_name'] : $this->_configuration->get('email', 'display_name')
+            isset($credentials['from']) ? $credentials['from'] : $this->configuration->get('email', 'from'),
+            isset($credentials['display_name']) ? $credentials['display_name'] : $this->configuration->get('email', 'display_name')
         );
         $mail->Subject = $subject;
         $mail->AltBody = $altBody;

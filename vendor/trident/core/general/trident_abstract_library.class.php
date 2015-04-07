@@ -34,48 +34,48 @@ abstract class Trident_Abstract_Library
     /**
      * @var Trident_Configuration
      */
-    protected $_configuration;
+    protected $configuration;
     /**
      * @var Trident_Request
      */
-    protected $_request;
+    protected $request;
     /**
      * @var Trident_Session
      */
-    protected $_session;
+    protected $session;
     /**
      * @var Trident_Abstract_Database
      */
-    protected $_database;
+    protected $database;
     /**
      * @var Trident_IO
      */
-    protected $_io;
+    protected $io;
     /**
      * @var Trident_Log
      */
-    protected $_log;
+    protected $log;
 
     /**
      * Constructor
      *
      * Inject dependencies
      *
-     * @param Trident_Configuration $_configuration
+     * @param Trident_Configuration $configuration
      * @param Trident_IO $io
-     * @param Trident_Request $_request
+     * @param Trident_Request $request
      * @param Trident_Log $log
-     * @param Trident_Session $_session
+     * @param Trident_Session $session
      * @param Trident_Abstract_Database $database
      */
-    function __construct($_configuration, $database, $io, $log, $_request, $_session)
+    function __construct($configuration = null, $database = null, $io = null, $log = null, $request = null, $session = null)
     {
-        $this->_configuration = $_configuration;
-        $this->_log = $log;
-        $this->_request = $_request;
-        $this->_session = $_session;
-        $this->_io = $io;
-        $this->_database = $database;
+        $this->configuration = $configuration;
+        $this->log = $log;
+        $this->request = $request;
+        $this->session = $session;
+        $this->io = $io;
+        $this->database = $database;
     }
 
 } 

@@ -43,13 +43,13 @@ class Security_Library extends Trident_Abstract_Library
      */
     public function create_salt()
     {
-        if (!$this->_configuration->section_exists('security') ||
-            $this->_configuration->get('security', 'salt_length') === null)
+        if (!$this->configuration->section_exists('security') ||
+            $this->configuration->get('security', 'salt_length') === null)
         {
             throw new Trident_Exception("Can't use security function because of missing security configuration",
                 TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
         }
-        return $this->create_random_hex_string($this->_configuration->get('security', 'salt_length'));
+        return $this->create_random_hex_string($this->configuration->get('security', 'salt_length'));
     }
 
     /**
@@ -81,14 +81,14 @@ class Security_Library extends Trident_Abstract_Library
      */
     public function hash($data, $salt = null)
     {
-        if (!$this->_configuration->section_exists('security') ||
-            $this->_configuration->get('security', 'hash_function') === null)
+        if (!$this->configuration->section_exists('security') ||
+            $this->configuration->get('security', 'hash_function') === null)
         {
             throw new Trident_Exception("Can't use security function because of missing security configuration",
                 TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
         }
         $data .= is_null($salt) ? '' : $salt;
-        return hash($this->_configuration->get('security', 'hash_function'), $data);
+        return hash($this->configuration->get('security', 'hash_function'), $data);
     }
 
     /**
@@ -101,13 +101,13 @@ class Security_Library extends Trident_Abstract_Library
      */
     public function encrypt($value)
     {
-        if (!$this->_configuration->section_exists('security') ||
-            $this->_configuration->get('security', 'encryption_key') === null)
+        if (!$this->configuration->section_exists('security') ||
+            $this->configuration->get('security', 'encryption_key') === null)
         {
             throw new Trident_Exception("Can't use security function because of missing security configuration",
                 TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
         }
-        return mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->_configuration->get('security', 'encryption_key'),
+        return mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->configuration->get('security', 'encryption_key'),
             $value, MCRYPT_MODE_ECB);
     }
 
@@ -121,13 +121,13 @@ class Security_Library extends Trident_Abstract_Library
      */
     public function decrypt($value)
     {
-        if (!$this->_configuration->section_exists('security') ||
-            $this->_configuration->get('security', 'encryption_key') === null)
+        if (!$this->configuration->section_exists('security') ||
+            $this->configuration->get('security', 'encryption_key') === null)
         {
             throw new Trident_Exception("Can't use security function because of missing security configuration",
                 TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
         }
-        return mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->_configuration->get('security', 'encryption_key'),
+        return mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->configuration->get('security', 'encryption_key'),
             $value, MCRYPT_MODE_ECB);
     }
 

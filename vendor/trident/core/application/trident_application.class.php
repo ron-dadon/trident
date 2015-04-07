@@ -95,13 +95,12 @@ class Trident_Application
         $app_path = $this->_configuration->get('paths', 'application');
         $views = array_diff(scandir($app_path . DS . 'views' . DS), ['.', '..']);
         $search = [
-            $app_path . DS . 'controllers' . DS,
-            $app_path . DS . 'models' . DS,
-            $app_path . DS . 'views' . DS . 'shared',
+            $app_path . DS . 'controllers',
+            $app_path . DS . 'models'
         ];
         foreach ($views as $view)
         {
-            $search[] = $app_path . DS . 'views' . DS . $view . DS;
+            $search[] = $app_path . DS . 'views' . DS . $view;
         }
         foreach ($search as $path)
         {
