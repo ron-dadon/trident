@@ -78,7 +78,44 @@ Each route contain 3 attributes:
 }
 ```
 **Pattern**:
-The pattern will match the content after your request URI. For example, if your application is at **http://www.example.com**, and you type in the browser **http://www.example.com_/login_**, the **_/login_** part is the request URI.
+The pattern will match the content after your request URI. For example, if your application is at **http://www.example.com**, and you type in the browser **http://www.example.com/login**, the **/login** part is the request URI.
+If you have a route with a pattern "/login", than the framework will load the required controller of the route and execute the required function from the controller.
+If you have variable content, you can use parameters. For example, consider a request URI like this: **/users/profile/2** where **2** is the user id, so you can change it to any user id you want to show the profile of. In that case, the parameter can be set in the pattern like so **/users/profile/(id)**.
+There are 2 types of parameters:
+- Alphanumeric: to set an alphanumeric parameter, wrap it with curly braces. For example: **/articles/{title}**. This will only match if the supplied parameter contains only letters, digits, under score or a dash.
+- Numeric: to set a numeric parameters, wrap it with regular braces. For example: **/profile/(id)**. This will only match if the supplied parameters contains only digits.
+You can mix the 2 types within the same pattern, and you can place them freely (at the beginning, middle or end of the pattern).
+
+**Default route**:
+The default route is the route that will be used if no matching route was found. The default route is optional, but it is recommended to set it.
+The default route doesn't require the pattern attribute, because it will match any pattern that doesn't match any of the defined routes patterns.
+
+** Routes file **
+The routes file is defined as followed:
+```json
+{
+    "default": {
+        "controller": "controller to use as default",
+        "function": "function within the default controller"
+    },
+    "routes": [
+        {
+            "pattern": "/",
+            "controller": "base route controller",
+            "function": "base route function"
+        },
+        {
+            "pattern": "/route 1 pattern",
+            "controller": "route 1 controller",
+            "function": "route 1 function"
+        }
+        ...
+    ]
+}
+```
+
+The base route pattern is a simple slash "/", and will be used when the client doesn't include a request URI within his URL.
+
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**
 - Bootstrap 3.3.4 (https://github.com/twbs/bootstrap)
