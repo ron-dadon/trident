@@ -16,7 +16,7 @@ class Header_View extends Trident_Abstract_View
     <?php $this->load_asset('bootstrap-select.min.css')?>
     <?php $this->load_asset('bootstrap-fileinput.min.css')?>
     <?php $this->load_asset('bootstrap-tree.min.css')?>
-    <?php $this->load_asset('bootstrap-rtl.min.css')?>
+    <?php if ($this->configuration->get('environment', 'rtl')) { $this->load_asset('bootstrap-rtl.min.css'); } ?>
     <?php $this->load_asset('font-awesome.min.css')?>
     <?php $this->load_asset('jquery.min.js')?>
     <?php $this->load_asset('bootstrap.min.js')?>

@@ -2,7 +2,8 @@
     "environment": {
         "production":   false,
         "debug":        false,
-        "time_zone":    "israel"
+        "time_zone":    "israel",
+        "rtl":          false
     },
     "paths": {
         "public":       "http://trident.local.com",
