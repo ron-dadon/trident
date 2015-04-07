@@ -96,7 +96,8 @@ class Trident_Application
         $views = array_diff(scandir($app_path . DS . 'views' . DS), ['.', '..']);
         $search = [
             $app_path . DS . 'controllers',
-            $app_path . DS . 'models'
+            $app_path . DS . 'models',
+            $app_path . DS . 'entities'
         ];
         foreach ($views as $view)
         {

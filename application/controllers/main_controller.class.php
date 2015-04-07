@@ -4,9 +4,10 @@
 class Main_Controller extends Trident_Abstract_Controller
 {
 
-    public function index($name = '', $id = '')
+    public function index()
     {
-        $this->load_view()->render();
+        $u = new User_Entity();
+        var_dump($u->validate_field('id'));
     }
 
     public function error()
