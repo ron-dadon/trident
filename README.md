@@ -26,6 +26,44 @@ The _application_ directory structure is as followed:
   - models (place your model classes here)
   - views (place your views here, in separate directory for each controller carrying it's name)
     - shared (place your shared views such as header & footer here)
+Each class (controller, model etc.) will be placed in a single file, with the same name of the class in lower case and the **.class** suffix. For example: controller class named **Users_Controller** will be in a file named **users_controller.class.php** inside of the **controllers** directory.
+
+### Creating controllers
+Controller name must contain the suffix **_Controller** in the name, and extend from the class **Trident_Abstract_Controller**.
+So a controller for users may be like:
+```php
+class Users_Controller extends Trident_Abstract_Controller
+{
+// Your controller functions
+}
+```
+### Creating entities
+Entity name must contain the suffix **_Entity** in the name, and extend from the class **Trident_Abstract_Entity**.
+So an entity for user may be like:
+```php
+class User_Entity extends Trident_Abstract_Entity
+{
+// Your entity variables
+}
+```
+### Creating models
+Model name must contain the suffix **_Model** in the name, and extend from the class **Trident_Abstract_Model**.
+So a model for users may be like:
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+// Your model functions
+}
+```
+### Creating views
+View name must contain the suffix **_View** in the name, the relevant controller name as a prefix, the relevant function name in between and extend from the class **Trident_Abstract_View**.
+So the view for the controller **Users_Controller** function **show** will be:
+```php
+class Users_Show_View extends Trident_Abstract_View
+{
+// Your view functions
+}
+```
 
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**
