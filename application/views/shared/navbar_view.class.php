@@ -1,0 +1,22 @@
+<?php
+
+
+class Navbar_View extends Trident_Abstract_View
+{
+
+    public function render()
+    {
+    ?>
+    <nav class="navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+               <a class="navbar-brand" style="color: #ffffff">Trident Framework Sample Application</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://github.com/ron-dadon/trident"><i class="fa fa-fw fa-github"></i> On GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+    <?php
+    }
+} 

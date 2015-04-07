@@ -16,6 +16,8 @@ Edit the following to match your environment:
 - If you placed the directories in different places, under **paths**, change the required paths to fit your paths.
 - If you intend to use database, then change **database** section properties as needed.
 
+Change the **index.php** file if needed, to point to the location of the **trident.php** within the **vendor/trident** directory.
+
 ## Directory structure & naming rules
 For the framework to work, you must keep a certain directory structure and naming rules.
 The **application** directory structure is as followed:
@@ -218,3 +220,7 @@ class Users_Model extends Trident_Abstract_Model
 - PHPMailer (https://github.com/PHPMailer/PHPMailer)
 - PHP XLSXWriter (https://github.com/mk-j/PHP_XLSXWriter)
 - PHP User Agent (https://github.com/donatj/PhpUserAgent)
+
+## License:
+This framework is released under the MIT license. See LICENSE for more information.
+Feel free to use, change and redistribute the framework.

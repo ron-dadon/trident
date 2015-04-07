@@ -26,7 +26,7 @@ class Header_View extends Trident_Abstract_View
     <?php $this->load_asset('bootstrap-fileinput-he.js')?>
     <?php $this->load_asset('bootstrap-tree.min.js')?>
     <?php $this->load_asset('bootstrap-validator.min.js')?>
-    <title><?php echo $this->configuration->get('application', 'name')?></title>
+    <title>Trident Framework Sample Application</title>
 </head>
 <body>
 <?php
