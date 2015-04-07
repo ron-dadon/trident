@@ -225,7 +225,7 @@ class Users_Model extends Trident_Abstract_Model
 }
 ```
 
-### insert_entity
+#### insert_entity
 This function takes 3 parameters:
 - **entity**: an entity object.
 - **table**: the table name within the database.
@@ -243,7 +243,7 @@ class Users_Model extends Trident_Abstract_Model
 }
 ```
 
-### update_entity
+#### update_entity
 This function takes 4 parameters:
 - **entity**: an entity object.
 - **table**: the table name within the database.
@@ -262,7 +262,7 @@ class Users_Model extends Trident_Abstract_Model
 }
 ```
 
-### delete_entity
+#### delete_entity
 This function takes 4 parameters:
 - **entity**: an entity object.
 - **table**: the table name within the database.
