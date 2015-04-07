@@ -3,13 +3,13 @@ PHP MVC (Model View Controller) Framework
 
 ## Installation
 Download the repository as a zip, and extract it to your development server.
-It's recommended to keep the _application_ and _vendor_ directories outside of your public root directory.
-Place the *public_html* directory content in your public root directory (don't forget the .htaccess and index.php files).
+It's recommended to keep the **application** and **vendor** directories outside of your public root directory.
+Place the **public_html** directory content in your public root directory (don't forget the .htaccess and index.php files).
 That is it. The framework is now installed and ready for use.
 
 ## Configuration
 After you installed the framework, you need to configure the application so it will run in your development environment.
-Open the _configuration.json_ file in the _application/configuration_ directory.
+Open the **configuration.json** file in the **application/configuration** directory.
 Edit the following to match your environment:
 - Under **environment**, change the **time zone** to your time zone. Set **production** & **debug** as needed.
 - Under **paths**, change **public** to your public URI.
@@ -18,7 +18,7 @@ Edit the following to match your environment:
 
 ## Directory structure & naming rules
 For the framework to work, you must keep a certain directory structure and naming rules.
-The _application_ directory structure is as followed:
+The **application** directory structure is as followed:
 - application
   - configuration (place your configuration files here)
   - controllers (place your controller classes here)
@@ -117,6 +117,58 @@ The routes file is defined as followed:
 ```
 
 The base route pattern is a simple slash "/", and will be used when the client doesn't include a request URI within his URL.
+
+## Database
+Trident includes an abstract class named **Trident_Abstract_Database** that extends to PDO class, and an abstract query class called **Trident_Abstract_Query** that allows for simple handling of queries.
+You can implement those class for any database engine supported by PHP's PDO. The framework already includes an implementation for MySql for those 2 abstract classes.
+
+### MySql Database
+There are 2 classes named **Trident_Database_MySql** and **Trident_Query_MySql** that are used for handling database functionality. Those classes require that the **database** section in the configuration will be properly configured, and in order for them to be used, the **load_database** function in the controller must be called before they are used.
+
+#### Trident_Query_MySql class
+The class contains the following important attributes:
+- **query_string**: contains the query string (for example: SELECT * FROM users)
+- **parameters**: contains an array of key => value pairs of the query parameters.
+- **success**: after the query was executed, sets to **true** for successful execution, or **false** if failed.
+- **row_count**: after the query was executed, sets to the number of rows that where returned in a select statement, or changed in an update statement.
+- **result_set**: after the query was executed, sets to the resulting rows of a select statement.
+- **last_inserted_id**: after the query was executed, and the query was an insert query of a table with an primary key that is auto incrementing, sets to the last value that was entered by the query in the database.
+- **error_code**: after the query was executed, contain the MySql error code if any occurred.
+- **error_description**: after the query was executed, contain the MySql error description if any occurred.
+- **type**: contains the type of the query (select, insert, delete etc.).
+
+The class also contains 4 quick query builders for the common query types (select, insert, update, delete):
+- **select**: builds the **query_string** attribute for a select statement according to the parameters supplied to the function.
+- **insert**: builds the **query_string** attribute for an insert statement according to the parameters supplied to the function.
+- **update**: builds the **query_string** attribute for an update statement according to the parameters supplied to the function.
+- **delete**: builds the **query_string** attribute for a delete statement according to the parameters supplied to the function.
+
+#### Trident_Database_MySql
+When the configuration section **database** attribute **type** is set to **mysql**, the **load_database** function of the controller will create an instance of this class, using the credentials set in the configuration.
+The class contains all the PDO class functions, as it extends from the class **Trident_Abstract_Database** which in turns, extends from PDO, and also a function named **run_query**.
+The **run_query** function takes a **Trident_Query_MySql** instance as a parameter, executes the query as needed and return a **Trident_Query_MySql** object with the result of the execution.
+
+Simple example from within a Trident_Abstract_Model implementation instance:
+```php
+class Users_Model extends Trident_Abstract_Model
+{
+    public function get_all()
+    {
+        $q = new Trident_Query_MySql();
+        $q->select('users'); // Will set $q->query_string to "SELECT * FROM users WHERE 1"
+        $q = $this->database->run_query($q);
+        if ($q->success)
+        {
+            return $q->result_set;
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+}
+```
+
 
 ## Used projects
 **The following free/open source projects are used inside the framework or included as an extension library:**

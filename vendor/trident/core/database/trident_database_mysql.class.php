@@ -54,9 +54,9 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Query $query
+     * @param Trident_Query_MySql $query
      *
-     * @return Trident_Abstract_Query
+     * @return Trident_Query_MySql
      */
     public function run_query($query)
     {
