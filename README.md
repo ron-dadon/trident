@@ -118,6 +118,39 @@ The routes file is defined as followed:
 
 The base route pattern is a simple slash "/", and will be used when the client doesn't include a request URI within his URL.
 
+## Controllers
+To implement a controller, simply extend it from the abstract class **Trident_Abstract_Controller**.
+
+Within the controller you will have access to the following instances:
+- **configuration**: a class that allows you to get configuration information.
+- **request**: a wrapper to all of the request information (post, get, cookies etc.).
+- **session**: a wrapper for handling PHP's session.
+- **io**: a wrapper for file system io functions.
+- **log**: a simple logging class.
+- **database**: a database wrapper class for PHP's PDO (available only after loading in with **load_database** function).
+
+### load_database
+Use this function before you are trying to use the database object. This function will initialize the required database instance if one was not already initialized.
+
+### load_model
+Use this function to create a Model instance easily. All the required constructor injections will be handled for you.
+
+### load_view
+Use this function to create a View instance easily. All the required constructor injections will be handled for you.
+This function takes 2 parameters. The first is the **view_data**. It's recommended to pass an _associative_ array as the view data, in order to address data values easily.
+The second one is the **view** and it is set by default to null. If the **view** parameter is null, the function will automaticaly try to create a view according to the calling controller name and function.
+For example:
+```php
+class Users_Controller extends Trident_Abstract_Controller
+{
+    public function index()
+    {
+        $view = $this->load_view();
+    }
+}
+```
+The **load_view** function in this case will attempt to load a class called **Users_Index_View**, and will look for the file **users_index_view.class.php** within the **application/views/users** directory.
+
 ## Database
 Trident includes an abstract class named **Trident_Abstract_Database** that extends to PDO class, and an abstract query class called **Trident_Abstract_Query** that allows for simple handling of queries.
 You can implement those class for any database engine supported by PHP's PDO. The framework already includes an implementation for MySql for those 2 abstract classes.
