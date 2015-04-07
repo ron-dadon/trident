@@ -45,6 +45,10 @@ abstract class Trident_Abstract_Model
      */
     protected $request;
     /**
+     * @var Trident_Session
+     */
+    protected $session;
+    /**
      * @var Trident_IO
      */
     protected $io;
@@ -58,19 +62,53 @@ abstract class Trident_Abstract_Model
      *
      * Inject dependencies.
      *
-     * @param Trident_Configuration $configuration
+     * @param Trident_Configuration     $configuration
      * @param Trident_Abstract_Database $database
-     * @param Trident_IO $io
-     * @param Trident_Log $log
-     * @param Trident_Request $request
+     * @param Trident_IO                $io
+     * @param Trident_Log               $log
+     * @param Trident_Request           $request
+     * @param Trident_Session           $session
      */
-    function __construct($configuration, $database, $io, $log, $request)
+    function __construct($configuration, $database, $io, $log, $request, $session)
     {
         $this->configuration = $configuration;
         $this->database = $database;
         $this->io = $io;
         $this->log = $log;
         $this->request = $request;
+        $this->session = $session;
+    }
+
+    /**
+     * Load model instance
+     *
+     * @param string $model model name
+     *
+     * @return Trident_Abstract_Model
+     */
+    protected function load_model($model)
+    {
+        if (strtolower(substr($model,-6,6)) !== '_model')
+        {
+            $model .= '_model';
+        }
+        return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
+    }
+
+    /**
+     * Load library instance
+     *
+     * @param string $library library name
+     *
+     * @return Trident_Abstract_Library
+     */
+    protected function load_library($library)
+    {
+        if (strtolower(substr($library,-8,8)) !== '_library')
+        {
+            $library .= '_library';
+        }
+        return new $library($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
 
     /**

@@ -1,6 +1,6 @@
 <div class="panel panel-default" style="direction: ltr">
     <div class="panel-heading">
-        <strong>Debug information</strong>
+        <strong><i class="fa fa-bug"></i> Debug information</strong>
         <span class="pull-right" style="cursor: pointer"><a onclick="$('#debug-body').fadeToggle()">Toggle</a></span>
     </div>
     <div class="panel-body" id="debug-body">

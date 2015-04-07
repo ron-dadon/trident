@@ -166,7 +166,7 @@ abstract class Trident_Abstract_Controller
         {
             $model .= '_model';
         }
-        return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request);
+        return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
 
     /**

@@ -1,7 +1,7 @@
 {
     "environment": {
         "production":   false,
-        "debug":        false,
+        "debug":        true,
         "time_zone":    "israel",
         "rtl":          false
     },
