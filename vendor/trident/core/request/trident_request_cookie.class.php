@@ -36,10 +36,20 @@ class Trident_Request_Cookie extends Trident_Abstract_Array
      * Constructor
      *
      * Initialize cookie data
+     *
+     * @param Trident_Configuration $configuration
      */
-    function __construct()
+    function __construct($configuration)
     {
-        $this->data = $_COOKIE;
+        $this->global_clean = $configuration->get('security', 'global_xss_clean') === true;
+        if ($this->global_clean)
+        {
+            $this->data = $this->clean_array($_COOKIE);
+        }
+        else
+        {
+            $this->data = $_COOKIE;
+        }
     }
 
     /**

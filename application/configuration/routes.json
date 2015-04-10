@@ -10,9 +10,9 @@
             "function": "index"
         },
         {
-            "pattern": "/{name}/(id)",
+            "pattern": "/test",
             "controller": "main",
-            "function": "index"
+            "function": "test"
         }
     ]
 }

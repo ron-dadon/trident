@@ -133,7 +133,7 @@ class Trident_Request_Files extends Trident_Abstract_Array
                 {
                     $inversed[$name][$index] = new Trident_Request_File(
                         $file['error'][$index],
-                        $file['name'][$index],
+                        $this->clean_data($file['name'][$index]),
                         $file['tmp_name'][$index],
                         $file['size'][$index]
                     );
@@ -143,7 +143,7 @@ class Trident_Request_Files extends Trident_Abstract_Array
             {
                 $inversed[$name] = new Trident_Request_File(
                     $file['error'],
-                    $file['name'],
+                    $this->clean_data($file['name']),
                     $file['tmp_name'],
                     $file['size']
                 );

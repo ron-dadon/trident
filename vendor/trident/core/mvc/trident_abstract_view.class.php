@@ -182,7 +182,7 @@ abstract class Trident_Abstract_View
             }
             return $var;
         }
-        return htmlspecialchars($var, ENT_QUOTES);
+        return htmlspecialchars($var, ENT_HTML5 | ENT_QUOTES);
     }
 
 }

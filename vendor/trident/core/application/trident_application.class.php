@@ -47,6 +47,10 @@ class Trident_Application
             throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
+        if ($this->_configuration->get('environment', 'debug'))
+        {
+            $debug = new Trident_Debug();
+        }
         if ($this->_configuration->get('environment', 'production'))
         {
             error_reporting(0);
@@ -61,12 +65,8 @@ class Trident_Application
             throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
         }
         spl_autoload_register([$this, '_application_auto_load']);
-        $this->_request = new Trident_Request();
+        $this->_request = new Trident_Request($this->_configuration);
         $this->_session = new Trident_Session();
-        if ($this->_configuration->get('environment', 'debug'))
-        {
-            $debug = new Trident_Debug($this->_configuration, $this->_request, $this->_session);
-        }
         $this->_router = new Trident_Router($this->_configuration->get('paths','routes'));
         try
         {
@@ -87,6 +87,7 @@ class Trident_Application
         }
         if (isset($debug))
         {
+            $debug->inject_dependencies($this->_configuration, $this->_request, $this->_session);
             $debug->show_information();
         }
     }
@@ -105,7 +106,8 @@ class Trident_Application
         $search = [
             $app_path . DS . 'controllers',
             $app_path . DS . 'models',
-            $app_path . DS . 'entities'
+            $app_path . DS . 'entities',
+            $app_path . DS . 'tests'
         ];
         foreach ($views as $view)
         {

@@ -35,12 +35,25 @@ class Trident_Request_Get extends Trident_Abstract_Array
     /**
      * Constructor
      *
-     * Initialize get data and unset $_GET
+     * Initialize get data
+     *
+     * @param Trident_Configuration $configuration
      */
-    function __construct()
+    function __construct($configuration)
     {
-        $this->data = $_GET;
-        unset($_GET);
+        $this->global_clean = $configuration->get('security', 'global_xss_clean') === true;
+        if ($this->global_clean)
+        {
+            $this->data = $this->clean_array($_GET);
+        }
+        else
+        {
+            $this->data = $_GET;
+        }
+        if ($configuration->get('security', 'unset_globals') === true)
+        {
+            unset($_GET);
+        }
     }
 
 }

@@ -35,12 +35,25 @@ class Trident_Request_Post extends Trident_Abstract_Array
     /**
      * Constructor
      *
-     * Initialize post data and unset $_POST
+     * Initialize post data
+     *
+     * @param Trident_Configuration $configuration
      */
-    function __construct()
+    function __construct($configuration)
     {
-        $this->data = $_POST;
-        unset($_POST);
+        $this->global_clean = $configuration->get('security', 'global_xss_clean') === true;
+        if ($this->global_clean)
+        {
+            $this->data = $this->clean_array($_POST);
+        }
+        else
+        {
+            $this->data = $_POST;
+        }
+        if ($configuration->get('security', 'unset_globals') === true)
+        {
+            unset($_POST);
+        }
     }
 
 }

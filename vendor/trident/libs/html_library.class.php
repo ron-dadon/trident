@@ -55,8 +55,11 @@ class Html_Library extends Trident_Abstract_Library
     function __construct($_configuration = null, $database = null, $io = null, $log = null, $_request = null, $_session = null)
     {
         parent::__construct($_configuration, $database, $io, $log, $_request, $_session);
-        $this->_base = $this->configuration->get('paths', 'public');
-        $this->set_paths();
+        if ($this->configuration !== null)
+        {
+            $this->_base = $this->configuration->get('paths', 'public');
+            $this->set_paths();
+        }
     }
 
     /**

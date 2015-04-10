@@ -1,7 +1,7 @@
 {
     "environment": {
         "production":   false,
-        "debug":        true,
+        "debug":        false,
         "time_zone":    "israel",
         "rtl":          false
     },
@@ -15,7 +15,9 @@
     "security": {
         "encryption_key":   "secret key",
         "hash_function":    "sha256",
-        "salt_length":      32
+        "salt_length":      32,
+        "global_xss_clean": true,
+        "unset_globals":    true
     },
     "database": {
         "type":     "mysql",

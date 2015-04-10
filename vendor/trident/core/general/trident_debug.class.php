@@ -22,16 +22,21 @@ class Trident_Debug
 
     /**
      * Constructor
-     *
+     */
+    function __construct()
+    {
+        $this->_start_time = microtime(true);
+    }
+
+    /**
      * Inject dependencies
      *
      * @param Trident_Configuration $_configuration
      * @param Trident_Request $_request
      * @param Trident_Session $_session
      */
-    function __construct($_configuration, $_request, $_session)
+    public function inject_dependencies($_configuration, $_request, $_session)
     {
-        $this->_start_time = microtime(true);
         $this->_configuration = $_configuration;
         $this->_request = $_request;
         $this->_session = $_session;

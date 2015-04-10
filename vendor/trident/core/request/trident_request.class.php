@@ -77,20 +77,27 @@ class Trident_Request
      * @var bool
      */
     public $https;
+    /**
+     * @var Trident_Configuration
+     */
+    private $_configuration;
 
     /**
      * Constructor
      *
      * Initializes the class variables.
      *
+     * @param Trident_Configuration $configuration
+     *
      * @throws Trident_Exception
      */
-    function __construct()
+    function __construct($configuration)
     {
-        $this->post = new Trident_Request_Post();
-        $this->get = new Trident_Request_Get();
-        $this->cookie = new Trident_Request_Cookie();
-        $this->files = new Trident_Request_Files();
+        $this->_configuration = $configuration;
+        $this->post = new Trident_Request_Post($this->_configuration);
+        $this->get = new Trident_Request_Get($this->_configuration);
+        $this->cookie = new Trident_Request_Cookie($this->_configuration);
+        $this->files = new Trident_Request_Files($this->_configuration);
         $this->uri = htmlspecialchars($_SERVER['REQUEST_URI']);
         $this->type = filter_var($_SERVER['REQUEST_METHOD'], FILTER_SANITIZE_STRING);
         $this->https = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || $_SERVER['SERVER_PORT'] === 443;
@@ -199,7 +206,7 @@ class Trident_Request
 				(?:\ [^;]*)?
 				(?:;|$)/imx', $parent_matches[1], $result, PREG_PATTERN_ORDER);
 
-            $priority = array('Android', 'Xbox One', 'Xbox', 'Tizen');
+            $priority = ['Android', 'Xbox One', 'Xbox', 'Tizen'];
             $result['platform'] = array_unique($result['platform']);
             if (count($result['platform']) > 1)
             {
