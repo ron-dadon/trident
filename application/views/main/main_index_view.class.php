@@ -14,6 +14,8 @@ class Main_Index_View extends Trident_Abstract_View
         </div>
         <div class="well">
             <div class="row">
+                <div class="col-xs-12 col-lg-4 text-center text-danger" id="col_spacer">
+                </div>
                 <div class="col-xs-12 col-lg-4 text-center text-danger" id="col_1">
                     <h2 class="">
                         <span class="fa-stack fa-lg">
@@ -52,9 +54,9 @@ class Main_Index_View extends Trident_Abstract_View
         $('#col_2').hide();
         $('#col_3').hide();
         $(document).ready(function() {
-            $('#col_1').fadeIn(800);
-            $('#col_1 h2').addClass('animated flip');
-            setTimeout(function() { $('#col_2').fadeIn(800); $('#col_2 h2').addClass('animated flip'); }, 600);
+            $('#col_2').fadeIn(800);
+            $('#col_2 h2').addClass('animated flip');
+            setTimeout(function() { $('#col_spacer').hide(); $('#col_1').fadeIn(800); $('#col_1 h2').addClass('animated flip'); }, 600);
             setTimeout(function() { $('#col_3').fadeIn(800); $('#col_3 h2').addClass('animated flip'); }, 1200);
         });
     </script>
