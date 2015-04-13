@@ -25,17 +25,28 @@
  */
 
 /**
- * Class Trident_Abstract_Database
+ * Class Trident_Abstract_Database.
  *
  * Abstract database class for implementing database handling on top of PDO
  */
 abstract class Trident_Abstract_Database extends PDO
 {
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     protected $configuration;
 
+    /**
+     * Sets configuration instance and construct parent PDO class with values.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param null|string $dsn Data source name.
+     * @param null|string $user_name User name.
+     * @param null|string $password User password.
+     * @param null|array $options PDO options array.
+     */
     function __construct($configuration, $dsn = null, $user_name = null, $password = null, $options = null)
     {
         $this->configuration = $configuration;
@@ -43,14 +54,58 @@ abstract class Trident_Abstract_Database extends PDO
     }
 
     /**
-     * @param Trident_Abstract_Query $query
+     * Run database query.
      *
-     * @return Trident_Abstract_Query
+     * @param Trident_Abstract_Query $query The query to execute.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public abstract function run_query($query);
 
+    /**
+     * Perform a select query for a given entity.
+     *
+     * @param string $entity Entity class name.
+     * @param string $query Query string.
+     * @param array $parameters Query parameters.
+     * @param string $prefix Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
+     */
     public abstract function select_entity($entity, $query, $parameters, $prefix);
+
+    /**
+     * Perform an insert query for a given entity.
+     *
+     * @param Trident_Abstract_Entity $entity Entity instance.
+     * @param string $table Database table name.
+     * @param string $prefix Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
+     */
     public abstract function insert_entity($entity, $table, $prefix);
+
+    /**
+     * Perform an update query for a given entity.
+     *
+     * @param Trident_Abstract_Entity $entity Entity instance.
+     * @param string $table Database table name.
+     * @param string $id_field Primary key field of the entity.
+     * @param string $prefix Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
+     */
     public abstract function update_entity($entity, $table, $id_field, $prefix);
+
+    /**
+     * Perform a delete query for a given entity.
+     *
+     * @param Trident_Abstract_Entity $entity Entity instance.
+     * @param string $table Database table name.
+     * @param string $id_field Primary key field of the entity.
+     * @param string $prefix Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
+     */
     public abstract function delete_entity($entity, $table, $id_field, $prefix);
 }

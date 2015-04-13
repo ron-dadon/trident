@@ -107,7 +107,7 @@ class Trident_Database_MySql extends Trident_Abstract_Database
         $query_instance->query_string = $query;
         foreach ($parameters as $key => $value)
         {
-            $query_instance->set_parameter(rtrim($key, ':'), $value);
+            $query_instance->set_parameter($key, $value);
         }
         $query_instance->type = 'select';
         $query_instance = $this->run_query($query_instance);

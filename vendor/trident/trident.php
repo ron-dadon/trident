@@ -36,6 +36,7 @@ define('DS', DIRECTORY_SEPARATOR);
  */
 function trident_auto_load($class)
 {
+    $class = strtolower($class);
     $search = [
         'core',
         'libs',

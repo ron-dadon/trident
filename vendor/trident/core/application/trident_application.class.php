@@ -32,19 +32,57 @@
 class Trident_Application
 {
     /**
+     * Configuration class instance
+     *
      * @var Trident_Configuration
      */
     private $_configuration = null;
+
+    /**
+     * Request class instance
+     *
+     * @var Trident_Request
+     */
     private $_request = null;
+
+    /**
+     * Session class instance
+     *
+     * @var Trident_Session
+     */
     private $_session = null;
+
+    /**
+     * Router class instance
+     *
+     * @var Trident_Router
+     */
     private $_router = null;
+
+    /**
+     * Log class instance
+     *
+     * @var Trident_Log
+     */
     private $_log = null;
 
+    /**
+     * Constructor
+     *
+     * The application constructor creates the configuration class instance and loads the supplied configuration file.
+     * Creates all the core classes instances according to the configuration settings where any are needed.
+     *
+     * @param string $configuration_file Configuration file path relative to the public index.php file.
+     *
+     * @throws Trident_Exception
+     */
     function __construct($configuration_file)
     {
         if (!is_readable($configuration_file))
         {
-            throw new Trident_Exception("Can't create application. Configuration file $configuration_file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
+            throw new Trident_Exception(
+                "Can't create application. Configuration file $configuration_file doesn't exists or is not readable",
+                TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
         if ($this->_configuration->get('environment', 'debug'))
@@ -59,10 +97,16 @@ class Trident_Application
         {
             date_default_timezone_set($time_zone);
         }
+        else
+        {
+            date_default_timezone_set('utc');
+        }
         $this->_log = new Trident_Log($this->_configuration);
         if (is_null($app_path = $this->_configuration->get('paths', 'application')))
         {
-            throw new Trident_Exception("Can't initialize application auto loading function because application path is not configured in the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
+            throw new Trident_Exception(
+                "Can't initialize application auto loading function because application path is not configured in
+                the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
         }
         spl_autoload_register([$this, '_application_auto_load']);
         $this->_request = new Trident_Request($this->_configuration);
@@ -95,12 +139,14 @@ class Trident_Application
     /**
      * Application auto loading
      *
-     * Searches for the required class files in the application directory, within the controllers, models and views directories.
+     * Searches for the required class files in the application directory,
+     * within the controllers, models, entities and views directories.
      *
-     * @param string $class class name
+     * @param string $class Class name.
      */
     private function _application_auto_load($class)
     {
+        $class = strtolower($class);
         $app_path = $this->_configuration->get('paths', 'application');
         $views = array_diff(scandir($app_path . DS . 'views' . DS), ['.', '..']);
         $search = [

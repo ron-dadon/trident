@@ -1,4 +1,5 @@
 {
+    "base": "/trident/public_html",
     "default": {
         "controller": "main",
         "function": "error"

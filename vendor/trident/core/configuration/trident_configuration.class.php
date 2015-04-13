@@ -25,9 +25,9 @@
  */
 
 /**
- * Class Trident_Configuration
+ * Class Trident_Configuration.
  *
- * Configuration handling
+ * This class is used to read and write configuration values from the configuration file.
  */
 class Trident_Configuration
 {
@@ -35,8 +35,6 @@ class Trident_Configuration
     private $_data = [];
 
     /**
-     * Constructor
-     *
      * Load configuration file if $file is specified.
      *
      * @param null|string $file file path
@@ -47,10 +45,17 @@ class Trident_Configuration
     {
         if (!is_null($file))
         {
-            $this->_load($file);
+            $this->load($file);
         }
     }
 
+    /**
+     * Get configuration value.
+     *
+     * @param string $section Configuration section.
+     * @param string $key Configuration field key.
+     * @return null|mixed If section or key doesn't exists, returns null else returns the value.
+     */
     public function get($section, $key)
     {
         if (isset($this->_data[$section]) && isset($this->_data[$section][$key]))
@@ -60,16 +65,60 @@ class Trident_Configuration
         return null;
     }
 
+    /**
+     * Set configuration value.
+     *
+     * @param string $section Configuration section.
+     * @param string $key Configuration field key.
+     * @param string|int|float|bool $value Configuration field value.
+     */
+    public function set($section, $key, $value)
+    {
+        $this->_data[$section][$key] = $value;
+    }
+
+    /**
+     * Check if configuration section exists.
+     *
+     * @param string $section Configuration section.
+     *
+     * @return bool True if exists, false otherwise.
+     */
     public function section_exists($section)
     {
         return isset($this->_data[$section]);
     }
 
-    private function _load($file)
+    /**
+     * Save configuration to file.
+     *
+     * Saves the configuration sections and value to a valid JSON file.
+     *
+     * @param string $file Configuration file path.
+     */
+    public function save($file)
+    {
+        $json_data = json_encode($this->_data, JSON_PRETTY_PRINT);
+        file_put_contents($file, $json_data);
+    }
+
+    /**
+     * Load and parse configuration file.
+     *
+     * Configuration file need to be a valid JSON file, where the configuration sections are the main object
+     * fields, and each section is an object.
+     *
+     * @param string $file Configuration file path.
+     *
+     * @throws Trident_Exception
+     */
+    public function load($file)
     {
         if (!is_readable($file))
         {
-            throw new Trident_Exception("Configuration can't load file $file. The file doesn't exists or is not readable", TRIDENT_ERROR_CONFIGURATION_FILE);
+            throw new Trident_Exception(
+                "Configuration can't load file $file. The file doesn't exists or is not readable",
+                TRIDENT_ERROR_CONFIGURATION_FILE);
         }
         $data = file_get_contents($file);
         $data = json_decode($data, true);

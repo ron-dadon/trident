@@ -49,6 +49,14 @@ class Trident_Router
     private $_default = null;
 
     /**
+     * Base of all the requests URI's
+     * Useful in case that the application's index file is not located in the domain root
+     *
+     * @var string
+     */
+    private $_base;
+
+    /**
      * Constructor
      *
      * Load routes file if $file is specified.
@@ -99,6 +107,7 @@ class Trident_Router
             }
             $this->_default = new Trident_Route($data['default']['controller'], $data['default']['function'], '');
         }
+        $this->_base = isset($data['base']) ? $data['base'] : '';
     }
 
     /**
@@ -110,6 +119,7 @@ class Trident_Router
      */
     private function _match_route($uri)
     {
+        $uri = str_replace($this->_base, '', $uri);
         $uri = '/' . trim($uri, '/');
         /** @var Trident_Route $route */
         foreach ($this->_routes as $key => $route)
@@ -137,8 +147,6 @@ class Trident_Router
      * @param Trident_Session $session
      *
      * @throws Trident_Exception
-     * @internal param string $uri request uri
-     *
      */
     public function dispatch($request, $configuration, $log, $session)
     {

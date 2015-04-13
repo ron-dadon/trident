@@ -6,7 +6,7 @@
         "rtl":          false
     },
     "paths": {
-        "public":       "http://trident.local.com",
+        "public":       "http://localhost/trident/public_html",
         "application":  "../application",
         "data":         "../application/data",
         "logs":         "../application/logs",
