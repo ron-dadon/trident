@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,11 +22,11 @@
 
 /**
  * Class Trident_Application
- *
  * Core application class to bootstrap the application.
  */
 class Trident_Application
 {
+
     /**
      * Configuration class instance
      *
@@ -68,7 +64,6 @@ class Trident_Application
 
     /**
      * Constructor
-     *
      * The application constructor creates the configuration class instance and loads the supplied configuration file.
      * Creates all the core classes instances according to the configuration settings where any are needed.
      *
@@ -111,7 +106,7 @@ class Trident_Application
         spl_autoload_register([$this, '_application_auto_load']);
         $this->_request = new Trident_Request($this->_configuration);
         $this->_session = new Trident_Session();
-        $this->_router = new Trident_Router($this->_configuration->get('paths','routes'));
+        $this->_router = new Trident_Router($this->_configuration->get('paths', 'routes'));
         try
         {
             $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
@@ -138,7 +133,6 @@ class Trident_Application
 
     /**
      * Application auto loading
-     *
      * Searches for the required class files in the application directory,
      * within the controllers, models, entities and views directories.
      *

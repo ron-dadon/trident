@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,18 +21,25 @@
  */
 
 /**
- * Class Trident_Database_MySql
- *
- * MySql database class for handling MySql databases
+ * Class Trident_Database_MySql.
+ * MySql database class for handling MySql databases.
  */
 class Trident_Database_MySql extends Trident_Abstract_Database
 {
 
     /**
-     * @param Trident_Configuration $configuration
+     * Initialize PDO according to the configuration.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
+     *
+     * @throws Trident_Exception
      */
     function __construct($configuration)
     {
+        if (!$configuration->section_exists('database'))
+        {
+            throw new Trident_Exception("Database configuration is missing from the configuration file.");
+        }
         $host = $configuration->get('database', 'host');
         $database = $configuration->get('database', 'name');
         $password = $configuration->get('database', 'password');
@@ -54,9 +57,11 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Query_MySql $query
+     * Run database query.
      *
-     * @return Trident_Query_MySql
+     * @param Trident_Abstract_Query $query The query to execute.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function run_query($query)
     {
@@ -86,12 +91,14 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param string $entity
-     * @param string $query
-     * @param array $parameters
-     * @param string $prefix
+     * Perform a select query for a given entity.
      *
-     * @return Trident_Query_MySql|bool
+     * @param string $entity     Entity class name.
+     * @param string $query      Query string.
+     * @param array  $parameters Query parameters.
+     * @param string $prefix     Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function select_entity($entity, $query, $parameters, $prefix)
     {
@@ -127,11 +134,13 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $prefix
+     * Perform an insert query for a given entity.
      *
-     * @return Trident_Abstract_Query|bool
+     * @param Trident_Abstract_Entity $entity Entity instance.
+     * @param string                  $table  Database table name.
+     * @param string                  $prefix Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function insert_entity($entity, $table, $prefix)
     {
@@ -157,12 +166,14 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $id_field
-     * @param string $prefix
+     * Perform an update query for a given entity.
      *
-     * @return Trident_Query_MySql|bool
+     * @param Trident_Abstract_Entity $entity   Entity instance.
+     * @param string                  $table    Database table name.
+     * @param string                  $id_field Primary key field of the entity.
+     * @param string                  $prefix   Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function update_entity($entity, $table, $id_field, $prefix)
     {
@@ -190,12 +201,14 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     }
 
     /**
-     * @param Trident_Abstract_Entity $entity
-     * @param string $table
-     * @param string $id_field
-     * @param string $prefix
+     * Perform a delete query for a given entity.
      *
-     * @return Trident_Query_MySql|bool
+     * @param Trident_Abstract_Entity $entity   Entity instance.
+     * @param string                  $table    Database table name.
+     * @param string                  $id_field Primary key field of the entity.
+     * @param string                  $prefix   Entity field prefix.
+     *
+     * @return Trident_Abstract_Query Query object with execution results.
      */
     public function delete_entity($entity, $table, $id_field, $prefix)
     {

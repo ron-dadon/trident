@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,16 +21,34 @@
  */
 
 /**
- * Class Trident_Abstract_Array
- *
- * Abstract class for using in the request classes
+ * Class Trident_Abstract_Array.
+ * Abstract class for using in the request classes.
  */
 abstract class Trident_Abstract_Array
 {
 
+    /**
+     * Array data.
+     *
+     * @var array
+     */
     protected $data;
+
+    /**
+     * Global clean for XSS
+     *
+     * @var bool
+     */
     protected $global_clean;
 
+    /**
+     * Get array item by key.
+     *
+     * @param string $key   Array item key.
+     * @param bool   $clean Perform XSS cleaning.
+     *
+     * @return mixed|null|string Array item.
+     */
     public function get($key, $clean = false)
     {
         $data = isset($this->data[$key]) ? $this->data[$key] : null;
@@ -45,6 +59,14 @@ abstract class Trident_Abstract_Array
         return $data;
     }
 
+    /**
+     * Get array item by key and remove it from the array.
+     *
+     * @param string $key   Array item key.
+     * @param bool   $clean Perform XSS cleaning.
+     *
+     * @return mixed|null|string Array item.
+     */
     public function pull($key, $clean = false)
     {
         $value = $this->get($key, $clean);
@@ -55,26 +77,69 @@ abstract class Trident_Abstract_Array
         return $value;
     }
 
+    /**
+     * Set array item by key.
+     *
+     * @param string $key   Array item key.
+     * @param mixed  $value Array item.
+     */
     public function set($key, $value)
     {
         $this->data[$key] = $value;
     }
 
+    /**
+     * Extract data to regular key-value pairs array.
+     *
+     * @return array
+     */
     public function to_array()
     {
         return $this->data;
     }
 
+    /**
+     * Clean array item key from XSS.
+     * Array keys can contain only letters, number, dashes and under scores.
+     *
+     * @param string $key Array item key.
+     *
+     * @return mixed Cleaned item.
+     */
     protected function clean_key($key)
     {
         $key = preg_replace('/[^a-zA-Z0-9\-_]/', '', $key);
         return $key;
     }
 
+    /**
+     * Clean array item from XSS.
+     *
+     * @param mixed $data Item data.
+     *
+     * @return mixed Cleaned item.
+     */
     protected function clean_data($data)
     {
+        if (is_array($data))
+        {
+            foreach ($data as $key => $value)
+            {
+                $data[$key] = $this->clean_data($value);
+            }
+            return $data;
+        }
+        if (is_object($data))
+        {
+            $keys = get_object_vars($data);
+            foreach ($keys as $key => $value)
+            {
+                $data->$key = $this->clean_data($value);
+            }
+            return $data;
+        }
         // Fix &entity\n;
-        $data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
+        $data = str_replace(['&amp;', '&lt;', '&gt;'], ['&amp;amp;', '&amp;lt;', '&amp;gt;'], $data);
         $data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
         $data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
         $data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
@@ -95,11 +160,17 @@ abstract class Trident_Abstract_Array
             // Remove really unwanted tags
             $old_data = $data;
             $data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:nput|frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
-        }
-        while ($old_data !== $data);
+        } while ($old_data !== $data);
         return $data;
     }
 
+    /**
+     * Cleans an array from XSS.
+     *
+     * @param array $array Array to clean.
+     *
+     * @return array Cleaned array.
+     */
     protected function clean_array($array)
     {
         if (is_array($array))

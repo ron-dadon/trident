@@ -2,7 +2,6 @@
 
 /**
  * Class Trident_Abstract_Entity.
- *
  * Abstract entity class for implementing database entities.
  * To implement an entity simply inherit from this class and add your entity fields as public variables.
  */
@@ -13,7 +12,7 @@ abstract class Trident_Abstract_Entity
      * Set entity fields values from post values.
      * This method will go over the request's post data and search for keys that matches the fields names (with prefix).
      *
-     * @param Trident_Request_Post $post Request's post instance.
+     * @param Trident_Request_Post $post   Request's post instance.
      * @param string               $prefix Post key prefix.
      */
     public function data_from_post($post, $prefix = '')
@@ -32,8 +31,8 @@ abstract class Trident_Abstract_Entity
      * Set entity fields values from array values.
      * This method will go over the array's data and search for keys that matches the fields names (with prefix).
      *
-     * @param array $array Array of key-value pairs.
-     * @param string               $prefix Key prefix.
+     * @param array  $array  Array of key-value pairs.
+     * @param string $prefix Key prefix.
      */
     public function data_from_array($array, $prefix = '')
     {
@@ -69,10 +68,10 @@ abstract class Trident_Abstract_Entity
 
     /**
      * Validate integer field.
-
+     *
      * @param string $field Field name.
-     * @param int $min Minimum value.
-     * @param int $max Maximum value.
+     * @param int    $min   Minimum value.
+     * @param int    $max   Maximum value.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -83,7 +82,8 @@ abstract class Trident_Abstract_Entity
             return false;
         }
         if (filter_var($this->$field, FILTER_VALIDATE_INT) === false ||
-            $this->$field < $min || $this->$field > $max)
+            $this->$field < $min || $this->$field > $max
+        )
         {
             return false;
         }
@@ -93,9 +93,9 @@ abstract class Trident_Abstract_Entity
     /**
      * Validate tinyint field.
      *
-     * @param string $field Field name.
-     * @param null|int   $min Minimum value.
-     * @param null|int   $max Maximum value.
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -107,9 +107,9 @@ abstract class Trident_Abstract_Entity
     /**
      * Validate smallint field.
      *
-     * @param string $field Field name.
-     * @param null|int   $min Minimum value.
-     * @param null|int   $max Maximum value.
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -121,9 +121,9 @@ abstract class Trident_Abstract_Entity
     /**
      * Validate mediumint field.
      *
-     * @param string $field Field name.
-     * @param null|int   $min Minimum value.
-     * @param null|int   $max Maximum value.
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -152,7 +152,6 @@ abstract class Trident_Abstract_Entity
      * Validate field matches regular expression.
      *
      * @param string $field Field name.
-     *
      * @param string $regex Regular expression.
      *
      * @return bool True if valid, false otherwise.
@@ -170,7 +169,7 @@ abstract class Trident_Abstract_Entity
      * Validate field string is at least a minimum length.
      *
      * @param string $field Field name.
-     * @param string $min Minimum length.
+     * @param string $min   Minimum length.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -187,7 +186,7 @@ abstract class Trident_Abstract_Entity
      * Validate field string is at most a maximum length.
      *
      * @param string $field Field name.
-     * @param string $max Maximum length.
+     * @param string $max   Maximum length.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -202,10 +201,10 @@ abstract class Trident_Abstract_Entity
 
     /**
      * Validate float field.
-
-     * @param string $field Field name.
-     * @param null|int   $min Minimum value.
-     * @param null|int   $max Maximum value.
+     *
+     * @param string   $field Field name.
+     * @param null|int $min   Minimum value.
+     * @param null|int $max   Maximum value.
      *
      * @return bool True if valid, false otherwise.
      */
@@ -217,7 +216,8 @@ abstract class Trident_Abstract_Entity
         }
         if (filter_var($this->$field, FILTER_VALIDATE_FLOAT) === false ||
             (!is_null($min) && $this->$field < $min) ||
-            (!is_null($max) && $this->$field > $max))
+            (!is_null($max) && $this->$field > $max)
+        )
         {
             return false;
         }
@@ -284,11 +284,11 @@ abstract class Trident_Abstract_Entity
             return;
         }
         $url = $this->$field;
-        if (substr($url,0, 4) === 'www.')
+        if (substr($url, 0, 4) === 'www.')
         {
             $url = 'http://' . $url;
         }
-        if (substr($url,0,7) !== 'http://' || (substr($url,0,8) !== 'https://'))
+        if (substr($url, 0, 7) !== 'http://' || (substr($url, 0, 8) !== 'https://'))
         {
             $url = 'http://' . $url;
         }

@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +22,6 @@
 
 /**
  * Class Trident_Configuration.
- *
  * This class is used to read and write configuration values from the configuration file.
  */
 class Trident_Configuration
@@ -53,7 +48,8 @@ class Trident_Configuration
      * Get configuration value.
      *
      * @param string $section Configuration section.
-     * @param string $key Configuration field key.
+     * @param string $key     Configuration field key.
+     *
      * @return null|mixed If section or key doesn't exists, returns null else returns the value.
      */
     public function get($section, $key)
@@ -68,9 +64,9 @@ class Trident_Configuration
     /**
      * Set configuration value.
      *
-     * @param string $section Configuration section.
-     * @param string $key Configuration field key.
-     * @param string|int|float|bool $value Configuration field value.
+     * @param string                $section Configuration section.
+     * @param string                $key     Configuration field key.
+     * @param string|int|float|bool $value   Configuration field value.
      */
     public function set($section, $key, $value)
     {
@@ -91,7 +87,6 @@ class Trident_Configuration
 
     /**
      * Save configuration to file.
-     *
      * Saves the configuration sections and value to a valid JSON file.
      *
      * @param string $file Configuration file path.
@@ -104,7 +99,6 @@ class Trident_Configuration
 
     /**
      * Load and parse configuration file.
-     *
      * Configuration file need to be a valid JSON file, where the configuration sections are the main object
      * fields, and each section is an object.
      *
