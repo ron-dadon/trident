@@ -70,46 +70,11 @@ abstract class Trident_Abstract_Controller
     protected $log;
 
     /**
-     * Security library instance.
+     * Libraries instance.
      *
-     * @var Security_Library
+     * @var Trident_Libraries
      */
-    protected $security;
-
-    /**
-     * Csv library instance.
-     *
-     * @var Csv_Library
-     */
-    protected $csv;
-
-    /**
-     * Html library instance.
-     *
-     * @var Html_Library
-     */
-    protected $html;
-
-    /**
-     * Mailer library instance.
-     *
-     * @var Mailer_Library
-     */
-    protected $mailer;
-
-    /**
-     * Xlsx library instance.
-     *
-     * @var Xlsx_Library
-     */
-    protected $xlsx;
-
-    /**
-     * Xml library instance.
-     *
-     * @var Xml_Library
-     */
-    protected $xml;
+    protected $libraries;
 
     /**
      * Inject dependencies.
@@ -126,6 +91,8 @@ abstract class Trident_Abstract_Controller
         $this->request = $request;
         $this->session = $session;
         $this->io = new Trident_IO();
+        $this->libraries = new Trident_Libraries($this->configuration, $this->log,
+                                                 $this->request, $this->session, $this->io);
     }
 
     /**
@@ -222,7 +189,7 @@ abstract class Trident_Abstract_Controller
 
     /**
      * Load library instance.
-     * Library will be available through $this->library name.
+     * Library will be available through $this->libraries->library name.
      *
      * @param string $library Library name.
      *
@@ -230,20 +197,7 @@ abstract class Trident_Abstract_Controller
      */
     protected function load_library($library)
     {
-        $library_name = str_replace('_library', '', strtolower($library));
-        if (strtolower(substr($library, -8, 8)) !== '_library')
-        {
-            $library .= '_library';
-        }
-        if (!isset($this->$library_name) || !class_exists($library))
-        {
-            throw new Trident_Exception("Library is not defined.");
-        }
-        if ($this->$library_name === null)
-        {
-            $this->$library_name = new $library($this->configuration, $this->database, $this->io, $this->log,
-                                                $this->request, $this->session);
-        }
+        $this->libraries->load_library($library);
     }
 
     /**

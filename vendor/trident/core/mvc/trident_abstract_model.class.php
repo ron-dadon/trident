@@ -25,9 +25,9 @@
  */
 
 /**
- * Class Trident_Abstract_Model
+ * Class Trident_Abstract_Model.
  *
- * Abstract model class for creating models
+ * Abstract model class for creating models.
  */
 abstract class Trident_Abstract_Model
 {
@@ -58,6 +58,13 @@ abstract class Trident_Abstract_Model
     protected $log;
 
     /**
+     * Libraries instance.
+     *
+     * @var Trident_Libraries
+     */
+    protected $libraries;
+
+    /**
      * Constructor
      *
      * Inject dependencies.
@@ -77,14 +84,16 @@ abstract class Trident_Abstract_Model
         $this->log = $log;
         $this->request = $request;
         $this->session = $session;
+        $this->libraries = new Trident_Libraries($this->configuration, $this->log,
+                                                 $this->request, $this->session, $this->io);
     }
 
     /**
-     * Load model instance
+     * Load model instance.
      *
-     * @param string $model model name
+     * @param string $model Model name.
      *
-     * @return Trident_Abstract_Model
+     * @return Trident_Abstract_Model Model instance.
      */
     protected function load_model($model)
     {
@@ -96,29 +105,26 @@ abstract class Trident_Abstract_Model
     }
 
     /**
-     * Load library instance
+     * Load library instance.
+     * Library will be available through $this->libraries->library name.
      *
-     * @param string $library library name
+     * @param string $library Library name.
      *
-     * @return Trident_Abstract_Library
+     * @throws Trident_Exception
      */
     protected function load_library($library)
     {
-        if (strtolower(substr($library,-8,8)) !== '_library')
-        {
-            $library .= '_library';
-        }
-        return new $library($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
+        $this->libraries->load_library($library);
     }
 
     /**
-     * Base64 decoding
+     * Base64 decoding.
      *
-     * @param string $data base64 data
-     * @param string $type base64 type
-     * @param bool   $convert_spaces convert spaces to plus sign
+     * @param string $data Data in base64 encoding.
+     * @param string $type Type of base64.
+     * @param bool   $convert_spaces Convert spaces to plus sign.
      *
-     * @return string
+     * @return string Decoded string.
      */
     protected function base64_decode($data, $type = 'data:image/png;base64,', $convert_spaces = true)
     {
