@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,7 +22,6 @@
 
 /**
  * Class Trident_Abstract_Model.
- *
  * Abstract model class for creating models.
  */
 abstract class Trident_Abstract_Model
@@ -36,22 +31,27 @@ abstract class Trident_Abstract_Model
      * @var Trident_Configuration
      */
     protected $configuration;
+
     /**
      * @var Trident_Abstract_Database
      */
     protected $database;
+
     /**
      * @var Trident_Request
      */
     protected $request;
+
     /**
      * @var Trident_Session
      */
     protected $session;
+
     /**
      * @var Trident_IO
      */
     protected $io;
+
     /**
      * @var Trident_Log
      */
@@ -66,7 +66,6 @@ abstract class Trident_Abstract_Model
 
     /**
      * Constructor
-     *
      * Inject dependencies.
      *
      * @param Trident_Configuration     $configuration
@@ -97,7 +96,7 @@ abstract class Trident_Abstract_Model
      */
     protected function load_model($model)
     {
-        if (strtolower(substr($model,-6,6)) !== '_model')
+        if (strtolower(substr($model, -6, 6)) !== '_model')
         {
             $model .= '_model';
         }
@@ -120,8 +119,8 @@ abstract class Trident_Abstract_Model
     /**
      * Base64 decoding.
      *
-     * @param string $data Data in base64 encoding.
-     * @param string $type Type of base64.
+     * @param string $data           Data in base64 encoding.
+     * @param string $type           Type of base64.
      * @param bool   $convert_spaces Convert spaces to plus sign.
      *
      * @return string Decoded string.

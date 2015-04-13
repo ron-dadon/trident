@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,42 +22,41 @@
 
 /**
  * Class Trident_Router
- *
  * Routing handling.
- * This class is responsible for matching the requested uri with an application route, and dispatching the route
- * if one is found, or throwing an error if none is found.
- * The class searches the routes in the order they are set in the routes file, and searches for the first match,
- * if one is found, the search stops and the router dispatches the matched route.
+ * This class is responsible for matching the requested uri with an application route, and dispatching the route if one
+ * is found, or throwing an error if none is found. The class searches the routes in the order they are set in the
+ * routes file, and searches for the first match, if one is found, the search stops and the router dispatches the
+ * matched route.
  */
 class Trident_Router
 {
 
     /**
-     * Routes data
+     * Routes data.
      *
      * @var Trident_Route[]
      */
     private $_routes = [];
 
     /**
+     * Default route.
+     *
      * @var Trident_Route
      */
     private $_default = null;
 
     /**
-     * Base of all the requests URI's
-     * Useful in case that the application's index file is not located in the domain root
+     * Base of all the requests URI's.
+     * Useful in case that the application's index file is not located in the domain root.
      *
      * @var string
      */
     private $_base;
 
     /**
-     * Constructor
-     *
      * Load routes file if $file is specified.
      *
-     * @param null|string $file file path
+     * @param null|string $file File path.
      *
      * @throws Trident_Exception
      */
@@ -76,7 +71,7 @@ class Trident_Router
     /**
      * Load routes file.
      *
-     * @param string $file file path
+     * @param string $file File path.
      *
      * @throws Trident_Exception
      */
@@ -113,9 +108,9 @@ class Trident_Router
     /**
      * Search routes for a match to $uri.
      *
-     * @param string $uri request uri
+     * @param string $uri Request URI.
      *
-     * @return null|Trident_Route
+     * @return null|Trident_Route Matched Trident Route instance on match, default Trident Route instance otherwise.
      */
     private function _match_route($uri)
     {
@@ -139,12 +134,12 @@ class Trident_Router
     }
 
     /**
-     * Dispatch the route
+     * Dispatch the route.
      *
-     * @param Trident_Request $request
-     * @param Trident_Configuration $configuration
-     * @param Trident_Log $log
-     * @param Trident_Session $session
+     * @param Trident_Request       $request       Request instance.
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param Trident_Log           $log           Log instance.
+     * @param Trident_Session       $session       Session instance.
      *
      * @throws Trident_Exception
      */

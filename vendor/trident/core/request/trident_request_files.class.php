@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,17 +21,14 @@
  */
 
 /**
- * Class Trident_Request_Files
- *
+ * Class Trident_Request_Files.
  * Wrapper for uploaded files handling.
  */
 class Trident_Request_Files extends Trident_Abstract_Array
 {
 
     /**
-     * Constructor
-     *
-     * Initialize files data
+     * Initialize files data.
      */
     function __construct()
     {
@@ -43,12 +36,12 @@ class Trident_Request_Files extends Trident_Abstract_Array
     }
 
     /**
-     * Get a file
+     * Get a file.
      *
-     * @param string $key file key
-     * @param null|int $index file inner index within an array
+     * @param string   $key   File key.
+     * @param null|int $index File inner index within an array.
      *
-     * @return null|Trident_Request_File
+     * @return null|Trident_Request_File Trident Request File instance on success, null of failure.
      */
     public function get($key, $index = null)
     {
@@ -71,12 +64,12 @@ class Trident_Request_Files extends Trident_Abstract_Array
     }
 
     /**
-     * Pull a file (get the file and remove it)
+     * Pull a file (get the file and remove it).
      *
-     * @param string $key file key
-     * @param null|int $index file inner index within an array
+     * @param string   $key   File key.
+     * @param null|int $index File inner index within an array.
      *
-     * @return null|Trident_Request_File
+     * @return null|Trident_Request_File Trident Request File instance on success, null of failure.
      */
     public function pull($key, $index = null)
     {
@@ -103,8 +96,8 @@ class Trident_Request_Files extends Trident_Abstract_Array
     /**
      * Override set function. The set function is irrelevant in the files context.
      *
-     * @param $key
-     * @param $value
+     * @param mixed $key   Irrelevant parameter.
+     * @param mixed $value Irrelevant parameter.
      */
     public function set($key, $value)
     {
@@ -112,11 +105,11 @@ class Trident_Request_Files extends Trident_Abstract_Array
     }
 
     /**
-     * Inverse the files array and build the files objects
+     * Inverse the files array and build the files objects.
      *
-     * @param array $array files array
+     * @param array $array Original files array ($_FILES).
      *
-     * @return Trident_Request_File[]
+     * @return Trident_Request_File[] Array of Trident Request File instances.
      */
     private function _build_files($array)
     {

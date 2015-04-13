@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,28 +21,54 @@
  */
 
 /**
- * Class Trident_Request_File
- *
+ * Class Trident_Request_File.
  * Uploaded file wrapper class for easier handling of uploaded files.
  */
 class Trident_Request_File
 {
 
+    /**
+     * Temporary name of the file.
+     *
+     * @var string
+     */
     public $temporary_name;
+
+    /**
+     * Name of the file.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Size of the file in bytes.
+     *
+     * @var int
+     */
     public $size;
+
+    /**
+     * File upload error code.
+     *
+     * @var int
+     */
     public $error;
+
+    /**
+     * File mime type.
+     *
+     * @var string
+     */
     public $mime;
 
     /**
-     * Constructor
-     *
      * Read mime type from the file instead of using the uploaded mime type that can be manipulated.
      *
-     * @param int    $error          error code
-     * @param string $name           file name
-     * @param string $temporary_name temporary file name
-     * @param int    $size           file size
+     * @param int    $error          Error code.
+     * @param string $name           File name.
+     * @param string $temporary_name Temporary file name.
+     * @param int    $size           File size.
      *
      * @throws Trident_Exception
      */
@@ -54,7 +76,8 @@ class Trident_Request_File
     {
         if ($error === UPLOAD_ERR_OK && !is_readable($temporary_name))
         {
-            throw new Trident_Exception("Can't create file object because temporary file $temporary_name doesn't exists or is not readable");
+            throw new Trident_Exception("Can't create file object because temporary file $temporary_name doesn't exists
+                                        or is not readable");
         }
         $this->error = $error;
         $this->name = $name;
@@ -63,16 +86,16 @@ class Trident_Request_File
         if ($error === UPLOAD_ERR_OK)
         {
             $file_info = finfo_open(FILEINFO_MIME_TYPE);
-            $this->mime =  finfo_file($file_info, $this->temporary_name);
+            $this->mime = finfo_file($file_info, $this->temporary_name);
         }
     }
 
     /**
-     * Saves the uploaded temporary file to a file
+     * Saves the uploaded temporary file to a file.
      *
-     * @param string $file file path
+     * @param string $file File path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      * @throws Trident_Exception
      */
     public function save($file)
@@ -87,9 +110,9 @@ class Trident_Request_File
     }
 
     /**
-     * Validate that the uploaded file is an image
+     * Validate that the uploaded file is an image.
      *
-     * @return bool
+     * @return bool True if the file is an image, false otherwise.
      */
     public function is_image()
     {
@@ -97,7 +120,7 @@ class Trident_Request_File
     }
 
     /**
-     * Deletes the temporary file
+     * Deletes the temporary file.
      */
     public function delete()
     {
@@ -108,11 +131,11 @@ class Trident_Request_File
     }
 
     /**
-     * Get a pointer to the file for BLOB writing
+     * Get a pointer to the file for BLOB writing.
      *
-     * @param string $mode opening mode
+     * @param string $mode Opening mode.
      *
-     * @return null|resource
+     * @return null|resource Pointer to the file on success, null otherwise.
      */
     public function get_file_pointer($mode = 'rb')
     {

@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,16 +21,13 @@
  */
 
 /**
- * Class Trident_Session
- *
+ * Class Trident_Session.
  * Wrapper for session handling.
  */
 class Trident_Session
 {
 
     /**
-     * Constructor
-     *
      * Starts session.
      */
     function __construct()
@@ -43,11 +36,11 @@ class Trident_Session
     }
 
     /**
-     * Get session variable
+     * Get session variable.
      *
-     * @param string $key variable key
+     * @param string $key Session variable key.
      *
-     * @return mixed|null
+     * @return mixed|null Session variable value is exists, null otherwise.
      */
     public function get($key)
     {
@@ -59,11 +52,11 @@ class Trident_Session
     }
 
     /**
-     * Pull session variable (get the variable and remove it)
+     * Pull session variable (get the variable and remove it).
      *
-     * @param string $key variable key
+     * @param string $key Session variable key.
      *
-     * @return mixed|null
+     * @return mixed|null Session variable value is exists, null otherwise.
      */
     public function pull($key)
     {
@@ -76,10 +69,10 @@ class Trident_Session
     }
 
     /**
-     * Set session variable
+     * Set session variable.
      *
-     * @param string $key   variable key
-     * @param mixed  $value variable value
+     * @param string $key   Session variable key.
+     * @param mixed  $value Session variable value.
      */
     public function set($key, $value)
     {
@@ -87,7 +80,7 @@ class Trident_Session
     }
 
     /**
-     * Clears session
+     * Clears session.
      */
     public function clear()
     {
@@ -98,7 +91,7 @@ class Trident_Session
     }
 
     /**
-     * Destroy session
+     * Destroy session.
      */
     public function destroy()
     {
@@ -107,8 +100,8 @@ class Trident_Session
         {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
+                      $params["path"], $params["domain"],
+                      $params["secure"], $params["httponly"]
             );
         }
         session_destroy();
