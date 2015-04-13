@@ -75,7 +75,7 @@ class Trident_Log
             $max_size = $this->_configuration->get('log', 'max_size');
             while (file_exists($log_file . '.txt') && filesize($log_file . '.txt') > $max_size)
             {
-                $log_file = $file . "_part_$i";
+                $log_file = $file . "_$i";
                 $i++;
             }
         }
