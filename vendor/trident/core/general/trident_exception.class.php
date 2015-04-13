@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,21 +21,18 @@
  */
 
 /**
- * Class Trident_Exception
- *
- * Simple extension of the Exception class, adding a constant prefix to the exception message
+ * Class Trident_Exception.
+ * Simple extension of the Exception class, adding a constant prefix to the exception message.
  */
 class Trident_Exception extends Exception
 {
 
     /**
-     * Constructor
-     *
      * Appends the prefix "Trident Framework: " to the exception message.
      *
-     * @param string    $message exception message
-     * @param int       $code exception code
-     * @param Exception $previous previous exception
+     * @param string    $message  Exception message.
+     * @param int       $code     Exception code.
+     * @param Exception $previous Previous exception.
      */
     function __construct($message = "", $code = 0, Exception $previous = null)
     {

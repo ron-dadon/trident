@@ -1,27 +1,44 @@
 <?php
 
+/**
+ * Class Trident_Debug.
+ * This class contains debug information. When the configuration environment section includes a debug field and the
+ * field is set to true, the debug information will be outputted automatically at the end of your application output.
+ * You can change the debug output format using the debug template file called "trident_debug_template.php".
+ */
 class Trident_Debug
 {
 
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     private $_configuration;
+
     /**
+     * Request instance.
+     *
      * @var Trident_Request
      */
     private $_request;
+
     /**
+     * Session instance.
+     *
      * @var Trident_Session
      */
     private $_session;
+
     /**
+     * Application start time.
+     *
      * @var float
      */
     private $_start_time;
 
     /**
-     * Constructor
+     * Set application start time.
      */
     function __construct()
     {
@@ -29,11 +46,11 @@ class Trident_Debug
     }
 
     /**
-     * Inject dependencies
+     * Inject dependencies.
      *
-     * @param Trident_Configuration $_configuration
-     * @param Trident_Request $_request
-     * @param Trident_Session $_session
+     * @param Trident_Configuration $_configuration Configuration instance.
+     * @param Trident_Request       $_request       Request instance.
+     * @param Trident_Session       $_session       Session instance.
      */
     public function inject_dependencies($_configuration, $_request, $_session)
     {
@@ -42,6 +59,13 @@ class Trident_Debug
         $this->_session = $_session;
     }
 
+    /**
+     * Output an array or an object as an unordered list.
+     *
+     * @param array|object $var Array or object variable.
+     *
+     * @return string Unordered list html string.
+     */
     private function _print_array($var)
     {
         if (is_object($var))
@@ -68,6 +92,9 @@ class Trident_Debug
         return $output;
     }
 
+    /**
+     * Output debug information using the debug template.
+     */
     public function show_information()
     {
         $process_time = number_format(microtime(true) - $this->_start_time, 4) . ' [ms]';
