@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,29 +21,38 @@
  */
 
 /**
- * Class Trident_Abstract_View
- *
- * Abstract view class for creating views
+ * Class Trident_Abstract_View.
+ * Abstract view class for creating views.
  */
 abstract class Trident_Abstract_View
 {
 
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     protected $configuration;
+
     /**
+     * Data array.
+     *
      * @var array
      */
     protected $data = [];
+
     /**
+     * Html library instance.
+     *
      * @var Html_Library
      */
     protected $html;
 
     /**
-     * @param Trident_Configuration $configuration
-     * @param array $data
+     * Inject configuration and set view data.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param array                 $data          View data array.
      */
     function __construct($configuration, $data)
     {
@@ -56,10 +61,13 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Implement in views
+     * Implement in views to render out the view.
      */
     public abstract function render();
 
+    /**
+     * Load the Html library instance.
+     */
     protected function load_html_library()
     {
         if (is_null($this->html))
@@ -69,10 +77,10 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Set view variable
+     * Set view data variable.
      *
-     * @param string $key variable key
-     * @param mixed $value variable value
+     * @param string $key   Variable key.
+     * @param mixed  $value Variable value.
      */
     public function set($key, $value)
     {
@@ -80,12 +88,12 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Get view variable
+     * Get view data variable.
      *
-     * @param string $key variable key
-     * @param bool $escape escape variable
+     * @param string $key    Variable key.
+     * @param bool   $escape Escape variable for html special characters.
      *
-     * @return array|null|object|string
+     * @return array|null|object|string Data variable value.
      */
     protected function get($key, $escape = true)
     {
@@ -97,9 +105,9 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Echos the script or link tag of the asset (for css, js and icons in ico & png formats)
+     * Echos the script or link tag of the asset (for css, js and icons in ico & png formats).
      *
-     * @param string $asset asset path relative to public path
+     * @param string $asset Asset path relative to public path.
      */
     protected function load_asset($asset)
     {
@@ -127,7 +135,7 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Echos the public path
+     * Echos the public path.
      */
     protected function public_path()
     {
@@ -139,13 +147,13 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Include shared view in the output
+     * Include shared view in the output.
      *
-     * @param string $view shared view name
+     * @param string $view Shared view name.
      */
     protected function include_shared_view($view)
     {
-        if (strtolower(substr($view,-5,5)) !== '_view')
+        if (strtolower(substr($view, -5, 5)) !== '_view')
         {
             $view .= '_view';
         }
@@ -155,13 +163,12 @@ abstract class Trident_Abstract_View
     }
 
     /**
-     * Escape html entities
-     *
+     * Escape html special characters.
      * Arrays and objects will be escaped recursively.
      *
-     * @param mixed $var variable to escape
+     * @param mixed $var Variable to escape.
      *
-     * @return object|array|string
+     * @return object|array|string Escaped variable.
      */
     protected function escape($var)
     {
