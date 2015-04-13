@@ -22,7 +22,7 @@
     "database": {
         "type":     "mysql",
         "host":     "localhost",
-        "name":     "test",
+        "name":     "iacs_dev",
         "user":     "root",
         "password": "",
         "charset":  "utf8"

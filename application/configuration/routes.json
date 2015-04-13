@@ -11,9 +11,9 @@
             "function": "index"
         },
         {
-            "pattern": "/test",
+            "pattern": "/db",
             "controller": "main",
-            "function": "test"
+            "function": "database_to_entities"
         }
     ]
 }
