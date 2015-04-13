@@ -1,16 +1,20 @@
 <?php
 
 /**
- * Class Trident_Abstract_Entity
+ * Class Trident_Abstract_Entity.
+ *
+ * Abstract entity class for implementing database entities.
+ * To implement an entity simply inherit from this class and add your entity fields as public variables.
  */
 abstract class Trident_Abstract_Entity
 {
 
     /**
-     * Set data from post
+     * Set entity fields values from post values.
+     * This method will go over the request's post data and search for keys that matches the fields names (with prefix).
      *
-     * @param Trident_Request_Post $post
-     * @param string               $prefix
+     * @param Trident_Request_Post $post Request's post instance.
+     * @param string               $prefix Post key prefix.
      */
     public function data_from_post($post, $prefix = '')
     {
@@ -25,10 +29,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Set data from array
+     * Set entity fields values from array values.
+     * This method will go over the array's data and search for keys that matches the fields names (with prefix).
      *
-     * @param array $array
-     * @param string               $prefix
+     * @param array $array Array of key-value pairs.
+     * @param string               $prefix Key prefix.
      */
     public function data_from_array($array, $prefix = '')
     {
@@ -43,7 +48,7 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Get all fields and values
+     * Get all fields and values as key-value pairs array.
      *
      * @return array
      */
@@ -53,7 +58,7 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Get all fields names
+     * Get all fields names.
      *
      * @return array
      */
@@ -63,13 +68,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate int variable
+     * Validate integer field.
 
-     * @param string $field
-     * @param int $min
-     * @param int $max
+     * @param string $field Field name.
+     * @param int $min Minimum value.
+     * @param int $max Maximum value.
      *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_int($field, $min = -2147483648, $max = 2147483647)
     {
@@ -86,14 +91,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate tinyint variable
+     * Validate tinyint field.
      *
-     * @param string $field
+     * @param string $field Field name.
+     * @param null|int   $min Minimum value.
+     * @param null|int   $max Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_tiny_int($field, $min = null, $max = null)
     {
@@ -101,14 +105,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate smallint variable
+     * Validate smallint field.
      *
-     * @param string $field
+     * @param string $field Field name.
+     * @param null|int   $min Minimum value.
+     * @param null|int   $max Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_small_int($field, $min = null, $max = null)
     {
@@ -116,14 +119,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate mediumint variable
+     * Validate mediumint field.
      *
-     * @param string $field
+     * @param string $field Field name.
+     * @param null|int   $min Minimum value.
+     * @param null|int   $max Maximum value.
      *
-     * @param null   $min
-     * @param null   $max
-     *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_medium_int($field, $min = null, $max = null)
     {
@@ -131,9 +133,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * @param string $field
+     * Validate field is a email address.
      *
-     * @return bool|int
+     * @param string $field Field name.
+     *
+     * @return bool True if valid, false otherwise.
      */
     public function validate_email($field)
     {
@@ -145,11 +149,13 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * @param string $field
+     * Validate field matches regular expression.
      *
-     * @param        $regex
+     * @param string $field Field name.
      *
-     * @return bool|int
+     * @param string $regex Regular expression.
+     *
+     * @return bool True if valid, false otherwise.
      */
     public function validate_regex($field, $regex)
     {
@@ -161,46 +167,12 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate min value
+     * Validate field string is at least a minimum length.
      *
-     * @param $field
-     * @param $min
+     * @param string $field Field name.
+     * @param string $min Minimum length.
      *
-     * @return bool
-     */
-    public function validate_min_value($field, $min)
-    {
-        if (array_search($field, $this->get_field_names()) === false)
-        {
-            return false;
-        }
-        return $this->$field >= $min;
-    }
-
-    /**
-     * Validate max value
-     *
-     * @param $field
-     * @param $max
-     *
-     * @return bool
-     */
-    public function validate_max_value($field, $max)
-    {
-        if (array_search($field, $this->get_field_names()) === false)
-        {
-            return false;
-        }
-        return $this->$field <= $max;
-    }
-
-    /**
-     * Validate min length
-     *
-     * @param string $field
-     * @param $min
-     *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_min_length($field, $min)
     {
@@ -208,16 +180,16 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) >= $min;
+        return mb_strlen($this->$field, 'UTF-8') >= $min;
     }
 
     /**
-     * Validate max length
+     * Validate field string is at most a maximum length.
      *
-     * @param string $field
-     * @param int $max
+     * @param string $field Field name.
+     * @param string $max Maximum length.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_max_length($field, $max)
     {
@@ -225,17 +197,17 @@ abstract class Trident_Abstract_Entity
         {
             return false;
         }
-        return strlen($this->$field) <= $max;
+        return mb_strlen($this->$field, 'UTF-8') <= $max;
     }
 
     /**
-     * Validate float variable
+     * Validate float field.
 
-     * @param string $field
-     * @param int $min
-     * @param int $max
+     * @param string $field Field name.
+     * @param null|int   $min Minimum value.
+     * @param null|int   $max Maximum value.
      *
-     * @return bool|int
+     * @return bool True if valid, false otherwise.
      */
     public function validate_float($field, $min = null, $max = null)
     {
@@ -253,11 +225,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate not empty
+     * Validate field not empty.
      *
-     * @param string $field
+     * @param string $field Field name.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_not_empty($field)
     {
@@ -269,11 +241,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate value is null
+     * Validate field is null.
      *
-     * @param string $field
+     * @param string $field Field name.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_null($field)
     {
@@ -285,11 +257,11 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Validate value a valid http / https url
+     * Validate field is a valid http(s) URL.
      *
-     * @param string $field
+     * @param string $field Field name.
      *
-     * @return bool
+     * @return bool True if valid, false otherwise.
      */
     public function validate_http_url($field)
     {
@@ -297,9 +269,9 @@ abstract class Trident_Abstract_Entity
     }
 
     /**
-     * Complete missing http or www for http/s urls.
+     * Complete missing http or www for http(s) URLs.
      *
-     * @param $field
+     * @param string $field Field name.
      */
     public function complete_url($field)
     {
@@ -323,6 +295,11 @@ abstract class Trident_Abstract_Entity
         $this->$field = $url;
     }
 
+    /**
+     * Get entity name (without the _Entity suffix).
+     *
+     * @return string
+     */
     public function entity_name()
     {
         return str_replace('_entity', '', strtolower(get_class($this)));

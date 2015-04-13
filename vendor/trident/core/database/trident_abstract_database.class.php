@@ -27,7 +27,7 @@
 /**
  * Class Trident_Abstract_Database.
  *
- * Abstract database class for implementing database handling on top of PDO
+ * Abstract database class for implementing database handling on top of PDO.
  */
 abstract class Trident_Abstract_Database extends PDO
 {
