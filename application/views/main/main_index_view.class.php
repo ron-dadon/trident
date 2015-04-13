@@ -13,7 +13,7 @@ class Main_Index_View extends Trident_Abstract_View
             <h1><strong>Trident Framework <small>Sample Application</small></strong></h1>
         </div>
         <div class="well">
-            <div class="row">
+            <div class="row" id="main-bar">
                 <div class="col-xs-12 col-lg-4 text-center text-danger" id="col_spacer">
                 </div>
                 <div class="col-xs-12 col-lg-4 text-center text-danger" id="col_1">
@@ -58,6 +58,7 @@ class Main_Index_View extends Trident_Abstract_View
             $('#col_2 h2').addClass('animated flip');
             setTimeout(function() { $('#col_spacer').hide(); $('#col_1').fadeIn(800); $('#col_1 h2').addClass('animated flip'); }, 600);
             setTimeout(function() { $('#col_3').fadeIn(800); $('#col_3 h2').addClass('animated flip'); }, 1200);
+            setTimeout(function() { $('#main-bar').addClass('animated tada'); }, 2200);
         });
     </script>
     <?php

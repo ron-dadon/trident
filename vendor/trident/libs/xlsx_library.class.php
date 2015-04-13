@@ -179,7 +179,7 @@ class Xlsx_Library extends Trident_Abstract_Library
             'finalized'          => false,
         ];
         $sheet = &$this->sheets[$sheet_name];
-        $tabselected = count($this->sheets) == 1 ? 'true' : 'false';//only first sheet is selected
+        $tab_selected = count($this->sheets) == 1 ? 'true' : 'false';//only first sheet is selected
         $max_cell = Xlsx_Library::xls_cell(self::EXCEL_2007_MAX_ROW, self::EXCEL_2007_MAX_COL);//XFE1048577
         $sheet->file_writer->write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . "\n");
         $sheet->file_writer->write('<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">');
@@ -190,7 +190,7 @@ class Xlsx_Library extends Trident_Abstract_Library
         $sheet->file_writer->write('<dimension ref="A1:' . $max_cell . '"/>');
         $sheet->max_cell_tag_end = $sheet->file_writer->ftell();
         $sheet->file_writer->write('<sheetViews>');
-        $sheet->file_writer->write('<sheetView colorId="64" defaultGridColor="true" rightToLeft="' . ($rtl ? 'true' : 'false') . '" showFormulas="false" showGridLines="true" showOutlineSymbols="true" showRowColHeaders="true" showZeros="true" tabSelected="' . $tabselected . '" topLeftCell="A1" view="normal" windowProtection="false" workbookViewId="0" zoomScale="100" zoomScaleNormal="100" zoomScalePageLayoutView="100">');
+        $sheet->file_writer->write('<sheetView colorId="64" defaultGridColor="true" rightToLeft="' . ($rtl ? 'true' : 'false') . '" showFormulas="false" showGridLines="true" showOutlineSymbols="true" showRowColHeaders="true" showZeros="true" tabSelected="' . $tab_selected . '" topLeftCell="A1" view="normal" windowProtection="false" workbookViewId="0" zoomScale="100" zoomScaleNormal="100" zoomScalePageLayoutView="100">');
         $sheet->file_writer->write('<selection activeCell="A1" activeCellId="0" pane="topLeft" sqref="A1"/>');
         $sheet->file_writer->write('</sheetView>');
         $sheet->file_writer->write('</sheetViews>');
