@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,47 +21,103 @@
  */
 
 /**
- * Class Trident_Abstract_Controller
- *
- * Abstract controller class for creating controllers
+ * Class Trident_Abstract_Controller.
+ * Abstract controller class for creating controllers.
  */
 abstract class Trident_Abstract_Controller
 {
 
     /**
+     * Configuration instance.
+     *
      * @var Trident_Configuration
      */
     protected $configuration;
+
     /**
+     * Request instance.
+     *
      * @var Trident_Request
      */
     protected $request;
+
     /**
+     * Session instance.
+     *
      * @var Trident_Session
      */
     protected $session;
+
     /**
+     * Database instance.
+     *
      * @var Trident_Abstract_Database
      */
     protected $database;
+
     /**
+     * IO instance.
+     *
      * @var Trident_IO
      */
     protected $io;
+
     /**
+     * Log instance.
+     *
      * @var Trident_Log
      */
     protected $log;
 
     /**
-     * Constructor
+     * Security library instance.
      *
-     * Inject dependencies
+     * @var Security_Library
+     */
+    protected $security;
+
+    /**
+     * Csv library instance.
      *
-     * @param Trident_Configuration $configuration
-     * @param Trident_Request $request
-     * @param Trident_Log $log
-     * @param Trident_Session $session
+     * @var Csv_Library
+     */
+    protected $csv;
+
+    /**
+     * Html library instance.
+     *
+     * @var Html_Library
+     */
+    protected $html;
+
+    /**
+     * Mailer library instance.
+     *
+     * @var Mailer_Library
+     */
+    protected $mailer;
+
+    /**
+     * Xlsx library instance.
+     *
+     * @var Xlsx_Library
+     */
+    protected $xlsx;
+
+    /**
+     * Xml library instance.
+     *
+     * @var Xml_Library
+     */
+    protected $xml;
+
+    /**
+     * Inject dependencies.
+     *
+     * @param Trident_Configuration $configuration Configuration instance.
+     * @param Trident_Request       $request       Request instance.
+     * @param Trident_Log           $log           Log instance.
+     * @param Trident_Session       $session       Session instance.
      */
     function __construct($configuration, $log, $request, $session)
     {
@@ -77,9 +129,8 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Load database instance
-     *
-     * Database instance will be available through $this->_database
+     * Load database instance.
+     * Database instance will be available through $this->_database.
      *
      * @throws Trident_Exception
      */
@@ -87,7 +138,7 @@ abstract class Trident_Abstract_Controller
     {
         if ($this->configuration->section_exists('database'))
         {
-            if (!is_null($type = $this->configuration->get('database','type')))
+            if (!is_null($type = $this->configuration->get('database', 'type')))
             {
                 $database_type = $type;
             }
@@ -122,19 +173,19 @@ abstract class Trident_Abstract_Controller
         }
         else
         {
-            throw new Trident_Exception("Can't load database, missing required configuration section", TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION);
+            throw new Trident_Exception("Can't load database, missing required configuration section",
+                                        TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION);
         }
     }
 
     /**
-     * Load view instance
-     *
+     * Load view instance.
      * If $view is not specified, loads the view according to the calling callable (controller_function_view).
      *
-     * @param array $view_data view data variables
-     * @param null  $view view name
+     * @param array $view_data View data array.
+     * @param null  $view      View name.
      *
-     * @return Trident_Abstract_View
+     * @return Trident_Abstract_View View instance.
      */
     protected function load_view($view_data = [], $view = null)
     {
@@ -145,7 +196,7 @@ abstract class Trident_Abstract_Controller
         }
         else
         {
-            if (strtolower(substr($view,-5,5)) !== '_view')
+            if (strtolower(substr($view, -5, 5)) !== '_view')
             {
                 $view .= '_view';
             }
@@ -154,15 +205,15 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Load model instance
+     * Load model instance.
      *
-     * @param string $model model name
+     * @param string $model Model name.
      *
-     * @return Trident_Abstract_Model
+     * @return Trident_Abstract_Model Model instance.
      */
     protected function load_model($model)
     {
-        if (strtolower(substr($model,-6,6)) !== '_model')
+        if (strtolower(substr($model, -6, 6)) !== '_model')
         {
             $model .= '_model';
         }
@@ -170,26 +221,36 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Load library instance
+     * Load library instance.
+     * Library will be available through $this->library name.
      *
-     * @param string $library library name
+     * @param string $library Library name.
      *
-     * @return Trident_Abstract_Library
+     * @throws Trident_Exception
      */
     protected function load_library($library)
     {
-        if (strtolower(substr($library,-8,8)) !== '_library')
+        $library_name = str_replace('_library', '', strtolower($library));
+        if (strtolower(substr($library, -8, 8)) !== '_library')
         {
             $library .= '_library';
         }
-        return new $library($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
+        if (!isset($this->$library_name) || !class_exists($library))
+        {
+            throw new Trident_Exception("Library is not defined.");
+        }
+        if ($this->$library_name === null)
+        {
+            $this->$library_name = new $library($this->configuration, $this->database, $this->io, $this->log,
+                                                $this->request, $this->session);
+        }
     }
 
     /**
-     * Redirect
+     * Redirect.
      *
-     * @param string $uri redirect uri
-     * @param bool $base use public path as prefix
+     * @param string $uri  Redirect URI.
+     * @param bool   $base Use public path as prefix.
      */
     protected function redirect($uri, $base = true)
     {
@@ -199,10 +260,10 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Download a file
+     * Download a file.
      *
-     * @param string $file path to file
-     * @param string $file_name optional file name
+     * @param string $file      Path to file.
+     * @param string $file_name Optional file name.
      *
      * @throws Trident_Exception
      */
@@ -220,10 +281,10 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
-     * Download data as a file
+     * Download data as a file.
      *
-     * @param string $data file data
-     * @param string $file_name file name
+     * @param string $data      File data.
+     * @param string $file_name File name.
      */
     protected function download_data($data, $file_name)
     {

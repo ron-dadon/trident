@@ -1,20 +1,16 @@
 <?php
 /**
  * Trident Framework - PHP MVC Framework
- *
  * The MIT License (MIT)
  * Copyright (c) 2015 Ron Dadon
- *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,19 +21,18 @@
  */
 
 /**
- * Class Trident_IO
- *
- * File IO handling
+ * Class Trident_IO.
+ * File IO functions.
  */
 class Trident_IO
 {
 
     /**
-     * Empty file
+     * Empty file.
      *
-     * @param string $file file path
+     * @param string $file File path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
     public function truncate_file($file)
     {
@@ -45,12 +40,12 @@ class Trident_IO
     }
 
     /**
-     * Read file content
+     * Read file content.
      *
-     * @param string $file file path
-     * @param bool $lock exclusively lock the file
+     * @param string $file File path.
+     * @param bool   $lock Exclusively lock the file.
      *
-     * @return bool|string
+     * @return bool|string The content of the file on success, false boolean value on failure.
      */
     public function read_file($file, $lock = false)
     {
@@ -62,12 +57,12 @@ class Trident_IO
     }
 
     /**
-     * Write data to a file
+     * Write data to a file.
      *
-     * @param string $file file path
-     * @param string $data file data
+     * @param string $file File path.
+     * @param string $data File data.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
     public function write_file($file, $data)
     {
@@ -79,45 +74,45 @@ class Trident_IO
     }
 
     /**
-     * Copy file
+     * Copy file.
      *
-     * @param string $from from path
-     * @param string $to to path
+     * @param string $source      From path.
+     * @param string $destination To path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
-    public function copy_file($from, $to)
+    public function copy_file($source, $destination)
     {
-        if (!is_readable($from))
+        if (!is_readable($source))
         {
             return false;
         }
-        if (file_exists($to) && !is_writable($to))
+        if (file_exists($destination) && !is_writable($destination))
         {
             return false;
         }
-        return copy($from, $to);
+        return copy($source, $destination);
     }
 
     /**
-     * Move file (copy and delete the source)
+     * Move file (copy and delete the source).
      *
-     * @param string $from from path
-     * @param string $to to path
+     * @param string $source      From path.
+     * @param string $destination To path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
-    public function move_file($from, $to)
+    public function move_file($source, $destination)
     {
-        return $this->copy_file($from, $to) && $this->delete_file($from);
+        return $this->copy_file($source, $destination) && $this->delete_file($source);
     }
 
     /**
-     * Delete a file
+     * Delete a file.
      *
-     * @param string $file file path
+     * @param string $file File path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
     public function delete_file($file)
     {
@@ -129,13 +124,13 @@ class Trident_IO
     }
 
     /**
-     * Create directory
+     * Create a directory.
      *
-     * @param string $dir directory path
-     * @param int  $mode directory mode
-     * @param bool $recursive use recursive creation
+     * @param string $dir       Directory path.
+     * @param int    $mode      Directory mode.
+     * @param bool   $recursive Use recursive creation.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
     public function create_directory($dir, $mode = 0777, $recursive = false)
     {
@@ -143,11 +138,11 @@ class Trident_IO
     }
 
     /**
-     * Delete a directory (truncate the directory and delete it)
+     * Delete a directory (truncate the directory and delete it).
      *
-     * @param string $dir directory path
+     * @param string $dir Directory path.
      *
-     * @return bool
+     * @return bool True on success, false otherwise.
      */
     public function delete_directory($dir)
     {
@@ -156,9 +151,9 @@ class Trident_IO
     }
 
     /**
-     * Delete directory content
+     * Delete directory content.
      *
-     * @param string $dir directory path
+     * @param string $dir Directory path.
      */
     public function truncate_directory($dir)
     {
@@ -172,12 +167,12 @@ class Trident_IO
     }
 
     /**
-     * Get file size
+     * Get file size.
      *
-     * @param string $file file path
-     * @param int $unit size unit
+     * @param string $file File path.
+     * @param int    $unit Size unit.
      *
-     * @return bool|int
+     * @return bool|int File size on success, false boolean on failure.
      */
     public function get_file_size($file, $unit = TRIDENT_IO_BYTE)
     {
@@ -189,11 +184,11 @@ class Trident_IO
     }
 
     /**
-     * Get file mime type
+     * Get file mime type.
      *
-     * @param string $file file path
+     * @param string $file File path.
      *
-     * @return string|bool
+     * @return string|bool File's mime type on success, false boolean on failure.
      */
     public function get_mime_type($file)
     {
@@ -202,7 +197,7 @@ class Trident_IO
             return false;
         }
         $file_info = finfo_open(FILEINFO_MIME_TYPE);
-        $mime =  finfo_file($file_info, $file);
+        $mime = finfo_file($file_info, $file);
         return $mime;
     }
 }
