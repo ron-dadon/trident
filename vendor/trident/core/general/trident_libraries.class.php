@@ -135,7 +135,7 @@ class Trident_Libraries
      *
      * @param string $library Library name.
      *
-     * @throws Trident_Exception
+     * @return bool True on successful load, false on failure.
      */
     public function load_library($library)
     {
@@ -146,12 +146,14 @@ class Trident_Libraries
         }
         if (array_key_exists($library_name, get_object_vars($this)) === false || !class_exists($library))
         {
-            throw new Trident_Exception("Library is not defined.");
+            error_log("Trident framework: Library $library_name doesn't exists.");
+            return false;
         }
         if ($this->$library_name === null)
         {
             $this->$library_name = new $library($this->configuration, $this->database, $this->io, $this->log,
                                                 $this->request, $this->session);
+            return true;
         }
     }
 

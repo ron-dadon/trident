@@ -68,16 +68,13 @@ class Trident_Application
      * Creates all the core classes instances according to the configuration settings where any are needed.
      *
      * @param string $configuration_file Configuration file path relative to the public index.php file.
-     *
-     * @throws Trident_Exception
      */
     function __construct($configuration_file)
     {
         if (!is_readable($configuration_file))
         {
-            throw new Trident_Exception(
-                "Can't create application. Configuration file $configuration_file doesn't exists or is not readable",
-                TRIDENT_ERROR_CONFIGURATION_FILE);
+            error_log("Trident framework: Can't create application. Configuration file $configuration_file doesn't exists or is not readable");
+            http_response(500);
         }
         $this->_configuration = new Trident_Configuration($configuration_file);
         if ($this->_configuration->get('environment', 'debug'))
@@ -99,31 +96,15 @@ class Trident_Application
         $this->_log = new Trident_Log($this->_configuration);
         if (is_null($app_path = $this->_configuration->get('paths', 'application')))
         {
-            throw new Trident_Exception(
-                "Can't initialize application auto loading function because application path is not configured in
-                the configuration file", TRIDENT_ERROR_MISSING_APPLICATION_PATH);
+            error_log("Trident framework: Can't initialize application auto loading function because application path is not configured in
+                the configuration file");
+            http_response(500);
         }
         spl_autoload_register([$this, '_application_auto_load']);
-        $this->_request = new Trident_Request($this->_configuration);
+        $this->_request = new Trident_Request($this->_configuration, $this->_log);
         $this->_session = new Trident_Session();
         $this->_router = new Trident_Router($this->_configuration->get('paths', 'routes'));
-        try
-        {
-            $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
-        }
-        catch (Trident_Exception $e)
-        {
-            $this->_log->entry('routing', $e->getMessage());
-            if ($e->getCode() === TRIDENT_ERROR_NO_MATCHED_ROUTE)
-            {
-                header("HTTP/1.0 404 Not Found");
-                die('The request resource was not found or is unavailable (404 Error)');
-            }
-            else
-            {
-                $this->_log->entry('routing', $e->getMessage());
-            }
-        }
+        $this->_router->dispatch($this->_request, $this->_configuration, $this->_log, $this->_session);
         if (isset($debug))
         {
             $debug->inject_dependencies($this->_configuration, $this->_request, $this->_session);

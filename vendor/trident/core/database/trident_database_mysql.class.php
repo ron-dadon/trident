@@ -38,7 +38,8 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     {
         if (!$configuration->section_exists('database'))
         {
-            throw new Trident_Exception("Database configuration is missing from the configuration file.");
+            error_log("Trident framework: Database configuration is missing from the configuration file.");
+            http_response(500);
         }
         $host = $configuration->get('database', 'host');
         $database = $configuration->get('database', 'name');
@@ -66,6 +67,12 @@ class Trident_Database_MySql extends Trident_Abstract_Database
     public function run_query($query)
     {
         $statement = $this->prepare($query->query_string);
+        if ($statement === false)
+        {
+            $query->error_code = $this->errorInfo()[1];
+            $query->error_description = $this->errorInfo()[2];
+            return $query;
+        }
         foreach ($query->parameters as $name => $parameter)
         {
             $statement->bindParam($name, $parameter['value'], $parameter['type']);
@@ -151,7 +158,6 @@ class Trident_Database_MySql extends Trident_Abstract_Database
         $query = new Trident_Query_MySql();
         $fields = $entity->get_field_names();
         $field_parameters = [];
-        $parameters = [];
         foreach ($fields as $key => $value)
         {
             $field_parameters[] = ':' . $value;
@@ -187,7 +193,6 @@ class Trident_Database_MySql extends Trident_Abstract_Database
         }
         $query = new Trident_Query_MySql();
         $fields = array_diff($entity->get_field_names(), [$id_field]);
-        $parameters = [];
         foreach ($fields as $key => $value)
         {
             $fields[$key] = $prefix . $value . ' = :' . $value;

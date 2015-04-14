@@ -21,10 +21,12 @@ class Main_Controller extends Trident_Abstract_Controller
         $q->query_string = 'SHOW TABLES FROM iacs_dev';
         $q = $this->database->run_query($q);
         $tables = [];
+        echo 'Getting tables...';
         foreach ($q->result_set as $row)
         {
             $tables[] = $row['Tables_in_iacs_dev'];
         }
+        echo 'Done';
         $entities = [];
         foreach ($tables as $table)
         {
@@ -40,7 +42,7 @@ class Main_Controller extends Trident_Abstract_Controller
         foreach ($entities as $entity => $fields)
         {
             $entity = ucwords($entity);
-            $output = '<?php' . PHP_EOL . "class $entity" . "_Entity extends Trident_Abstract_Entity" . PHP_EOL;
+            $output = '<?php' . PHP_EOL . PHP_EOL . "class $entity" . "_Entity extends Trident_Abstract_Entity" . PHP_EOL;
             $entity = strtolower($entity);
             $output .= '{' . PHP_EOL;
             foreach ($fields as $field)
@@ -52,7 +54,6 @@ class Main_Controller extends Trident_Abstract_Controller
             $file_name = $this->configuration->get('paths', 'application') . '/entities/' . $entity . '_entity.class.php';
             file_put_contents($file_name, $output);
         }
-        echo 'Tada!!!!';
     }
 
 } 

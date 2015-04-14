@@ -56,8 +56,8 @@ class Trident_Log
     {
         if (is_null($this->_configuration->get('paths', 'logs')))
         {
-            throw new Trident_Exception("Logs path is not configured in the configuration file",
-                                        TRIDENT_ERROR_MISSING_LOGS_PATH);
+            error_log("Trident framework: Logs path is not configured in the configuration file");
+            http_response(500);
         }
         $date = date('d/m/Y');
         $time = date('H:i:s');

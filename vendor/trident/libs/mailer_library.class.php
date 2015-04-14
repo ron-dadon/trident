@@ -25,15 +25,15 @@
  */
 
 /**
- * Class Mailer_Library
+ * Class Mailer_Library.
  *
- * A wrapper class for PHPMailer basic functions
+ * A wrapper class for PHPMailer basic functions.
  */
 class Mailer_Library extends Trident_Abstract_Library
 {
 
     /**
-     * Error information
+     * Error information.
      *
      * @var string
      */
@@ -41,7 +41,7 @@ class Mailer_Library extends Trident_Abstract_Library
 
     /**
      * Get the error description.
-     * If no error occurred the result will be an empty string
+     * If no error occurred the result will be an empty string.
      *
      * @return string
      */
@@ -51,26 +51,26 @@ class Mailer_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Send an email
+     * Send an email.
      * This function will send an email via the email account configured in the configuration file.
      *
      * Recipients are set in to $to parameter.
      * Each recipient should be set by key => value entry, where key is the email address and value is the alias.
-     * For example: ['john@doe.com' => 'John Doe', 'alice@bob.com' => 'Alice Bob']
+     * For example: ['john@doe.com' => 'John Doe', 'alice@bob.com' => 'Alice Bob'].
      *
      * CC (i.e "Carbon Copies") are set to the $cc parameter in the same way of setting recipients.
      * BCC (i.e "Blind Carbon Copies") are set to the $bcc parameter in the same way of setting recipients.
      *
-     * @param array  $to          recipients address
-     * @param string $subject     mail subject
-     * @param string $body        mail body
-     * @param string $altBody     mail alternative body for non html email clients
-     * @param array  $attachments mail file attachments
-     * @param array  $cc          mail cc recipients
-     * @param array  $bcc         mail bcc recipients
-     * @param array  $credentials mail credentials to by pass configuration credentials
+     * @param array  $to          Recipients address.
+     * @param string $subject     Mail subject.
+     * @param string $body        Mail body.
+     * @param string $altBody     Mail alternative body for non html email clients.
+     * @param array  $attachments Mail file attachments.
+     * @param array  $cc          Mail cc recipients.
+     * @param array  $bcc         Mail bcc recipients.
+     * @param array  $credentials Mail credentials to by pass configuration credentials.
      *
-     * @return bool true upon successful send, false otherwise
+     * @return bool True upon successful send, false otherwise.
      *
      * @throws Exception
      * @throws PHPMailerException

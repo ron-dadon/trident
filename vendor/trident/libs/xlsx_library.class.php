@@ -49,11 +49,6 @@
  * THE SOFTWARE.
  */
 
-if (!class_exists('ZipArchive'))
-{
-    die('Trident framework fatal error occurred. Missing dependencies.');
-}
-
 /**
  * Class Xlsx_Library
  *
@@ -73,6 +68,15 @@ class Xlsx_Library extends Trident_Abstract_Library
     protected $temp_files          = [];
 
     protected $current_sheet = '';
+
+    function __construct()
+    {
+        if (!class_exists('ZipArchive'))
+        {
+            error_log("Trident framework: Xlsx library requires ZipArchive class that is missing.");
+            http_response(500);
+        }
+    }
 
     public function set_author($author = '')
     {

@@ -28,7 +28,7 @@ define('TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION', 301);
 define('TRIDENT_ERROR_SECURITY_LIB_INVALID_LENGTH', 302);
 
 /**
- * Class Security_Library
+ * Class Security_Library.
  *
  * Security functions such as hashing and encryption.
  */
@@ -36,96 +36,91 @@ class Security_Library extends Trident_Abstract_Library
 {
 
     /**
-     * Create a random salt using default salt length from the configuration
+     * Create a random salt using default salt length from the configuration.
      *
-     * @throws Trident_Exception
-     * @return string
+     * @return string Generated salt.
      */
     public function create_salt()
     {
         if (!$this->configuration->section_exists('security') ||
             $this->configuration->get('security', 'salt_length') === null)
         {
-            throw new Trident_Exception("Can't use security function because of missing security configuration",
-                TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
+            error_log("Can't use security function because of missing security configuration");
+            http_response(500);
         }
         return $this->create_random_hex_string($this->configuration->get('security', 'salt_length'));
     }
 
     /**
-     * Creates a random string
+     * Creates a random string.
      *
-     * @param int $length size of salt
+     * @param int $length Size of salt.
      *
-     * @throws Trident_Exception
-     * @return string random salt
+     * @return string Random hex string.
      */
     public function create_random_hex_string($length = 32)
     {
         if (!is_integer($length) || $length < 1)
         {
-            throw new Trident_Exception("Create random hex string length argument must be an integer and at least 1",
-                TRIDENT_ERROR_SECURITY_LIB_INVALID_LENGTH);
+            error_log("Create random hex string length argument must be an integer and at least 1");
+            http_response(500);
         }
         return bin2hex(openssl_random_pseudo_bytes($length > 1 ? $length / 2 : 1));
     }
 
     /**
-     * Hash using default hash function
+     * Hash using default hash function.
      *
-     * @param string $data
-     * @param null   $salt
+     * @param string $data Data to hash.
+     * @param null   $salt Salt addition.
      *
-     * @throws Trident_Exception
-     * @return string
+     * @return string Resulting hash.
      */
     public function hash($data, $salt = null)
     {
         if (!$this->configuration->section_exists('security') ||
             $this->configuration->get('security', 'hash_function') === null)
         {
-            throw new Trident_Exception("Can't use security function because of missing security configuration",
-                TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
+            error_log("Can't use security function because of missing security configuration");
+            http_response(500);
         }
         $data .= is_null($salt) ? '' : $salt;
         return hash($this->configuration->get('security', 'hash_function'), $data);
     }
 
     /**
-     * Encrypt a string
+     * Encrypt a string.
      *
-     * @param string $value unencrypted string
+     * @param string $value Unencrypted string.
      *
-     * @throws Trident_Exception
-     * @return string encrypted string
+     * @return string Encrypted string.
      */
     public function encrypt($value)
     {
         if (!$this->configuration->section_exists('security') ||
             $this->configuration->get('security', 'encryption_key') === null)
         {
-            throw new Trident_Exception("Can't use security function because of missing security configuration",
-                TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
+            error_log("Can't use security function because of missing security configuration");
+            http_response(500);
         }
         return mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->configuration->get('security', 'encryption_key'),
             $value, MCRYPT_MODE_ECB);
     }
 
     /**
-     * Decode encrypted string
+     * Decode encrypted string.
      *
-     * @param string $value encrypted string
+     * @param string $value Encrypted string.
      *
-     * @throws Trident_Exception
-     * @return string decoded string
+     * @return string Decoded string.
      */
     public function decrypt($value)
     {
         if (!$this->configuration->section_exists('security') ||
             $this->configuration->get('security', 'encryption_key') === null)
         {
-            throw new Trident_Exception("Can't use security function because of missing security configuration",
-                TRIDENT_ERROR_SECURITY_LIB_MISSING_CONFIGURATION);
+            error_log("Can't use security function because of missing security configuration");
+            http_response(500);
         }
         return mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->configuration->get('security', 'encryption_key'),
             $value, MCRYPT_MODE_ECB);

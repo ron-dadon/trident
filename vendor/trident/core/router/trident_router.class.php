@@ -155,16 +155,22 @@ class Trident_Router
             {
                 $controller = $route->controller;
             }
+            if (!class_exists($controller))
+            {
+                error_log("Trident framework: Can't create controller $controller. Controller class doesn't exist.");
+                http_response(500);
+            }
             $controller = new $controller($configuration, $log, $request, $session);
             if (call_user_func_array([$controller, $route->function], $route->parameters) === false)
             {
                 $route = $route->pattern;
-                throw new Trident_Exception("Error dispatching route $route", TRIDENT_ERROR_DISPATCH_ROUTE);
+                error_log("Trident framework: Error dispatching route $route");
+                http_response(500);
             }
         }
         else
         {
-            throw new Trident_Exception("Can't find matching route", TRIDENT_ERROR_NO_MATCHED_ROUTE);
+            http_response(404);
         }
     }
 }

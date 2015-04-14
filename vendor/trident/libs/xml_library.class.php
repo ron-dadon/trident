@@ -30,20 +30,20 @@ class Xml_Library extends Trident_Abstract_Library
 {
 
     /**
-     * Write xml string
+     * Write xml string.
      *
-     * @param string $objects_name
-     * @param string $object_name
-     * @param array $data
+     * @param string $objects_name Name of the objects.
+     * @param string $object_name Name of individual object.
+     * @param array $data Data 2D array.
      *
-     * @return array|string
-     * @throws Trident_Exception
+     * @return string|bool XML formed string on success, false boolean on failure.
      */
     public function write_xml_to_string($objects_name, $object_name, $data = [])
     {
         if (!is_array($data))
         {
-            throw new Trident_Exception("XML Library data must be an array", TRIDENT_ERROR_XML_LIB_NO_ARRAY);
+            error_log("XML Library data must be an array");
+            return false;
         }
         $rows = ['<?xml version="1.0" encoding="UTF-8"?>', "<$objects_name>"];
         foreach ($data as $row)
@@ -51,7 +51,8 @@ class Xml_Library extends Trident_Abstract_Library
             $object = ["\t<$object_name>"];
             if (!is_array($row))
             {
-                throw new Trident_Exception("XML Library data must be an array", TRIDENT_ERROR_XML_LIB_NO_ARRAY);
+                error_log("XML Library data must be an array");
+                return false;
             }
             foreach ($row as $key => $value)
             {
@@ -66,19 +67,23 @@ class Xml_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Write xml file
+     * Write xml file.
      *
-     * @param string $file file path
-     * @param string $objects_name
-     * @param string $object_name
-     * @param array $data
+     * @param string $file File path.
+     * @param string $objects_name Name of the objects.
+     * @param string $object_name Name of individual object.
+     * @param array $data Data 2D array.
      *
-     * @return bool
-     * @throws Trident_Exception
+     * @return bool True on successful write, false otherwise.
      */
     public function write_xml_to_file($file, $objects_name, $object_name, $data = [])
     {
-        return $this->io->write_file($file, $this->write_xml_to_string($objects_name, $object_name, $data));
+        $data = $this->write_xml_to_string($objects_name, $object_name, $data);
+        if ($data !== false)
+        {
+            return $this->io->write_file($file, $data);
+        }
+        return false;
     }
 
 } 

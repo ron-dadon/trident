@@ -92,7 +92,7 @@ abstract class Trident_Abstract_Controller
         $this->session = $session;
         $this->io = new Trident_IO();
         $this->libraries = new Trident_Libraries($this->configuration, $this->log,
-                                                 $this->request, $this->session, $this->io);
+            $this->request, $this->session, $this->io);
     }
 
     /**
@@ -123,25 +123,29 @@ abstract class Trident_Abstract_Controller
                 // MySql error code 1045 means that access was denied for the user
                 if ($e->getCode() === 1045)
                 {
-                    throw new Trident_Exception("Database access denied", TRIDENT_ERROR_DATABASE_ACCESS_DENIED);
+                    error_log("Trident framework: Access to database denied. Please check configuration.");
+                    $this->response_code(500, "Database access denied.");
                 }
                 // MySql error code 1049 means that the database doesn't exists
                 if ($e->getCode() === 1049)
                 {
-                    throw new Trident_Exception("Database doesn't exists", TRIDENT_ERROR_DATABASE_NOT_EXISTS);
+                    error_log("Trident framework: Database doesn't exists. Please check configuration.");
+                    $this->response_code(500, "Database doesn't exists.");
                 }
                 // MySql error code 2002 means that database host can't be reached
                 if ($e->getCode() === 2002)
                 {
-                    throw new Trident_Exception("Database is not reachable", TRIDENT_ERROR_DATABASE_NA);
+                    error_log("Trident framework: Database server is unavailable. Please check configuration.");
+                    $this->response_code(500, "Database unavailable.");
                 }
-                throw new Trident_Exception("Database error", TRIDENT_ERROR_DATABASE_GENERAL, $e);
+                error_log("Trident framework: Unknown database error. PDO message: " . $e->getMessage());
+                $this->response_code(500, "Database error.");
             }
         }
         else
         {
-            throw new Trident_Exception("Can't load database, missing required configuration section",
-                                        TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION);
+            error_log("Trident framework: Database configuration is missing. Can't load database object.");
+            $this->response_code(500, "Database error.");
         }
     }
 
@@ -168,6 +172,11 @@ abstract class Trident_Abstract_Controller
                 $view .= '_view';
             }
         }
+        if (!class_exists($view))
+        {
+            error_log("Trident framework: Can't load view $view. View class doesn't exists.");
+            $this->response_code(500);
+        }
         return new $view($this->configuration, $view_data);
     }
 
@@ -183,6 +192,11 @@ abstract class Trident_Abstract_Controller
         if (strtolower(substr($model, -6, 6)) !== '_model')
         {
             $model .= '_model';
+        }
+        if (!class_exists($model))
+        {
+            error_log("Trident framework: Can't load model $model. Model class doesn't exists.");
+            $this->response_code(500);
         }
         return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
@@ -214,6 +228,17 @@ abstract class Trident_Abstract_Controller
     }
 
     /**
+     * Sends a response to the client.
+     *
+     * @param int $code Response code.
+     * @param string $message Response message.
+     */
+    protected function response_code($code, $message = null)
+    {
+        http_response($code, $this->configuration->get('environment', 'display_response_errors') === true, $message);
+    }
+
+    /**
      * Download a file.
      *
      * @param string $file      Path to file.
@@ -225,7 +250,8 @@ abstract class Trident_Abstract_Controller
     {
         if (!file_exists($file) || !is_readable($file))
         {
-            throw new Trident_Exception("Can't read file $file for download", TRIDENT_ERROR_DOWNLOAD_FILE_NOT_READABLE);
+            error_log("Trident framework: Can't download file $file. File doesn't exists or is unreadable");
+            $this->response_code(500);
         }
         header('Content-Type: application/octet-stream');
         header("Content-Transfer-Encoding: Binary");
@@ -248,5 +274,4 @@ abstract class Trident_Abstract_Controller
         echo $data;
         exit();
     }
-
 }

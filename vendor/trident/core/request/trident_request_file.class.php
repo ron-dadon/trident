@@ -76,8 +76,8 @@ class Trident_Request_File
     {
         if ($error === UPLOAD_ERR_OK && !is_readable($temporary_name))
         {
-            throw new Trident_Exception("Can't create file object because temporary file $temporary_name doesn't exists
-                                        or is not readable");
+            error_log("Trident framework: Can't create file object because temporary file $temporary_name doesn't exists or is not readable");
+            http_response(500);
         }
         $this->error = $error;
         $this->name = $name;
@@ -104,7 +104,8 @@ class Trident_Request_File
         {
             $error = $this->error;
             $name = $this->name;
-            throw new Trident_Exception("Can't save request file $name to $file. Upload error: $error");
+            error_log("Trident framework: Can't save request file $name to $file. Upload error: $error");
+            http_response(500);
         }
         return move_uploaded_file($this->temporary_name, $file);
     }

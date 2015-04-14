@@ -1,9 +1,10 @@
 {
     "environment": {
-        "production":   false,
-        "debug":        false,
-        "time_zone":    "israel",
-        "rtl":          false
+        "production":               false,
+        "debug":                    false,
+        "display_response_errors":  true,
+        "time_zone":                "israel",
+        "rtl":                      false
     },
     "paths": {
         "public":       "http://localhost/trident/public_html",

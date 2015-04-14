@@ -25,36 +25,46 @@
  */
 
 /**
- * Class Html_Library
+ * Class Html_Library.
  *
- * Wrapper for all common html5 tags
+ * Wrapper for all common html5 tags.
  */
 class Html_Library extends Trident_Abstract_Library
 {
     /**
-     * Public base path
+     * Public base path.
      *
      * @var string
      */
     private $_base;
 
     /**
-     * JavaScript folder path
+     * JavaScript folder path.
      *
      * @var string
      */
     private $_js;
 
     /**
-     * CSS folder path
+     * CSS folder path.
      *
      * @var string
      */
     private $_css;
 
-    function __construct($_configuration = null, $database = null, $io = null, $log = null, $_request = null, $_session = null)
+    /**
+     * Inject dependencies and set paths as needed.
+     *
+     * @param Trident_Configuration     $configuration Configuration instance.
+     * @param Trident_IO                $io            IO instance.
+     * @param Trident_Request           $request       Request instance.
+     * @param Trident_Log               $log           Log instance.
+     * @param Trident_Session           $session       Session instance.
+     * @param Trident_Abstract_Database $database      Database instance.
+     */
+    function __construct($configuration = null, $database = null, $io = null, $log = null, $request = null, $session = null)
     {
-        parent::__construct($_configuration, $database, $io, $log, $_request, $_session);
+        parent::__construct($configuration, $database, $io, $log, $request, $session);
         if ($this->configuration !== null)
         {
             $this->_base = $this->configuration->get('paths', 'public');
@@ -63,10 +73,10 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Set paths for css and javascript folders
+     * Set paths for css and javascript folders relative to the public root of your application.
      *
-     * @param string $css css folder name
-     * @param string $js  javascript folder name
+     * @param string $css Css folder name.
+     * @param string $js  Javascript folder name.
      */
     public function set_paths($css = '/css', $js = '/js')
     {
@@ -75,11 +85,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a html5 open tag
+     * Create a html5 open tag.
      *
-     * @param string $lang The html page primary language
+     * @param string $lang The html page primary language.
      *
-     * @return string           String representing the opening html tag
+     * @return string           String representing the opening html tag.
      */
     public function html_open($lang = 'en')
     {
@@ -87,9 +97,9 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a html close tag
+     * Create a html close tag.
      *
-     * @return string   String representing the closing html tag
+     * @return string   String representing the closing html tag.
      */
     public function html_close()
     {
@@ -97,9 +107,9 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a body open tag
+     * Create a body open tag.
      *
-     * @return string   String representing the opening body tag
+     * @return string   String representing the opening body tag.
      */
     public function body_open()
     {
@@ -107,9 +117,9 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a body close tag
+     * Create a body close tag.
      *
-     * @return string   String representing the closing body tag
+     * @return string   String representing the closing body tag.
      */
     public function body_close()
     {
@@ -117,11 +127,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a html header element
+     * Create a html header element.
      *
-     * @param string $content Content of the head (stylesheets, javascript files, metadata etc.)
+     * @param string $content Content of the head (stylesheets, javascript files, metadata etc.).
      *
-     * @return string           String representing the html head element
+     * @return string           String representing the html head element.
      */
     public function html_header($content)
     {
@@ -129,11 +139,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a link element for linking css files
+     * Create a link element for linking css files.
      *
-     * @param string $file The css file name
+     * @param string $file The css file name.
      *
-     * @return string       String representing the link element
+     * @return string       String representing the link element.
      */
     public function css_link($file)
     {
@@ -141,11 +151,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a script element with source javascript file
+     * Create a script element with source javascript file.
      *
-     * @param string $file The js file name
+     * @param string $file The js file name.
      *
-     * @return string       String representing the script element
+     * @return string       String representing the script element.
      */
     public function javascript_link($file)
     {
@@ -153,11 +163,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a script element
+     * Create a script element.
      *
-     * @param string $code The code within the element
+     * @param string $code The code within the element.
      *
-     * @return string       String representing the script element
+     * @return string       String representing the script element.
      */
     public function script($code)
     {
@@ -165,11 +175,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a script element
+     * Create a script element.
      *
-     * @param string $code The code within the element
+     * @param string $code The code within the element.
      *
-     * @return string       String representing the script element
+     * @return string       String representing the script element.
      */
     public function style($code)
     {
@@ -177,13 +187,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a HTML element string
+     * Create a HTML element string.
      *
-     * @param string $type       Element type
-     * @param string $content    Content of the element
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $type       Element type.
+     * @param string $content    Content of the element.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the element
+     * @return string               String representing the element.
      */
     public function element($type, $content, $attributes = [])
     {
@@ -205,11 +215,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a address element
+     * Create a address element.
      *
-     * @param string $content Content of the address
+     * @param string $content Content of the address.
      *
-     * @return string               String representing the address element
+     * @return string               String representing the address element.
      */
     public function address($content)
     {
@@ -217,11 +227,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an anchor element
+     * Create an anchor element.
      *
-     * @param string $link       URL for the anchor link
-     * @param string $content    Content of the anchor
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $link       URL for the anchor link.
+     * @param string $content    Content of the anchor.
+     * @param array  $attributes Associative array of attributes and values.
      *
      * @return string               String representing the anchor
      */
@@ -232,12 +242,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a article element
+     * Create a article element.
      *
-     * @param string $content    Content of the article
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the article.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the article
+     * @return string               String representing the article.
      */
     public function article($content, $attributes = [])
     {
@@ -245,12 +255,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a aside element
+     * Create a aside element.
      *
-     * @param string $content    Content of the aside
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the aside.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the aside
+     * @return string               String representing the aside.
      */
     public function aside($content, $attributes = [])
     {
@@ -258,14 +268,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a audio element
+     * Create a audio element.
      *
-     * @param string $srcMp3     MP3 file source path (full path)
-     * @param string $srcOgg     OGG file source path (full path)
-     * @param string $noSupport  Message to display if browser doesn't support audio element
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $srcMp3     MP3 file source path (full path).
+     * @param string $srcOgg     OGG file source path (full path).
+     * @param string $noSupport  Message to display if browser doesn't support audio element.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the audio
+     * @return string               String representing the audio.
      */
     public function audio($srcMp3, $srcOgg = '', $noSupport = 'No support', $attributes = [])
     {
@@ -279,13 +289,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a BDO (Bi-Directional Override) element
+     * Create a BDO (Bi-Directional Override) element.
      *
-     * @param string $content    Content of the BDO
-     * @param string $direction  Direction of the BDO (ltr|rtl)
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the BDO.
+     * @param string $direction  Direction of the BDO (ltr|rtl).
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the BDO, or empty string if direction is invalid
+     * @return string               String representing the BDO, or empty string if direction is invalid.
      */
     public function bdo($content, $direction = 'ltr', $attributes = [])
     {
@@ -298,14 +308,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an block quote element
+     * Create an block quote element.
      *
-     * @param string $content    Content of the anchor
-     * @param string $link       URL for the block quote source link
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the anchor.
+     * @param string $link       URL for the block quote source link.
+     * @param array  $attributes Associative array of attributes and values.
      *
      * @return string               String representing the block quote  if link if valid or empty, empty string
-     *                              otherwise
+     *                              otherwise.
      */
     public function block_quote($content, $link, $attributes = [])
     {
@@ -318,9 +328,9 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a line break element
+     * Create a line break element.
      *
-     * @return string String representing line break
+     * @return string String representing line break.
      */
     public function break_line()
     {
@@ -328,12 +338,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a button element
+     * Create a button element.
      *
-     * @param string $content    Content of the button
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the button.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the button
+     * @return string               String representing the button.
      */
     public function button($content, $attributes = [])
     {
@@ -341,11 +351,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a canvas element
+     * Create a canvas element.
      *
-     * @param array $attributes Associative array of attributes and values
+     * @param array $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the canvas
+     * @return string               String representing the canvas.
      */
     public function canvas($attributes = [])
     {
@@ -353,12 +363,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a cite element
+     * Create a cite element.
      *
-     * @param string $content    Content of the cite
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the cite.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the cite
+     * @return string               String representing the cite.
      */
     public function cite($content, $attributes = [])
     {
@@ -366,12 +376,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a description list item element
+     * Create a description list item element.
      *
-     * @param string $term        Content of the cite
-     * @param string $description Content of the cite
+     * @param string $term        Content of the cite.
+     * @param string $description Content of the cite.
      *
-     * @return string               String representing the description list item
+     * @return string               String representing the description list item.
      */
     public function description_list_item($term, $description)
     {
@@ -379,12 +389,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a description list element
+     * Create a description list element.
      *
-     * @param array $items      Items of the list
-     * @param array $attributes Associative array of attributes and values
+     * @param array $items      Items of the list.
+     * @param array $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the description list item
+     * @return string               String representing the description list item.
      */
     public function description_list($items, $attributes = [])
     {
@@ -392,12 +402,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a div element
+     * Create a div element.
      *
-     * @param string $content    Content of the div
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the div.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the div
+     * @return string               String representing the div.
      */
     public function div($content, $attributes = [])
     {
@@ -405,12 +415,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a emphasized element
+     * Create a emphasized element.
      *
-     * @param string $content    Content of the emphasized
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the emphasized.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the emphasized
+     * @return string               String representing the emphasized.
      */
     public function emphasized($content, $attributes = [])
     {
@@ -418,12 +428,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a embed element
+     * Create a embed element.
      *
-     * @param string $file       The embedded file name
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $file       The embedded file name.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the embed element
+     * @return string               String representing the embed element.
      */
     public function embed($file, $attributes = [])
     {
@@ -433,13 +443,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a field set element
+     * Create a field set element.
      *
-     * @param string $content    Content of the field set
-     * @param string $legend     Legend (title) of the field set
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the field set.
+     * @param string $legend     Legend (title) of the field set.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the field set
+     * @return string               String representing the field set.
      */
     public function field_set($content, $legend = '', $attributes = [])
     {
@@ -451,13 +461,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a figure element
+     * Create a figure element.
      *
-     * @param string $caption    Caption of the figure
-     * @param string $file       Source file for figure image (full path)
-     * @param array  $attributes Associative array of attributes and values for image and figure tags
+     * @param string $caption    Caption of the figure.
+     * @param string $file       Source file for figure image (full path).
+     * @param array  $attributes Associative array of attributes and values for image and figure tags.
      *
-     * @return string               String representing the figure
+     * @return string               String representing the figure.
      */
     public function figure($caption, $file, $attributes = [])
     {
@@ -467,12 +477,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a image element
+     * Create a image element.
      *
-     * @param string $file       The image file name (full path)
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $file       The image file name (full path).
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the image
+     * @return string               String representing the image.
      */
     public function image($file, $attributes = [])
     {
@@ -482,12 +492,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a footer element
+     * Create a footer element.
      *
-     * @param string $content    Content of the footer
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the footer.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the footer
+     * @return string               String representing the footer.
      */
     public function footer($content, $attributes = [])
     {
@@ -495,13 +505,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a form element
+     * Create a form element.
      *
-     * @param string $content    Content of the form
-     * @param string $method     Form's method
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the form.
+     * @param string $method     Form's method.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the form
+     * @return string               String representing the form.
      */
     public function form($content, $method = 'post', $attributes = [])
     {
@@ -510,13 +520,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a header element
+     * Create a header element.
      *
-     * @param int    $size       Size of the header
-     * @param string $content    Content of the header
-     * @param array  $attributes Associative array of attributes and values
+     * @param int    $size       Size of the header.
+     * @param string $content    Content of the header.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the header  if size if valid, empty string otherwise
+     * @return string               String representing the header  if size if valid, empty string otherwise.
      */
     public function h($size, $content, $attributes = [])
     {
@@ -528,12 +538,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a header element
+     * Create a header element.
      *
-     * @param string $content    Content of the header
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the header.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the header
+     * @return string               String representing the header.
      */
     public function header($content, $attributes = [])
     {
@@ -545,12 +555,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a i element
+     * Create a i element.
      *
-     * @param string $content    Content of the i
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the i.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the i
+     * @return string               String representing the i.
      */
     public function i($content, $attributes = [])
     {
@@ -558,12 +568,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a iframe element
+     * Create a iframe element.
      *
-     * @param string $url        The iframe source url (full path)
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $url        The iframe source url (full path).
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the iframe if the url is valid, empty string otherwise
+     * @return string               String representing the iframe if the url is valid, empty string otherwise.
      */
     public function iframe($url, $attributes = [])
     {
@@ -576,14 +586,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an input element
+     * Create an input element.
      *
-     * @param string $name       Name of the input
-     * @param string $type       Type of the input (text, email, date, number etc.)
-     * @param string $value      Value of the input
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $name       Name of the input.
+     * @param string $type       Type of the input (text, email, date, number etc.).
+     * @param string $value      Value of the input.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the input
+     * @return string               String representing the input.
      */
     public function input($name, $type = 'text', $value = '', $attributes = [])
     {
@@ -595,12 +605,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a ins element
+     * Create a ins element.
      *
-     * @param string $content    Content of the ins
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the ins.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the ins
+     * @return string               String representing the ins.
      */
     public function ins($content, $attributes = [])
     {
@@ -608,12 +618,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a kbd element
+     * Create a kbd element.
      *
-     * @param string $content    Content of the kbd
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the kbd.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the kbd
+     * @return string               String representing the kbd.
      */
     public function kbd($content, $attributes = [])
     {
@@ -621,13 +631,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a label element
+     * Create a label element.
      *
-     * @param string $content    Content of the label
-     * @param string $for        ID of the element that the label refers to
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the label.
+     * @param string $for        ID of the element that the label refers to.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the label
+     * @return string               String representing the label.
      */
     public function label($content, $for = '', $attributes = [])
     {
@@ -636,12 +646,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a list item element
+     * Create a list item element.
      *
-     * @param string $content    Content of the list item
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the list item.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the list item
+     * @return string               String representing the list item.
      */
     public function list_item($content, $attributes = [])
     {
@@ -649,12 +659,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a main element
+     * Create a main element.
      *
-     * @param string $content    Content of the main
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the main.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the main
+     * @return string               String representing the main.
      */
     public function main($content, $attributes = [])
     {
@@ -662,12 +672,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a mark element
+     * Create a mark element.
      *
-     * @param string $content    Content of the mark
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the mark.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the mark
+     * @return string               String representing the mark.
      */
     public function mark($content, $attributes = [])
     {
@@ -675,11 +685,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a meta tag
+     * Create a meta tag.
      *
-     * @param array $attributes Associative array of attributes and values
+     * @param array $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the span
+     * @return string               String representing the span.
      */
     public function meta($attributes = [])
     {
@@ -688,12 +698,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a nav element
+     * Create a nav element.
      *
-     * @param string $content    Content of the nav
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the nav.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the nav
+     * @return string               String representing the nav.
      */
     public function nav($content, $attributes = [])
     {
@@ -701,12 +711,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a no script element
+     * Create a no script element.
      *
-     * @param string $content    Content of the no script
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the no script.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the no script
+     * @return string               String representing the no script.
      */
     public function no_script($content, $attributes = [])
     {
@@ -714,12 +724,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a object element
+     * Create a object element.
      *
-     * @param string $url        The object source url (full path)
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $url        The object source url (full path).
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the object if the url is valid, empty string otherwise
+     * @return string               String representing the object if the url is valid, empty string otherwise.
      */
     public function object($url, $attributes = [])
     {
@@ -732,12 +742,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an ordered list element
+     * Create an ordered list element.
      *
-     * @param array $items      Items for the list
-     * @param array $attributes Associative array of attributes and values
+     * @param array $items      Items for the list.
+     * @param array $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the ordered list
+     * @return string               String representing the ordered list.
      */
     public function ordered_list($items = [], $attributes = [])
     {
@@ -746,14 +756,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create select element
+     * Create select element.
      *
-     * @param array  $items      List of options or option sets with options (value => label)
-     * @param string $name       The name of the element
-     * @param string $selected   The selected value
-     * @param array  $attributes Associative array of attributes and values
+     * @param array  $items      List of options or option sets with options (value => label).
+     * @param string $name       The name of the element.
+     * @param string $selected   The selected value.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the select
+     * @return string               String representing the select.
      */
     public function select($items, $name, $selected = '', $attributes = [])
     {
@@ -789,12 +799,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a paragraph element
+     * Create a paragraph element.
      *
-     * @param string $content    Content of the paragraph
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the paragraph.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the paragraph
+     * @return string               String representing the paragraph.
      */
     public function paragraph($content, $attributes = [])
     {
@@ -802,12 +812,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a pre element
+     * Create a pre element.
      *
-     * @param string $content    Content of the pre
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the pre.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the pre
+     * @return string               String representing the pre.
      */
     public function pre($content, $attributes = [])
     {
@@ -815,13 +825,13 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a progress element
+     * Create a progress element.
      *
-     * @param string $value      Value of the progress
-     * @param string $max        Maximum allowed value of the progress
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $value      Value of the progress.
+     * @param string $max        Maximum allowed value of the progress.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the progress
+     * @return string               String representing the progress.
      */
     public function progress($value, $max = '100', $attributes = [])
     {
@@ -831,12 +841,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a quote element
+     * Create a quote element.
      *
-     * @param string $content    Content of the quote
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the quote.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the quote
+     * @return string               String representing the quote.
      */
     public function quote($content, $attributes = [])
     {
@@ -844,12 +854,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a section element
+     * Create a section element.
      *
-     * @param string $content    Content of the section
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the section.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the section
+     * @return string               String representing the section.
      */
     public function section($content, $attributes = [])
     {
@@ -857,12 +867,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a small element
+     * Create a small element.
      *
-     * @param string $content    Content of the small
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the small.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the small
+     * @return string               String representing the small.
      */
     public function small($content, $attributes = [])
     {
@@ -870,12 +880,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a span element
+     * Create a span element.
      *
-     * @param string $content    Content of the span
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the span.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the span
+     * @return string               String representing the span.
      */
     public function span($content, $attributes = [])
     {
@@ -883,12 +893,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a strong element
+     * Create a strong element.
      *
-     * @param string $content    Content of the strong
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the strong.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the strong
+     * @return string               String representing the strong.
      */
     public function strong($content, $attributes = [])
     {
@@ -896,12 +906,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a sub script element
+     * Create a sub script element.
      *
-     * @param string $content    Content of the sub script
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the sub script.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the sub script
+     * @return string               String representing the sub script.
      */
     public function sub_script($content, $attributes = [])
     {
@@ -909,12 +919,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a super script element
+     * Create a super script element.
      *
-     * @param string $content    Content of the super script
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the super script.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the super script
+     * @return string               String representing the super script.
      */
     public function super_script($content, $attributes = [])
     {
@@ -922,14 +932,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a table element
+     * Create a table element.
      *
-     * @param array   $cols       Table columns titles
-     * @param array[] $cells      Table data (cells - 2D array)
-     * @param array   $footer     Table footer cells
-     * @param array   $attributes Associative array of attributes and values
+     * @param array   $cols       Table columns titles.
+     * @param array[] $cells      Table data (cells - 2D array).
+     * @param array   $footer     Table footer cells.
+     * @param array   $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the super table
+     * @return string               String representing the super table.
      */
     public function table($cols, $cells, $footer, $attributes = [])
     {
@@ -962,12 +972,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a text area element
+     * Create a text area element.
      *
-     * @param string $content    Content of the text area
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the text area.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the text area
+     * @return string               String representing the text area.
      */
     public function text_area($content, $attributes = [])
     {
@@ -975,12 +985,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a time element
+     * Create a time element.
      *
-     * @param string $content    Content of the time
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the time.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the time
+     * @return string               String representing the time.
      */
     public function time($content, $attributes = [])
     {
@@ -988,12 +998,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a title element
+     * Create a title element.
      *
-     * @param string $content    Content of the title
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the title.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the title
+     * @return string               String representing the title.
      */
     public function title($content, $attributes = [])
     {
@@ -1001,12 +1011,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an underlined element
+     * Create an underlined element.
      *
-     * @param string $content    Content of the underlined
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the underlined.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the underlined
+     * @return string               String representing the underlined.
      */
     public function underlined($content, $attributes = [])
     {
@@ -1014,12 +1024,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create an unordered list element
+     * Create an unordered list element.
      *
-     * @param array $items      Items for the list
-     * @param array $attributes Associative array of attributes and values
+     * @param array $items      Items for the list.
+     * @param array $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the unordered list
+     * @return string               String representing the unordered list.
      */
     public function unordered_list($items = [], $attributes = [])
     {
@@ -1028,12 +1038,12 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a variable element
+     * Create a variable element.
      *
-     * @param string $content    Content of the variable
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $content    Content of the variable.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the variable
+     * @return string               String representing the variable.
      */
     public function variable($content, $attributes = [])
     {
@@ -1041,14 +1051,14 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Create a video element
+     * Create a video element.
      *
-     * @param string $srcMp4     MP4 file source path (full path)
-     * @param string $srcOgg     OGG file source path (full path)
-     * @param string $noSupport  Message to display if browser doesn't support video element
-     * @param array  $attributes Associative array of attributes and values
+     * @param string $srcMp4     MP4 file source path (full path).
+     * @param string $srcOgg     OGG file source path (full path).
+     * @param string $noSupport  Message to display if browser doesn't support video element.
+     * @param array  $attributes Associative array of attributes and values.
      *
-     * @return string               String representing the video
+     * @return string               String representing the video.
      */
     public function video($srcMp4, $srcOgg = '', $noSupport = 'No support', $attributes = [])
     {
@@ -1062,11 +1072,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Escape html special characters
+     * Escape html special characters.
      *
-     * @param string $var The value for escaping
+     * @param string $var The value for escaping.
      *
-     * @return string           The escaped value
+     * @return string           The escaped value.
      */
     public function escape($var)
     {
@@ -1074,11 +1084,11 @@ class Html_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Encode data to base64 string
+     * Encode data to base64 string.
      *
-     * @param mixed $data
+     * @param mixed $data.
      *
-     * @return string
+     * @return string.
      */
     public function base64Encode($data)
     {

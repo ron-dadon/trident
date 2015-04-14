@@ -113,15 +113,24 @@ class Trident_Request
     private $_configuration;
 
     /**
+     * Log instance.
+     *
+     * @var Trident_Log
+     */
+    private $_log;
+
+    /**
      * Initializes the class variables and inject configuration. instance.
      *
      * @param Trident_Configuration $configuration Configuration instance.
+     * @param Trident_Log $log Log instance.
      *
      * @throws Trident_Exception
      */
-    function __construct($configuration)
+    function __construct($configuration, $log)
     {
         $this->_configuration = $configuration;
+        $this->_log = $log;
         $this->post = new Trident_Request_Post($this->_configuration);
         $this->get = new Trident_Request_Get($this->_configuration);
         $this->cookie = new Trident_Request_Cookie($this->_configuration);
@@ -211,8 +220,8 @@ class Trident_Request
             }
             else
             {
-                throw new Trident_Exception("Can't parse user agent. No user agent string is given", TRIDENT_ERROR_URI_PARSE_NA);
-
+                error_log("Trident framework: Can't parse user agent. No user agent string is given");
+                return ['browser' => 'n/a', 'version' => 'n/a', 'platform' => 'n/a'];
             }
         }
 

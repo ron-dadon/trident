@@ -30,6 +30,83 @@ define('TRIDENT_BASE', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 
 /**
+ * Sends a response to the client.
+ *
+ * @param int $code Response code.
+ * @param bool $display_error Display response error message.
+ * @param string $message Response message.
+ */
+function http_response($code, $display_error = true, $message = null)
+{
+    $status_codes = [
+        100 => 'Continue',
+        101 => 'Switching Protocols',
+        102 => 'Processing',
+        200 => 'OK',
+        201 => 'Created',
+        202 => 'Accepted',
+        203 => 'Non-Authoritative Information',
+        204 => 'No Content',
+        205 => 'Reset Content',
+        206 => 'Partial Content',
+        207 => 'Multi-Status',
+        300 => 'Multiple Choices',
+        301 => 'Moved Permanently',
+        302 => 'Found',
+        303 => 'See Other',
+        304 => 'Not Modified',
+        305 => 'Use Proxy',
+        307 => 'Temporary Redirect',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        402 => 'Payment Required',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        405 => 'Method Not Allowed',
+        406 => 'Not Acceptable',
+        407 => 'Proxy Authentication Required',
+        408 => 'Request Timeout',
+        409 => 'Conflict',
+        410 => 'Gone',
+        411 => 'Length Required',
+        412 => 'Precondition Failed',
+        413 => 'Request Entity Too Large',
+        414 => 'Request-URI Too Long',
+        415 => 'Unsupported Media Type',
+        416 => 'Requested Range Not Satisfiable',
+        417 => 'Expectation Failed',
+        422 => 'Unprocessable Entity',
+        423 => 'Locked',
+        424 => 'Failed Dependency',
+        426 => 'Upgrade Required',
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        502 => 'Bad Gateway',
+        503 => 'Service Unavailable',
+        504 => 'Gateway Timeout',
+        505 => 'HTTP Version Not Supported',
+        506 => 'Variant Also Negotiates',
+        507 => 'Insufficient Storage',
+        509 => 'Bandwidth Limit Exceeded',
+        510 => 'Not Extended'
+    ];
+    if ($status_codes[$code] !== null)
+    {
+        $status_string = $code . ' ' . $status_codes[$code];
+        header($_SERVER['SERVER_PROTOCOL'] . ' ' . $status_string, true, $code);
+        if ($display_error)
+        {
+            echo "<h1>$status_string</h1>";
+            if (!is_null($message))
+            {
+                echo "<p>$message</p>";
+            }
+        }
+        exit();
+    }
+}
+
+/**
  * Trident Framework auto load classes
  *
  * @param string $class class name
@@ -61,21 +138,6 @@ function trident_auto_load($class)
 }
 // Register framework auto loader
 spl_autoload_register('trident_auto_load', false);
-
-// Define error constants
-define('TRIDENT_ERROR_CONFIGURATION_FILE', 1);
-define('TRIDENT_ERROR_MISSING_APPLICATION_PATH', 2);
-define('TRIDENT_ERROR_MISSING_LOGS_PATH', 3);
-define('TRIDENT_ERROR_NO_MATCHED_ROUTE', 4);
-define('TRIDENT_ERROR_DISPATCH_ROUTE', 5);
-define('TRIDENT_ERROR_INVALID_ROUTE', 6);
-define('TRIDENT_ERROR_DATABASE_ACCESS_DENIED', 7);
-define('TRIDENT_ERROR_DATABASE_NOT_EXISTS', 8);
-define('TRIDENT_ERROR_DATABASE_NA', 9);
-define('TRIDENT_ERROR_DATABASE_MISSING_CONFIGURATION', 10);
-define('TRIDENT_ERROR_DATABASE_GENERAL', 11);
-define('TRIDENT_ERROR_DOWNLOAD_FILE_NOT_READABLE', 12);
-define('TRIDENT_ERROR_URI_PARSE_NA', 13);
 
 // Define IO handling class size units constants
 define('TRIDENT_IO_BYTE', 1);

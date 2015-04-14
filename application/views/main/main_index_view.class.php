@@ -24,7 +24,7 @@ class Main_Index_View extends Trident_Abstract_View
                         </span>
                     </h2>
                     <h3><strong>Simple & Fast!</strong></h3>
-                    <p style="font-size: 125%">Web application development made easy using wrapper classes to simplify many long code segments. With a few simple steps you can create a full functioning web application from scratch!</p>
+                    <p style="font-size: 125%">Web application development made easy using wrapper classes to simplify your code. With a few simple steps you can create a web application from scratch! Bootstrap, jQuery, Font Awesome and many more already included!</p>
                 </div>
                 <div class="col-xs-12 col-lg-4 text-center text-success" id="col_2">
                     <h2 class="">

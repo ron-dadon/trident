@@ -24,10 +24,8 @@
  * THE SOFTWARE.
  */
 
-define('TRIDENT_ERROR_CSV_LIB_NO_ARRAY', 101);
-
 /**
- * Class Csv_Library
+ * Class Csv_Library.
  *
  * Simple csv writer.
  */
@@ -35,18 +33,18 @@ class Csv_Library extends Trident_Abstract_Library
 {
 
     /**
-     * Write csv string
+     * Write csv string.
      *
-     * @param array $data
+     * @param array $data 2D data array.
      *
-     * @return string
-     * @throws Trident_Exception
+     * @return string|bool A string representing the CSV file data on success, false boolean on failure.
      */
     public function write_csv_to_string($data = [])
     {
         if (!is_array($data))
         {
-            throw new Trident_Exception("CSV Library data must be an array", TRIDENT_ERROR_CSV_LIB_NO_ARRAY);
+            error_log("CSV Library data must be an array");
+            return false;
         }
         $rows = [];
         foreach ($data as $row)
@@ -62,16 +60,20 @@ class Csv_Library extends Trident_Abstract_Library
     }
 
     /**
-     * Write csv file
+     * Write csv file.
      *
-     * @param string $file file path
-     * @param array $data
+     * @param string $file File path.
+     * @param array $data 2D data array.
      *
-     * @return bool
-     * @throws Trident_Exception
+     * @return bool True on successful file write, false otherwise.
      */
     public function write_csv_to_file($file, $data = [])
     {
-        return $this->io->write_file($file, $this->write_csv_to_string($data));
+        $data = $this->write_csv_to_string($data);
+        if ($data !== false)
+        {
+            return $this->io->write_file($file, $data);
+        }
+        return false;
     }
 } 

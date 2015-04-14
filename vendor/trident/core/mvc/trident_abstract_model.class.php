@@ -100,6 +100,11 @@ abstract class Trident_Abstract_Model
         {
             $model .= '_model';
         }
+        if (!class_exists($model))
+        {
+            error_log("Trident framework: Can't load model $model. Model class doesn't exists.");
+            http_response(500);
+        }
         return new $model($this->configuration, $this->database, $this->io, $this->log, $this->request, $this->session);
     }
 
