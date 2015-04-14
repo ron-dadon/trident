@@ -5,7 +5,6 @@ class Main_Controller extends Trident_Abstract_Controller
 
     public function index()
     {
-        // Echo
         $this->load_view()->render();
     }
 

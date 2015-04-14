@@ -14,7 +14,7 @@ class Navbar_View extends Trident_Abstract_View
             </div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?php $this->public_path()?>/error"><i class="fa fa-fw fa-exclamation"></i> Error default route</a></li>
-                <li><a href="https://github.com/ron-dadon/trident"><i class="fa fa-fw fa-github"></i> צפה בגיטהוב</a></li>
+                <li><a href="https://github.com/ron-dadon/trident"><i class="fa fa-fw fa-github"></i> On GitHub</a></li>
             </ul>
         </div>
     </nav>
