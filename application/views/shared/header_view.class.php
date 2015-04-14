@@ -10,6 +10,7 @@ class Header_View extends Trident_Abstract_View
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <?php $this->load_asset('arimo.min.css')?>
     <?php $this->load_asset('bootstrap.min.css')?>
     <?php $this->load_asset('bootstrap-theme.min.css')?>
     <?php $this->load_asset('bootstrap-grid.min.css')?>
