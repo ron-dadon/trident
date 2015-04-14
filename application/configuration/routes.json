@@ -9,11 +9,6 @@
             "pattern": "/",
             "controller": "main",
             "function": "index"
-        },
-        {
-            "pattern": "/db",
-            "controller": "main",
-            "function": "database_to_entities"
         }
     ]
 }
