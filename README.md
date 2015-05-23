@@ -1,6 +1,9 @@
 # Trident
 PHP MVC (Model View Controller) Framework
 
+## Important note:
+Trident framework is still under development. The current version is the first version, where the second one is right around the corner, with many improvments such as simple ORM like interface for entities, moving from long under-scored class names to using namespaces, better overall security and more. The new and improved version, with a brand new documentation web site will be available soon.
+
 ## Installation
 Download the repository as a zip, and extract it to your development server.
 It's recommended to keep the **application** and **vendor** directories outside of your public root directory.
